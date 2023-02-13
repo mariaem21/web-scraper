@@ -1,0 +1,2 @@
+class StudentOrg < ApplicationRecord
+end
