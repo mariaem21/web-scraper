@@ -3,5 +3,6 @@ Rails.application.routes.draw do
     match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
   end
 
-  root to: 'student_orgs#index'
+  # root to: 'student_orgs#index'
+  root 'student_orgs#index'
 end

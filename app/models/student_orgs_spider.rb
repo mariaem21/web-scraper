@@ -22,15 +22,15 @@ def scraping(url)
         link_doc = Nokogiri::HTML(link_html)
 
         link_org = link_doc.xpath("//h1[@class = 'title']").text
-        puts "#{link_org}"
+        # puts "#{link_org}"
         @studentOrgs << link_org
         
         link_name = link_doc.xpath("//div[@class = 'form-view']/dl[2]/dd[1]").text
-        puts "#{link_name}"
+        # puts "#{link_name}"
         @names << link_name
 
         link_email = link_doc.xpath("//div[@class = 'form-view']/dl[2]/dd[2]").text
-        puts "#{link_email}"
+        # puts "#{link_email}"
         @emails << link_email
 
         value[:name] = link_org
