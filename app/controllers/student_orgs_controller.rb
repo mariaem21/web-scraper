@@ -6,17 +6,17 @@ class StudentOrgsController < ApplicationController
     @student_orgs = StudentOrg.all
   end
 
-  # def scrape
-  #   url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
-  #   response = StudentOrgsSpider.scraping(url)
-  #   if response[:status] == :completed && response[:error].nil?
-  #     flash.now[:notice] = "Successfully scraped url"
-  #   else
-  #     flash.now[:alert] = response[:error]
-  #   end
-  # rescue StandardError => e
-  #   flash.now[:alert] = "Error: #{e}"
-  # end
+  def scrape
+    url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
+    response = StudentOrgsSpider.scraping(url)
+    if response[:status] == :completed && response[:error].nil?
+      flash.now[:notice] = "Successfully scraped url"
+    else
+      flash.now[:alert] = response[:error]
+    end
+  rescue StandardError => e
+    flash.now[:alert] = "Error: #{e}"
+  end
 
   # GET /student_orgs/1 or /student_orgs/1.json
   def show
