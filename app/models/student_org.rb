@@ -1,2 +1,0 @@
-class StudentOrg < ApplicationRecord
-end
