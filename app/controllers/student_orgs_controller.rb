@@ -3,7 +3,7 @@ class StudentOrgsController < ApplicationController
 
   # GET /student_orgs or /student_orgs.json
   def index
-    @student_orgs = StudentOrg.all
+    @studentorgs = Studentorg.all
   end
 
   # def scrape
@@ -24,7 +24,7 @@ class StudentOrgsController < ApplicationController
 
   # GET /student_orgs/new
   def new
-    @student_org = StudentOrg.new
+    @student_org = Studentorg.new
   end
 
   # GET /student_orgs/1/edit
@@ -33,7 +33,7 @@ class StudentOrgsController < ApplicationController
 
   # POST /student_orgs or /student_orgs.json
   def create
-    @student_org = StudentOrg.new(student_org_params)
+    @student_org = Studentorg.new(student_org_params)
 
     respond_to do |format|
       if @student_org.save
@@ -72,7 +72,7 @@ class StudentOrgsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student_org
-      @student_org = StudentOrg.find(params[:id])
+      @student_org = Studentorg.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

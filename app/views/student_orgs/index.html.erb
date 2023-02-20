@@ -4,13 +4,13 @@
 
 <h1>Student orgs</h1>
 
-<div id="student_orgs">
-  # <% @student_orgs.each do |student_org| %>
-  #   <%= render student_org %>
-  #   <p>
-  #     <%= link_to "Show this student org", student_org %>
-  #   </p>
-  # <% end %>
+<div id="studentorgs">
+  <% @studentorgs.each do |studentorg| %>
+    <%= studentorg.name %>
+    <p>
+      <%= link_to "Show this student org", student_orgs_url %>
+    </p>
+  <% end %>
 </div>
 
-<%= link_to "New student org", new_student_org_path %>
+<%= link_to "New student org", student_orgs_url %>
