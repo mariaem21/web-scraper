@@ -1,0 +1,2 @@
+class Appcat < ApplicationRecord
+end
