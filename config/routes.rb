@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :organizations
+  resources :contacts
   #   match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
   # end
 
