@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :student_orgs do
-    match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
-  end
+  resources :organizations
+  resources :contacts
+  resources :applications
+  resources :appcats
+  resources :categories
+  resources :users
+  #   match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
+  # end
 
   # root to: 'student_orgs#index'
-  root 'student_orgs#index'
+  root to: 'organizations#index'
 end
