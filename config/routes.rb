@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :contacts
   resources :applications
   resources :appcats
+  resources :categories
   #   match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
   # end
 
