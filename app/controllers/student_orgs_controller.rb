@@ -3,7 +3,6 @@ class StudentOrgsController < ApplicationController
 
   # GET /student_orgs or /student_orgs.json
   def index
-    @studentorgs = Studentorg.all
   end
 
   # def scrape
