@@ -1,0 +1,16 @@
+Inspecting 78 files
+C.............................................................................
+
+Offenses:
+
+Gemfile:56:3: C: [Correctable] Layout/CommentIndentation: Incorrect indentation detected (column 2 instead of 3).
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Gemfile:57:1: C: [Correctable] Layout/IndentationWidth: Use 2 (not 3) spaces for indentation.
+   gem 'debug', platforms: %i[mri mingw x64_mingw]
+^^^
+Gemfile:58:3: C: [Correctable] Layout/IndentationConsistency: Inconsistent indentation detected.
+  gem 'rspec-rails'
+  ^^^^^^^^^^^^^^^^^
+
+78 files inspected, 3 offenses detected, 3 offenses autocorrectable
