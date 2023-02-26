@@ -6,7 +6,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
   end
 
 
-  it 'deletes application successfully' do
+  it 'click cancel on delete application successfully' do
     visit '/applications'
 
     click_on 'delete'
