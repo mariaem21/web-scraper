@@ -68,7 +68,6 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    ast (2.4.2)
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -95,7 +94,6 @@ GEM
     debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
-    diff-lcs (1.5.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.12.0)
@@ -115,7 +113,6 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    json (2.6.3)
     kimurai (1.4.0)
       activesupport
       capybara (>= 2.15, < 4.0)
@@ -175,9 +172,6 @@ GEM
     nokogiri (1.14.1-x86_64-linux)
       racc (~> 1.4)
     ntlm-http (0.1.1)
-    parallel (1.22.1)
-    parser (3.2.1.0)
-      ast (~> 2.4.1)
     pg (1.4.5)
     pmap (1.1.1)
     poltergeist (1.18.1)
@@ -220,47 +214,12 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
-    rainbow (3.1.1)
     rake (13.0.6)
     rbcat (0.2.2)
     regexp_parser (2.7.0)
     reline (0.3.2)
       io-console (~> 0.5)
     rexml (3.2.5)
-    rspec-core (3.12.1)
-      rspec-support (~> 3.12.0)
-    rspec-expectations (3.12.2)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.3)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
-    rspec-rails (6.0.1)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      railties (>= 6.1)
-      rspec-core (~> 3.11)
-      rspec-expectations (~> 3.11)
-      rspec-mocks (~> 3.11)
-      rspec-support (~> 3.11)
-    rspec-support (3.12.0)
-    rubocop (1.46.0)
-      json (~> 2.3)
-      parallel (~> 1.10)
-      parser (>= 3.2.0.0)
-      rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8, < 3.0)
-      rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.26.0, < 2.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.26.0)
-      parser (>= 3.2.1.0)
-    rubocop-rails (2.17.4)
-      activesupport (>= 4.2.0)
-      rack (>= 1.1)
-      rubocop (>= 1.33.0, < 2.0)
-    ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     selenium-webdriver (4.8.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -286,7 +245,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    unicode-display_width (2.4.2)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -312,7 +270,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
-  capybara
   debug
   importmap-rails
   jbuilder
@@ -321,10 +278,6 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.3)
   rbcat
-  rspec-rails
-  rubocop
-  rubocop-rails
-  selenium-webdriver
   sprockets-rails
   stimulus-rails
   turbo-rails
