@@ -5,7 +5,7 @@ RSpec.describe "CancelDoesNotChangeApplicationCounts", type: :system do
     driven_by(:rack_test)
   end
 
-  applicationsCount = Application.all.count
+  applications_count = Application.all.count
 
   it 'deletes application changes count' do
     visit '/applications'
@@ -14,9 +14,9 @@ RSpec.describe "CancelDoesNotChangeApplicationCounts", type: :system do
 
     click_on 'cancel'
 
-    newApplicationCount = Application.all.count
+    new_application_count = Application.all.count
 
-    applicationsCount.should eq newApplicationCount
+    application_count.should eq new_application_countend
   end
 
 end

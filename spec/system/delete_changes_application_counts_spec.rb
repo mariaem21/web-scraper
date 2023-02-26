@@ -5,7 +5,7 @@ RSpec.describe "DeleteChangesApplicationCounts", type: :system do
     driven_by(:rack_test)
   end
 
-  applicationsCount = Application.all.count
+  applications_count = Application.all.count
 
   it 'deletes application changes count' do
     visit '/applications'
@@ -14,8 +14,8 @@ RSpec.describe "DeleteChangesApplicationCounts", type: :system do
 
     click_on 'confirm'
 
-    newApplicationCount = Application.all.count-1
+    new_application_count = Application.all.count-1
 
-    applicationsCount.should eq newApplicationCount
+    application_count.should eq new_application_count
   end
 end
