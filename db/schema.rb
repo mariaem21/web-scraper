@@ -16,17 +16,17 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_184_715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
-  create_table 'appcats', force: :cascade do |t|
-    t.integer 'appcatID'
-    t.integer 'categoryID'
-    t.integer 'applicationID'
+  create_table 'appcats', id: false, force: :cascade do |t|
+    t.integer 'appcatID', primary_key: true
+    t.integer 'categoryID', foreign_key: true
+    t.integer 'applicationID', foreign_key: true
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'applications', force: :cascade do |t|
-    t.integer 'applicationID'
-    t.integer 'orgID'
+  create_table 'applications', id: false, force: :cascade do |t|
+    t.integer 'applicationID', primary_key: true
+    t.integer 'orgID', foreign_key: true
     t.string 'name'
     t.date 'datebuilt'
     t.string 'githublink'
@@ -35,17 +35,17 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_184_715) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'categories', force: :cascade do |t|
-    t.integer 'categoryID'
+  create_table 'categories', id: false, force: :cascade do |t|
+    t.integer 'categoryID', primary_key: true
     t.string 'name'
     t.string 'description'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'contacts', force: :cascade do |t|
-    t.integer 'personID'
-    t.integer 'orgID'
+  create_table 'contacts', id: false, force: :cascade do |t|
+    t.integer 'personID', primary_key: true
+    t.integer 'orgID', foreign_key: true
     t.date 'year'
     t.string 'name'
     t.string 'email'
@@ -55,16 +55,16 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_184_715) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'organizations', force: :cascade do |t|
-    t.integer 'orgID'
+  create_table 'organizations', id: false, force: :cascade do |t|
+    t.integer 'orgID', primary_key: true
     t.string 'name'
     t.string 'description'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.integer 'userID'
+  create_table 'users', id: false, force: :cascade do |t|
+    t.integer 'userID', primary_key: true
     t.string 'name'
     t.string 'username'
     t.string 'password'

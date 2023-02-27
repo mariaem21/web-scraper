@@ -9,8 +9,9 @@ class OrganizationsController < ApplicationController
   end
 
   def scrape
+    puts "Here"
     url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
-    response = Scraper.scraping(url)
+    response = ScraperSpider.scraping(url)
     if response[:status] == :completed && response[:error].nil?
       flash.now[:notice] = "Successfully scraped url"
     else
@@ -18,6 +19,16 @@ class OrganizationsController < ApplicationController
     end
   rescue StandardError => e
     flash.now[:alert] = "Error: #{e}"
+  end
+
+  def delete
+    Organization.delete_all
+    Contact.delete_all
+
+    respond_to do |format|
+      format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   # GET /organizations/1 or /organizations/1.json
