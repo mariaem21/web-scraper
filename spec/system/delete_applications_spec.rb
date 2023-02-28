@@ -14,5 +14,4 @@ RSpec.describe "DeleteApplications", type: :system do
 
     expect(page).to have_content('Application Deleted!')
   end
-
 end
