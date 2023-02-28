@@ -5,7 +5,6 @@ require 'date'
 
 # class ScraperSpider
 def scraping(url)
-    puts "HERE"
     html = URI.open("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter").read
     doc = Nokogiri::HTML(html)
     
@@ -39,24 +38,54 @@ def scraping(url)
         # puts "#{link_email}"
         @emails << link_email
 
-        orgcount = orgcount + 1
-        contactcount = contactcount + 1
-        # if !Organization.where(orgID: self.orgID).exists? then
-        #     errors.add(:orgID, 'Must have a valid organization ID.')
-        # end
+        # orgcount = orgcount + 1
+        # contactcount = contactcount + 1
+        if (link_name == "") then
+            link_name = "empty"
+        end
+        if (link_email == "") then
+            link_email = "empty"
+        end
+
+        # If org already in database
         if Organization.where(name: link_org).exists? then
             # puts "Org #{link_org} already exists"
-            contact[:personID] = contactcount
-            contact[:orgID] = orgcount
-            contact[:year] = Date.today
-            contact[:name] = link_name
-            contact[:email] = link_email
-            contact[:officerposition] = "empty"
-            contact[:description] = "empty"
-            Contact.where(orgID: orgcount).update(contact)
-            # con.update(:personID => self.personID, :orgID => self.orgID, :year => Date.today, :name => link_name, :email =>link_email, :officerposition => self.officerposition, :description => "EDITED")
+
+            orgID_temp = Organization.find_by(name: link_org)
+            # puts "orgID #{orgID_temp}"
+
+            # If contact name is already there, it updates that contact
+            if Contact.where(orgID: orgID_temp.orgID, name: link_name).exists? then
+                contact[:personID] = Contact.find_by(orgID: orgID_temp.orgID, name: link_name).personID
+                contact[:orgID] = orgID_temp.orgID
+                contact[:year] = Date.today
+                contact[:name] = link_name
+                contact[:email] = link_email
+                contact[:officerposition] = "Both org and contact name existed"
+                contact[:description] = "Updating the contact information"
+                # puts "Contact: #{contact}"
+                Contact.where(orgID: orgID_temp.orgID, name: link_name).update(contact)
+            
+            # If contact name does not exist, increments contactcount to free PK then creates contact
+            else
+                while Contact.where(personID: contactcount).exists? do
+                    contactcount = contactcount + 1
+                end
+                if !(link_name == "empty" && link_email == "empty") then
+                    contact[:personID] = contactcount
+                    contact[:orgID] = orgID_temp.orgID
+                    contact[:year] = Date.today
+                    contact[:name] = link_name
+                    contact[:email] = link_email
+                    contact[:officerposition] = "Org existed, but contact did not"
+                    contact[:description] = "empty"
+                    # puts "Contact: #{contact}"
+                    Contact.where(contact).first_or_create
+                end
+            end
+        
+        # Org not already in database
         else
-            # puts "Org #{link_org} does not already exist"
             while Organization.where(orgID: orgcount).exists? do
                 orgcount = orgcount + 1
             end
@@ -65,18 +94,21 @@ def scraping(url)
             end
             org[:orgID] = orgcount
             org[:name] = link_org
-            org[:description] = "None"
-
-            contact[:personID] = contactcount
-            contact[:orgID] = orgcount
-            contact[:year] = Date.today
-            contact[:name] = link_name
-            contact[:email] = link_email
-            contact[:officerposition] = "empty"
-            contact[:description] = "empty"
-
+            org[:description] = "Org not already in database"
+            # puts "Org: #{org}"
             Organization.where(org).first_or_create
-            Contact.where(contact).first_or_create
+
+            if !(link_name == "empty" && link_email == "empty") then
+                contact[:personID] = contactcount
+                contact[:orgID] = orgcount
+                contact[:year] = Date.today
+                contact[:name] = link_name
+                contact[:email] = link_email
+                contact[:officerposition] = "not in database"
+                contact[:description] = "neither name or email are empty"
+                # puts "Contact: #{contact}"
+                Contact.where(contact).first_or_create
+            end
         end
     end
 
@@ -87,22 +119,6 @@ def scraping(url)
         [@studentOrgs, @links, @names, @emails].transpose.each do |row|
             csv << row
         end
-    end
-
-    def update
-        respond_to do |format|
-            if @contact.update(contact_params)
-                format.html { redirect_to contact_url(@contact), notice: 'Contact was successfully updated.' }
-                format.json { render :show, status: :ok, location: @contact }
-            else
-                format.html { render :edit, status: :unprocessable_entity }
-                format.json { render json: @contact.errors, status: :unprocessable_entity }
-            end
-        end
-    end
-
-    def contact_params
-        params.require(:contact).permit(:personID, :orgID, :year, :name, :email, :officerposition, :description)
     end
 end
     

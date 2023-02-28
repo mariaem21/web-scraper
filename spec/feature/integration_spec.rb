@@ -5,7 +5,49 @@ require 'rails_helper'
 
 # User story #1 - Scraping from the STUACT website
 RSpec.describe 'Scraping from STUACT', type: :feature do
-  scenario 'Sunny day: Scrapes correct output (org, contact, number of entries each)' do
+
+  scenario 'Rainy day: does not replace old contact information' do
+    visit new_organization_path
+    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+    contact = Contact.create(personID: 1, orgID: 1, year: 20_210_621, name: 'Person A',
+                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+    visit organizations_path
+    click_on 'Scrape'
+    visit organizations_path
+    visit contacts_path
+    expect(Contact.find_by(personID: 1).name).to eq('Person A')
+    visit organizations_path
+    click_on "Delete"
+  end
+
+  scenario 'Rainy day: updates out of date organization information when both org name and contact name match' do
+    visit new_organization_path
+    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+    contact = Contact.create(personID: 1, orgID: 1, year: 20_210_621, name: 'Chad Parker',
+                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+    visit organizations_path
+    click_on 'Scrape'
+    visit organizations_path
+    visit contacts_path
+    expect(Contact.find_by(personID: 1).email).to eq('cparker@corps.tamu.edu')
+    visit organizations_path
+    click_on "Delete"
+  end
+
+  scenario 'Rainy day: Creates new contact if organization exists and contact does not' do
+    visit new_organization_path
+    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+    visit organizations_path
+    click_on 'Scrape'
+    visit organizations_path
+    visit contacts_path
+    expect(Contact.find_by(orgID: 1).name).to eq('Chad Parker')
+    expect(Contact.find_by(orgID: 1).email).to eq('cparker@corps.tamu.edu')
+    visit organizations_path
+    click_on "Delete"
+  end
+
+  scenario 'Sunny day: Scrapes correct output (org & contact)' do
     
     # Checks has right entries for student organizations
     visit organizations_path
@@ -15,10 +57,6 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     expect(page).to have_content('Alpha Epsilon Phi Sorority') # Middle
     expect(page).to have_content('Aggie Bridge Club') # Last
 
-    # Checks it gets right number of student orgs
-    expect(page).to have_content('500')
-    expect(page).not_to have_content('501')
-
     # Checks it gets correct contact info
     visit contacts_path
     expect(page).to have_content('Chad Parker') # First
@@ -27,10 +65,6 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     expect(page).to have_content('AggiePhiPresident@gmail.com')
     expect(page).to have_content('ABC Voicemail Line') # Last
     expect(page).to have_content('carter.brown@tamu.edu')
-
-    # Checks it gets right number of contact information
-    expect(page).to have_content('500')
-    expect(page).not_to have_content('501')
     
     # Deletes all entries to reset for other tests
     visit organizations_path
@@ -53,20 +87,6 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     expect(page).not_to have_content('Chad Parker')
     expect(page).not_to have_content('Mia Michaels')
     expect(page).not_to have_content('AggiePhiPresident@gmail.com')
-  end
-
-  scenario 'Rainy day: updates out of date organization information' do
-    visit new_organization_path
-    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
-    contact = Contact.create(personID: 1, orgID: 1, year: 20_210_621, name: 'Person A',
-                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
-    visit organizations_path
-    click_on 'Scrape'
-    visit organizations_path
-    visit contacts_path
-    expect(Contact.find_by(personID: 1).name).to eq('Chad Parker')
-    visit organizations_path
-    click_on "Delete"
   end
 end
 

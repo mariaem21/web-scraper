@@ -9,7 +9,6 @@ class OrganizationsController < ApplicationController
   end
 
   def scrape
-    puts "Here"
     url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
     response = ScraperSpider.scraping(url)
     if response[:status] == :completed && response[:error].nil?
