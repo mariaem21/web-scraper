@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Scraping from STUACT', type: :feature do
-    scenario 'correct output' do
-        visit student_orgs_url
-        # click_on "Scrape"
-        # expect(page).to have_content('')
-    end
+RSpec.describe('Scraping from STUACT', type: :feature) do
+  it 'correct output' do
+    visit student_orgs_url
+    # click_on "Scrape"
+    # expect(page).to have_content('')
+  end
 end
 
-RSpec.describe 'Application page for student org', type: :feature do
-
-  scenario 'Shows correct message when no applications exist' do
+RSpec.describe('Application page for student org', type: :feature) do
+  it 'Shows correct message when no applications exist' do
     visit abattery_applications_path
-    expect(page).to have_content('This organization does not have any applications')
+    expect(page).to(have_content('This organization does not have any applications'))
   end
-  
-  scenario 'Shows correct application once added' do
+
+  it 'Shows correct application once added' do
     visit organizations_path
     click_on 'Scrape'
     visit organizations_abattery_path
@@ -28,22 +29,22 @@ RSpec.describe 'Application page for student org', type: :feature do
     fill_in 'description', with: 'First application test'
     click_on 'Create application'
     visit abattery_applications_name_path
-    expect(page).to have_content('Valid application')
+    expect(page).to(have_content('Valid application'))
   end
 
-  scenario 'Shows correct organization name' do
+  it 'Shows correct organization name' do
     visit abattery_applications_path
-    expect(page).to have_content('A Battery')
+    expect(page).to(have_content('A Battery'))
   end
 
-  scenario 'Shows correct contact info' do
+  it 'Shows correct contact info' do
     visit abattery_applications_contacts_path
-    expect(page).to have_content('Chad Parker')
-    expect(page).to have_content('cparker@corps.tamu.edu')
+    expect(page).to(have_content('Chad Parker'))
+    expect(page).to(have_content('cparker@corps.tamu.edu'))
   end
 
-  scenario 'Shows correct number of applications' do
+  it 'Shows correct number of applications' do
     visit abattery_applications_path
-    expect(page).to have_content('2')
+    expect(page).to(have_content('2'))
   end
 end
