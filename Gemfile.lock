@@ -299,6 +299,7 @@ DEPENDENCIES
   rbcat
   rexml
   rspec-rails
+  selenium-webdriver
   sprockets-rails
   stimulus-rails
   turbo-rails
