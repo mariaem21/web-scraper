@@ -1,7 +1,7 @@
-require 'open-uri'
-require 'nokogiri'
-require 'csv'
-require 'date'
+# require 'open-uri'
+# require 'nokogiri'
+# require 'csv'
+# require 'date'
 
 # class ScraperSpider
 def scraping(url)
