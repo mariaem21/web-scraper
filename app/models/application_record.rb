@@ -122,5 +122,5 @@ class ApplicationRecord < ActiveRecord::Base
   #           csv << row
   #       end
   #   end
-  # end
+  end
 end
