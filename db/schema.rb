@@ -14,14 +14,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appcats", primary_key: "appcatID", id: :serial, force: :cascade do |t|
+  create_table "appcats", primary_key: "appcatID", force: :cascade do |t|
     t.integer "categoryID"
     t.integer "applicationID"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "applications", primary_key: "applicationID", id: :serial, force: :cascade do |t|
+  create_table "applications", primary_key: "applicationID", force: :cascade do |t|
     t.integer "orgID"
     t.string "name"
     t.date "datebuilt"
@@ -31,14 +31,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories", primary_key: "categoryID", id: :serial, force: :cascade do |t|
+  create_table "categories", primary_key: "categoryID", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", primary_key: "personID", id: :serial, force: :cascade do |t|
+  create_table "contacts", primary_key: "personID", force: :cascade do |t|
     t.integer "orgID"
     t.date "year"
     t.string "name"
@@ -49,14 +49,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "organizations", primary_key: "orgID", id: :serial, force: :cascade do |t|
+  create_table "organizations", primary_key: "orgID", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", primary_key: "userID", id: :serial, force: :cascade do |t|
+  create_table "users", primary_key: "userID", force: :cascade do |t|
     t.string "name"
     t.string "username"
     t.string "password"
