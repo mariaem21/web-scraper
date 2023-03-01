@@ -7,16 +7,7 @@ class OrganizationsController < ApplicationController
   end
 
   def scrape
-    ApplicationRecord.new.delay.scraping('https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter')
-  #   url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
-  #   response = ScraperSpider.scraping(url)
-  #   if response[:status] == :completed && response[:error].nil?
-  #     flash.now[:notice] = "Successfully scraped url"
-  #   else
-  #     flash.now[:alert] = response[:error]
-  #   end
-  # rescue StandardError => e
-  #   flash.now[:alert] = "Error: #{e}"
+    ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter")
   end
 
   def delete
