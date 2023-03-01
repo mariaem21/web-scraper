@@ -7,7 +7,7 @@ class OrganizationsController < ApplicationController
   end
 
   def scrape
-    ApplicationRecord.delay.scraping('https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter')
+    ApplicationRecord.new.delay.scraping('https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter')
   #   url = 'https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter'
   #   response = ScraperSpider.scraping(url)
   #   if response[:status] == :completed && response[:error].nil?
