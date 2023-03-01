@@ -7,7 +7,7 @@ class ScrapeJob < ApplicationJob
     queue_as :default
 
     def perform_later(url)
-        <h1>GOT HERE</h1>
+        puts "GOT HERE!"
         # html = URI.open("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter").read
         # doc = Nokogiri::HTML(html)
     
