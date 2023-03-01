@@ -8,9 +8,6 @@ Rails.application.routes.draw do
   resources :appcats
   resources :categories
   resources :users
-  #   match '/scrape', to: 'student_orgs#scrape', via: :post, on: :collection
-  # end
-
-  # root to: 'student_orgs#index'
+  
   root to: 'organizations#index'
 end

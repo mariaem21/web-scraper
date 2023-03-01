@@ -90,6 +90,7 @@ GEM
     concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     crass (1.0.6)
+    daemons (1.4.1)
     date (3.3.3)
     debug (1.7.1)
       irb (>= 1.5.0)
@@ -305,6 +306,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   capybara (>= 3.26)
+  daemons
   debug
   delayed_job_active_record
   importmap-rails

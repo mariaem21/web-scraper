@@ -76,4 +76,5 @@ group :test do
     gem 'simplecov', :require => false
 end
 
+gem 'daemons'
 gem 'delayed_job_active_record'
