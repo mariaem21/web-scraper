@@ -296,6 +296,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.3)
   rbcat
+  rexml
   rspec-rails
   sprockets-rails
   stimulus-rails
