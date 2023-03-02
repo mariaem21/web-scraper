@@ -6,6 +6,20 @@ class OrganizationsController < ApplicationController
     @organizations = Organization.all
   end
 
+  def scrape
+    ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter")
+  end
+
+  def delete
+    Organization.delete_all
+    Contact.delete_all
+
+    respond_to do |format|
+      format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
   # GET /organizations/1 or /organizations/1.json
   def show
   end
