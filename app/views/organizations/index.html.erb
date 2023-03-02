@@ -1,6 +1,15 @@
 <p style="color: green"><%= notice %></p>
 
+<%= button_to 'Scrape', scrape_organizations_path %>
+<%= button_to 'Delete', delete_organizations_path %>
+<%= button_to 'Download as CSV', download_organizations_path %>
+
 <h1>Organizations</h1>
+
+<%=
+  link_to 'Download as Excel',
+  organizations_path(format: :xlsx)
+%>
 
 <div id="organizations">
   <% @organizations.each do |organization| %>
