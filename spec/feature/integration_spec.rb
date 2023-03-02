@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-# location: spec/feature/integration_spec.rb
-=======
 # frozen_string_literal: true
 
 # location: spec/feature/feature_spec.rb
->>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
 require 'rails_helper'
 
 # User story #1 - Scraping from the STUACT website
