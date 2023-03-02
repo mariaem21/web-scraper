@@ -89,7 +89,7 @@ RSpec.describe Application, type: :model do
   end
 
   it 'is not valid if orgID is not valid/does not exist' do
-    app3 = Application.create(appicationID: 2, orgID: 2, name: 'Test App 3', datebuilt: '02-24-2023',
+    app3 = Application.create(applicationID: 2, orgID: 2, name: 'Test App 3', datebuilt: '02-24-2023',
                               githublink: 'github.com', description: 'test app 3')
     app4 = Application.create(applicationID: 4, orgID: -2, name: 'Test App 4', datebuilt: '02-24-2023',
                               githublink: 'github.com', description: 'test app 4')
