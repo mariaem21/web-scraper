@@ -14,7 +14,6 @@ class Application < ApplicationRecord
     validate :orgID_exists
     has_many :appcats
     has_many :categories, through: :appcats
-    # validates :appcats, presence: true
 
     def orgID_exists
         if !Organization.where(orgID: self.orgID).exists? then
