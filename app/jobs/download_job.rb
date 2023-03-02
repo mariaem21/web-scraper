@@ -29,11 +29,6 @@ class DownloadJob < ApplicationJob
                 end
 
                 csv << [orgid, orgName, contactName, contactEmail, officerPosition, updateYear]
-
-                # Add contact and student org to CSV
-                # [orgid, orgName, contactName, contactEmail, officerPosition, updateYear].transpose.each do |row|
-                #     csv << row
-                # end
             end
         end
     end

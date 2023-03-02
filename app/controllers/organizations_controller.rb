@@ -4,6 +4,14 @@ class OrganizationsController < ApplicationController
   # GET /organizations or /organizations.json
   def index
     @organizations = Organization.all
+    respond_to do |format|
+      format.xlsx {
+        response.headers[
+          'Content-Disposition'
+        ] = "attachment; filename='excel_file.xlsx'"
+      }
+      format.html { render :index }
+    end
   end
 
   def scrape

@@ -6,6 +6,11 @@
 
 <h1>Organizations</h1>
 
+<%=
+  link_to 'Download as Excel',
+  organizations_path(format: :xlsx)
+%>
+
 <div id="organizations">
   <% @organizations.each do |organization| %>
     <%= render organization %>
