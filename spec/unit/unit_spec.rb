@@ -55,7 +55,6 @@ RSpec.describe Application, type: :model do
     expect(app1).to_not be_valid
     expect(app2).to_not be_valid
   end
-end
 
   it 'is not valid if orgID is not valid' do
     app1 = Application.create(applicationID: 1, orgID: -1, name: 'App A', datebuilt: 20_210_621,
