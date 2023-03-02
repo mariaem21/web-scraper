@@ -10,7 +10,8 @@ RSpec.describe Application, type: :model do
                               githublink: 'link1', description: 'description')
     app2 = Application.create(applicationID: 1, orgID: 1, name: 'App 2', datebuilt: 20_210_621,
                               githublink: 'link2', description: 'different')
-
+  end
+end
 
 RSpec.describe Organization, type: :model do
   it 'is not valid if organization PK is not unique' do
