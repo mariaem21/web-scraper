@@ -10,20 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appcats", force: :cascade do |t|
-    t.integer "appcatID"
+  create_table "appcats", primary_key: "appcatID", force: :cascade do |t|
     t.integer "categoryID"
     t.integer "applicationID"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "applications", force: :cascade do |t|
-    t.integer "applicationID"
+  create_table "applications", primary_key: "applicationID", force: :cascade do |t|
     t.integer "orgID"
     t.string "name"
     t.date "datebuilt"
@@ -33,16 +31,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.integer "categoryID"
+  create_table "categories", primary_key: "categoryID", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", force: :cascade do |t|
-    t.integer "personID"
+  create_table "contacts", primary_key: "personID", force: :cascade do |t|
     t.integer "orgID"
     t.date "year"
     t.string "name"
@@ -53,16 +49,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_184715) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.integer "orgID"
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "organizations", primary_key: "orgID", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.integer "userID"
+  create_table "users", primary_key: "userID", force: :cascade do |t|
     t.string "name"
     t.string "username"
     t.string "password"
