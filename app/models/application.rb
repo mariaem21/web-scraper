@@ -1,9 +1,4 @@
 class Application < ApplicationRecord
-<<<<<<< HEAD
-    validates :applicationID, presence: true
-    validates :orgID, presence: true
-    validates :name, presence: true
-=======
     validates :applicationID, presence: true, uniqueness: true
     validates :orgID, presence: true
     validates :name, presence: true
@@ -23,5 +18,4 @@ class Application < ApplicationRecord
             errors.add(:orgID, 'Must have a valid organization ID.')
         end
     end
->>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
 end
