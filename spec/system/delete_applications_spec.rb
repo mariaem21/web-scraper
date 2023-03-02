@@ -42,5 +42,4 @@ RSpec.describe 'DeleteApplications', type: :system do
   after(:all) do
     Capybara.use_default_driver
   end
-
 end
