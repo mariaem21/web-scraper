@@ -3,6 +3,7 @@
 # location: spec/unit/unit_spec.rb
 require 'rails_helper'
 
+
 RSpec.describe Organization, type: :model do
   it 'is not valid if organization PK is not unique' do
     org1 = Organization.create(orgID: 1, name: 'Student org A', description: 'Unique description')
