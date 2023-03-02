@@ -6,10 +6,22 @@ class OrganizationsController < ApplicationController
   # GET /organizations or /organizations.json
   def index
     @organizations = Organization.all
+    respond_to do |format|
+      format.xlsx {
+        response.headers[
+          'Content-Disposition'
+        ] = "attachment; filename='excel_file.xlsx'"
+      }
+      format.html { render :index }
+    end
   end
 
   def scrape
     ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter")
+  end
+
+  def download
+    DownloadJob.perform_later("Input")
   end
 
   def delete
