@@ -15,19 +15,19 @@ class Application < ApplicationRecord
 
     def orgID_exists
         if !Organization.where(orgID: self.orgID).exists? then
-            errors.add(:orgID, 'must have a valid organization ID.')
+            errors.add(:orgID, 'must have a valid organization ID')
         end
     end
 
     def orgID_negative
         if :orgID < 1 then
-            errors.add(:orgID, 'cannot be less than 1.')
+            errors.add(:orgID, 'cannot be less than 1')
         end
     end
 
     def applicationID_negative
         if :applicationID < 1 then
-            errors.add(:applicationID, 'cannot be less than 1.')
+            errors.add(:applicationID, 'cannot be less than 1')
         end
     end
 end
