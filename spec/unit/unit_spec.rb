@@ -99,7 +99,7 @@ RSpec.describe Application, type: :model do
   end
 end
 
-Rspec.describe Application, type: :model do
+RSpec.describe Application, type: :model do
   it 'is not valid if name is empty' do
     app5 = Application.create(applicationID: 5, orgID: 0, name: '', datebuilt: '02-24-2023',
                               githublink: 'github.com', description: 'test app 5')
