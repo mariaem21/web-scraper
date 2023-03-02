@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Application < ApplicationRecord
     validates :applicationID, presence: true, uniqueness: true
     validates :orgID, presence: true
