@@ -302,7 +302,7 @@ RSpec.describe 'New valid application requests', type: :feature do
     fill_in 'application[datebuilt]', with: '02/24/2023'
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'First application test'
-    click_on 'Create application'
+    click_on 'Create Application'
     expect(page).to have_content('Valid application')
   end
 end
@@ -323,7 +323,7 @@ RSpec.describe 'Invalid application request', type: :feature do
     fill_in 'application[datebuilt]', with: '02/24/2023'
     # fill_in 'application[githublink]', with: ''
     # fill_in 'application[description]', with: ''
-    click_on 'Create application'
+    click_on 'Create Application'
     expect(page).to have_content('Invalid input:')
     expect(page).to have_content('Github')
     expect(page).to have_content('Description')
@@ -347,7 +347,7 @@ RSpec.describe 'Invalid applicationID', type: :feature do
     fill_in 'application[datebuilt]', with: '02/28/2023'
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Invalid applicationID desc'
-    click_on 'Create application'
+    click_on 'Create Application'
     expect(page).to have_content('Invalid input:')
     expect(page).to have_content('ApplicationID invalid!')
     expect(page).to have_content('Ok')
@@ -365,7 +365,7 @@ end
       fill_in 'application[datebuilt]', with: '02/28/2023'
       fill_in 'application[githublink]', with: 'github.com'
       fill_in 'application[description]', with: 'Non existing orgID desc'
-      click_on 'Create application'
+      click_on 'Create Application'
       expect(page).to have_content('Invalid input:')
       expect(page).to have_content('OrgID does not exist!')
       expect(page).to have_content('Ok')
@@ -383,7 +383,7 @@ end
       fill_in 'application[datebuilt]', with: '02/28/2023'
       fill_in 'application[githublink]', with: 'github.com'
       fill_in 'application[description]', with: 'Invalid orgID desc'
-      click_on 'Create application'
+      click_on 'Create Application'
       expect(page).to have_content('Invalid input:')
       expect(page).to have_content('OrgID does not exist!')
       expect(page).to have_content('Ok')
