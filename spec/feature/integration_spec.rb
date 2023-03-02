@@ -1,5 +1,4 @@
 
-# location: spec/feature/integration_spec.rb
 # frozen_string_literal: true
 
 # location: spec/feature/feature_spec.rb
@@ -172,13 +171,6 @@ end
 # end
 
 ##### Someone else's tests! ######
-# RSpec.describe 'Scraping from STUACT', type: :feature do
-#     scenario 'correct output' do
-#         visit student_orgs_url
-#         # click_on "Scrape"
-#         # expect(page).to have_content('')
-#     end
-# end
 
 # RSpec.describe 'Downloading CSV with exclusions', type: :feature do
 #     scenario 'No Exclusion' do
@@ -235,6 +227,10 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[name]", with: 'Test Application'
         fill_in "application[orgID]", with: '01'
         fill_in "application[applicationID]", with: '01'
+        fill_in "application[datebuilt]", with: '01-01-2001'
+        fill_in "application[githublink]", with: 'www.github.com'
+        fill_in "application[description]", with: 'test description'        
+
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: 'Test Application2'
@@ -250,6 +246,10 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[name]", with: 'Test Application'
         fill_in "application[orgID]", with: '01'
         fill_in "application[applicationID]", with: '01'
+        fill_in "application[datebuilt]", with: '01-01-2001'
+        fill_in "application[githublink]", with: 'www.github.com'
+        fill_in "application[description]", with: 'test description'  
+
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: ' '
@@ -263,10 +263,18 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[name]", with: 'Test Application'
         fill_in "application[orgID]", with: '01'
         fill_in "application[applicationID]", with: '01'
+        fill_in "application[datebuilt]", with: '01-01-2001'
+        fill_in "application[githublink]", with: 'www.github.com'
+        fill_in "application[description]", with: 'test description'  
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: 'テスト・アップ12▌╚X8_á⌂╛5'
         click_on 'Update Application'
+
+
+        expect(page).to have_content('Application was successfully updated.')
+    end
+
 
         expect(page).to have_content('Application was successfully updated.')
     end
