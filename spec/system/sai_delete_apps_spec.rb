@@ -1,6 +1,8 @@
+# By: Sai
+
 require 'rails_helper'
 
-RSpec.describe "DeleteApplications", type: :system do
+RSpec.describe "Delete Applications", type: :system do
   before do
     driven_by(:rack_test)
   end
