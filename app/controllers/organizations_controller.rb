@@ -10,6 +10,10 @@ class OrganizationsController < ApplicationController
     ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter")
   end
 
+  def download
+    DownloadJob.perform_later("Input")
+  end
+
   def delete
     Organization.delete_all
     Contact.delete_all
