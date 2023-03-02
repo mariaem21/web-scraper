@@ -280,12 +280,4 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
 
         expect(page).to have_content('Application was successfully updated.')
     end
-<<<<<<< HEAD
 end
-=======
-
-
-        expect(page).to have_content('Application was successfully updated.')
-    end
-end
->>>>>>> c1aebe1de3825a4c2ee3981c45edf39f2f434ccf
