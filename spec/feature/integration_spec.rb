@@ -29,6 +29,7 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     click_on 'Scrape'
     visit organizations_path
     visit contacts_path
+    sleep 5
     expect(Contact.find_by(personID: 1).email).to eq('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
@@ -41,8 +42,9 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     click_on 'Scrape'
     visit organizations_path
     visit contacts_path
-    expect(Contact.find_by(orgID: 1).name).to eq('Chad Parker')
-    expect(Contact.find_by(orgID: 1).email).to eq('cparker@corps.tamu.edu')
+    sleep 5
+    expect(Contact.find_by(personID: 1).name).to eq('Chad Parker')
+    expect(Contact.find_by(personID: 1).email).to eq('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
   end
@@ -53,12 +55,14 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     visit organizations_path
     click_on 'Scrape'
     visit organizations_path
+    sleep 10
     expect(page).to have_content('A Battery') # First
     expect(page).to have_content('Alpha Epsilon Phi Sorority') # Middle
     expect(page).to have_content('Aggie Bridge Club') # Last
 
     # Checks it gets correct contact info
     visit contacts_path
+    sleep 10
     expect(page).to have_content('Chad Parker') # First
     expect(page).to have_content('cparker@corps.tamu.edu')
     expect(page).to have_content('Mia Michaels') # Middle
