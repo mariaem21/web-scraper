@@ -3,7 +3,6 @@
 # location: spec/unit/unit_spec.rb
 require 'rails_helper'
 
-<<<<<<< HEAD
 
 RSpec.describe Application, type: :model do
   it 'delete application' do
@@ -12,7 +11,6 @@ RSpec.describe Application, type: :model do
   end
 
 end
-=======
 RSpec.describe Organization, type: :model do
   it 'is not valid if organization PK is not unique' do
     org1 = Organization.create(orgID: 1, name: 'Student org A', description: 'Unique description')
@@ -75,4 +73,3 @@ end
 #     expect(Applications.find(applicationID: 1).empty?).to be_valid
 #   end
 # end
->>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
