@@ -43,7 +43,7 @@ gem 'yaml_db'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
-
+gem "rexml"
 # Use Sass to process CSS
 # gem "sassc-rails"
 
@@ -55,7 +55,11 @@ gem 'rexml'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+<<<<<<< HEAD
   gem 'rspec-rails'
+=======
+  gem "rspec-rails"
+>>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
 end
 
 group :development do
@@ -72,9 +76,20 @@ group :development do
 end
 
 group :test do
+<<<<<<< HEAD
   gem 'capybara'
   gem 'selenium-webdriver'
 end
 
 gem 'brakeman'
 gem 'rubocop'
+=======
+    gem 'capybara', '>= 3.26'
+    gem 'selenium-webdriver'
+    gem 'webdrivers'
+    gem 'simplecov', :require => false
+end
+
+gem 'daemons'
+gem 'delayed_job_active_record'
+>>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
