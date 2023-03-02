@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 # location: spec/feature/feature_spec.rb
@@ -133,6 +134,90 @@ end
 #     pass = 0
 #     click_on 'Exclude everything' # Will need to be changed based on how filter is implemented
 #     click_on 'Download as CSV'
+#     # Check the confirmation message appears
+#     expect(page).to have_content("You are downloading a blank CSV file. Do you wish to proceed?")
+#     click_on 'Yes'
+
+#     # Check the CSV downloads the correct number of rows
+#     CSV.foreach(".../test_file.csv") do |row|
+#       pass = pass + 1
+#     end
+
+#     # Check the CSV contains the right header attributes
+#     data = CSV.read(".../test_file.csv", return_headers: true)
+#     row = data.shift()
+#     expect(row).to have_content('Student Organization')
+#     expect(row).to have_content('Contact Name')
+#     expect(row).to have_content('Contact Email')
+#     expect(row).to have_content('Officer Position')
+#     expect(row).to have_content('Last Modified')
+#     expect(row).to have_content('Number of Apps Built')
+#     expect(pass).to equal(1) # Should only have the header row
+#     File.delete(".../test_file.csv")
+#   end
+
+#   scenario 'Wait message pops up before 5 seconds have elapsed & disappears after finishing download' do
+#     visit organizations_path
+#     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+#     click_on 'Download as CSV'
+#     expect(page).to have_content("Your file is downloading")
+#     end_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+#     elapsed = end_time - start_time
+#     expect(elapsed).to be < 5
+#     data = CSV.read(".../test_file.csv", return_headers: true)
+#     expect(page).to_not have_content("Your file is downloading")
+#     File.delete(".../test_file.csv")
+#   end
+# end
+
+##### Someone else's tests! ######
+
+# RSpec.describe 'Downloading CSV with exclusions', type: :feature do
+#     scenario 'No Exclusion' do
+#         visit organizations_path
+#         click_on 'Scrape'
+#         click_on 'Download CSV'
+#         click_on 'Download Full CSV'
+#         #verify csv has all columns 
+#         data=CSV.read("../test_file.csv",return_headers: true)
+#         row=data.shift
+#         expect(row).to have_content('Org')
+#         expect(row).to have_content('Link')
+#         expect(row).to have_content('Email')
+#         expect(row).to have_content('Contact')
+#         File.delete("../test_file.csv")
+#     end
+
+#     scenario 'Some Exclusion' do
+#         visit organizations_path
+#         click_on 'Scrape'
+#         click_on 'Download CSV'
+#         click_on 'excludeOrgName'
+#         click_on 'excludeContactName'
+#         #verify csv does not have collumn
+#         data=CSV.read("../test_file.csv",return_headers: true)
+#         row=data.shift
+#         expect(row).to have_content('Link')
+#         expect(row).to have_content('Email')
+#         File.delete("../test_file.csv")
+#     end
+
+#     scenario 'All Excluded' do
+#         visit organizations_path
+#         click_on 'Scrape'
+#         click_on 'Download CSV'
+#         #exclude all columns
+#         click_on 'excludeOrgName'
+#         click_on 'excludeLink'
+#         click_on 'excludeContactName'
+#         click_on 'excludeEmail'
+#         #verify csv not downloaded
+#         expect(File.exists?(file_name)).to eq(false)
+#         #verify error message
+#         expect(page).to have_content('CSV Cannot Be Empty')
+#     end
+# end
+
 
 RSpec.describe 'Editing an Existing Application', type: :feature do
     
@@ -145,6 +230,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[datebuilt]", with: '01-01-2001'
         fill_in "application[githublink]", with: 'www.github.com'
         fill_in "application[description]", with: 'test description'        
+
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: 'Test Application2'
@@ -163,6 +249,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[datebuilt]", with: '01-01-2001'
         fill_in "application[githublink]", with: 'www.github.com'
         fill_in "application[description]", with: 'test description'  
+
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: ' '
@@ -184,9 +271,11 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         fill_in "application[name]", with: 'テスト・アップ12▌╚X8_á⌂╛5'
         click_on 'Update Application'
 
+
         expect(page).to have_content('Application was successfully updated.')
     end
 
-#         expect(page).to have_content('Invalid character types used, please only use alphanumeric and punctuation symbols.')
-#     end
-# end
+
+        expect(page).to have_content('Application was successfully updated.')
+    end
+end
