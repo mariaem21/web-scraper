@@ -14,14 +14,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appcats", primary_key: "appcatID", force: :cascade do |t|
+  create_table "appcats", force: :cascade do |t|
+    t.integer "appcatID"
     t.integer "categoryID"
     t.integer "applicationID"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "applications", primary_key: "applicationID", force: :cascade do |t|
+  create_table "applications", force: :cascade do |t|
+    t.integer "applicationID"
     t.integer "orgID"
     t.string "name"
     t.date "datebuilt"
@@ -31,14 +33,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories", primary_key: "categoryID", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
+    t.integer "categoryID"
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", primary_key: "personID", force: :cascade do |t|
+  create_table "contacts", force: :cascade do |t|
+    t.integer "personID"
     t.integer "orgID"
     t.date "year"
     t.string "name"
@@ -64,14 +68,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "organizations", primary_key: "orgID", force: :cascade do |t|
+  create_table "organizations", force: :cascade do |t|
+    t.integer "orgID"
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", primary_key: "userID", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
+    t.integer "userID"
     t.string "name"
     t.string "username"
     t.string "password"

@@ -137,6 +137,8 @@ end
 RSpec.describe 'Editing an Existing Application', type: :feature do
     
     scenario 'valid inputs' do 
+      org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+      org = Organization.create(orgID: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
@@ -155,6 +157,8 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
     end
  
     scenario 'Blank inputs' do 
+      org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+      org = Organization.create(orgID: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
@@ -171,6 +175,8 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
     end
 
     scenario 'Irregular inputs' do 
+      org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+      org = Organization.create(orgID: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
@@ -186,7 +192,4 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
 
         expect(page).to have_content('Application was successfully updated.')
     end
-
-#         expect(page).to have_content('Invalid character types used, please only use alphanumeric and punctuation symbols.')
-#     end
-# end
+end
