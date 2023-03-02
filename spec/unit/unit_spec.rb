@@ -72,9 +72,9 @@ RSpec.describe Application, type: :model do
   it 'is not valid if applicationID already exists' do
     main_org = Organization.create(orgID: 0, name: 'Student Organization', description: 'Student organization desc')
 
-    app01 = Application.create(applicationID: 0, orgID: 0, name: 'Test App 0', datebuilt: '02-24-2023',
+    app01 = Application.create(applicationID: 1, orgID: 0, name: 'Test App 0', datebuilt: '02-24-2023',
                                githublink: 'github.com', description: 'test app 0_1')
-    app02 = Application.create(applicationID: 0, orgID: 0, name: 'Test App 1', datebuilt: '02-24-2023',
+    app02 = Application.create(applicationID: 9, orgID: 0, name: 'Test App 1', datebuilt: '02-24-2023',
                                githublink: 'github.com', description: 'test app 0_2')
 
     expect(app01).to be_valid
