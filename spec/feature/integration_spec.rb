@@ -296,12 +296,12 @@ RSpec.describe 'New valid application requests', type: :feature do
 
     visit applications_path
     click_on 'New application'
-    fill_in 'applicationID', with: '1'
-    fill_in 'orgID', with: '1'
-    fill_in 'name', with: 'Valid application'
-    fill_in 'datebuilt', with: '02/24/2023'
-    fill_in 'githublink', with: 'github.com'
-    fill_in 'description', with: 'First application test'
+    fill_in 'application[applicationID]', with: '1'
+    fill_in 'application[orgID]', with: '1'
+    fill_in 'application[name]', with: 'Valid application'
+    fill_in 'application[datebuilt]', with: '02/24/2023'
+    fill_in 'application[githublink]', with: 'github.com'
+    fill_in 'application[description]', with: 'First application test'
     click_on 'Create application'
     expect(page).to have_content('Valid application')
   end
@@ -317,12 +317,12 @@ RSpec.describe 'Invalid application request', type: :feature do
 
     visit applications_path
     click_on 'New application'
-    fill_in 'applicationID', with: '2'
-    fill_in 'orgID', with: '2'
-    fill_in 'name', with: 'Invalid application'
-    fill_in 'datebuilt', with: '02/24/2023'
-    # fill_in 'githublink', with: ''
-    # fill_in 'description', with: ''
+    fill_in 'application[applicationID]', with: '2'
+    fill_in 'application[orgID]', with: '2'
+    fill_in 'application[name]', with: 'Invalid application'
+    fill_in 'application[datebuilt]', with: '02/24/2023'
+    # fill_in 'application[githublink]', with: ''
+    # fill_in 'application[description]', with: ''
     click_on 'Create application'
     expect(page).to have_content('Invalid input:')
     expect(page).to have_content('Github')
@@ -341,12 +341,12 @@ RSpec.describe 'Invalid applicationID', type: :feature do
 
     visit applications_path
     click_on 'New application'
-    fill_in 'applicationID', with: '-1'
-    fill_in 'orgID', with: '3'
-    fill_in 'name', with: 'Invalid applicationID'
-    fill_in 'datebuilt', with: '02/28/2023'
-    fill_in 'githublink', with: 'github.com'
-    fill_in 'description', with: 'Invalid applicationID desc'
+    fill_in 'application[applicationID]', with: '-1'
+    fill_in 'application[orgID]', with: '3'
+    fill_in 'application[name]', with: 'Invalid applicationID'
+    fill_in 'application[datebuilt]', with: '02/28/2023'
+    fill_in 'application[githublink]', with: 'github.com'
+    fill_in 'application[description]', with: 'Invalid applicationID desc'
     click_on 'Create application'
     expect(page).to have_content('Invalid input:')
     expect(page).to have_content('ApplicationID invalid!')
@@ -359,12 +359,12 @@ end
     scenario 'Non existing orgID | Should have a popup with information warning' do
       visit_applications_path
       click_on 'New application'
-      fill_in 'applicationID', with: '4'
-      fill_in 'orgID', with: '10'
-      fill_in 'name', with: 'Non existing orgID'
-      fill_in 'datebuilt', with: '02/28/2023'
-      fill_in 'githublink', with: 'github.com'
-      fill_in 'description', with: 'Non existing orgID desc'
+      fill_in 'application[applicationID]', with: '4'
+      fill_in 'application[orgID]', with: '10'
+      fill_in 'application[name]', with: 'Non existing orgID'
+      fill_in 'application[datebuilt]', with: '02/28/2023'
+      fill_in 'application[githublink]', with: 'github.com'
+      fill_in 'application[description]', with: 'Non existing orgID desc'
       click_on 'Create application'
       expect(page).to have_content('Invalid input:')
       expect(page).to have_content('OrgID does not exist!')
@@ -377,12 +377,12 @@ end
     scenario 'Invalid orgID | Should have a popup with information warning' do
       visit_applications_path
       click_on 'New application'
-      fill_in 'applicationID', with: '5'
-      fill_in 'orgID', with: '-1'
-      fill_in 'name', with: 'Invalid orgID'
-      fill_in 'datebuilt', with: '02/28/2023'
-      fill_in 'githublink', with: 'github.com'
-      fill_in 'description', with: 'Invalid orgID desc'
+      fill_in 'application[applicationID]', with: '5'
+      fill_in 'application[orgID]', with: '-1'
+      fill_in 'application[name]', with: 'Invalid orgID'
+      fill_in 'application[datebuilt]', with: '02/28/2023'
+      fill_in 'application[githublink]', with: 'github.com'
+      fill_in 'application[description]', with: 'Invalid orgID desc'
       click_on 'Create application'
       expect(page).to have_content('Invalid input:')
       expect(page).to have_content('OrgID does not exist!')
