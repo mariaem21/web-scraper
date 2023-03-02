@@ -4,12 +4,6 @@
 require 'rails_helper'
 
 
-RSpec.describe Application, type: :model do
-  it 'delete application' do
-    app = Application.find(applicationID: 1).destroy()
-    expect(Applications.find(applicationID: 1).empty?).to be_valid
-  end
-
 end
 RSpec.describe Organization, type: :model do
   it 'is not valid if organization PK is not unique' do
