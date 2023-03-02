@@ -2,17 +2,20 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Scraping from STUACT', type: :feature do
-  scenario 'correct output' do
-    visit student_orgs_url
-    # click_on "Scrape"
-    # expect(page).to have_content('')
-  end
-end
+# Hidden Database Variables
+# ApplicationID | OrgID
 
-RSpec.describe 'New application requests', type: :feature do
+# User Variables
+# Application Developed | Contact Name | Contact Email | Officer Position | Github Link | Year Developed | Notes
+
+RSpec.describe 'New valid application requests', type: :feature do
   # Making a request with valid application information
   scenario 'Adding valid application | Should add new application to database and view section' do
+    visit new_organization_path
+    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+    contact = Contact.create(personID: 1, orgID: 1, year: '02-24-2023', name: 'Person A',
+                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+
     visit applications_path
     click_on 'New application'
     fill_in 'applicationID', with: '1'
@@ -23,23 +26,86 @@ RSpec.describe 'New application requests', type: :feature do
     fill_in 'description', with: 'First application test'
     click_on 'Create application'
     expect(page).to have_content('Valid application')
-    # expect(page).to have_content('02/24/2023')
-    # expect(page).to have_content('github.com')
-    # expect(page).to have_content('First application test')
   end
+end
 
+RSpec.describe 'Invalid application request', type: :feature do
   # Making a request with invalid application information
-  scenario 'Invalid application | Should have a popup with information warning' do
+  scenario 'Invalid application | Should have a popup with information warning about each invalid field' do
+    visit new_organization_path
+    org = Organization.create(orgID: 2, name: 'Test org 2', description: 'description')
+    contact = Contact.create(personID: 1, orgID: 2, year: '02-24-2023', name: 'Person A',
+                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+
     visit applications_path
     click_on 'New application'
     fill_in 'applicationID', with: '2'
     fill_in 'orgID', with: '2'
     fill_in 'name', with: 'Invalid application'
     fill_in 'datebuilt', with: '02/24/2023'
-    fill_in 'githublink', with: 'github.com'
-    fill_in 'description', with: ''
+    # fill_in 'githublink', with: ''
+    # fill_in 'description', with: ''
     click_on 'Create application'
-    expect(page).to have_content('Invalid application input')
+    expect(page).to have_content('Invalid input:')
+    expect(page).to have_content('Github')
+    expect(page).to have_content('Description')
     expect(page).to have_content('Ok')
   end
 end
+
+RSpec.describe 'Invalid applicationID', type: :feature do
+  # Making a request with invalid applicationID
+  scenario 'Invalid applicationID | Should have a popup with information warning' do
+    visit new_organization_path
+    org = Organization.create(orgID: 3, name: 'Test org 3', description: 'description')
+    contact = Contact.create(personID: 1, orgID: 1, year: '02-24-2023', name: 'Person A',
+                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+
+    visit applications_path
+    click_on 'New application'
+    fill_in 'applicationID', with: '-1'
+    fill_in 'orgID', with: '3'
+    fill_in 'name', with: 'Invalid applicationID'
+    fill_in 'datebuilt', with: '02/28/2023'
+    fill_in 'githublink', with: 'github.com'
+    fill_in 'description', with: 'Invalid applicationID desc'
+    click_on 'Create application'
+    expect(page).to have_content('Invalid input:')
+    expect(page).to have_content('ApplicationID invalid!')
+    expect(page).to have_content('Ok')
+  end
+
+  RSpec.describe 'Missing orgID', type: :feature do
+    # Making a request with an orgID that does not exist
+    scenario 'Non existing orgID | Should have a popup with information warning' do
+      visit_applications_path
+      click_on 'New application'
+      fill_in 'applicationID', with: '4'
+      fill_in 'orgID', with: '10'
+      fill_in 'name', with: 'Non existing orgID'
+      fill_in 'datebuilt', with: '02/28/2023'
+      fill_in 'githublink', with: 'github.com'
+      fill_in 'description', with: 'Non existing orgID desc'
+      click_on 'Create application'
+      expect(page).to have_content('Invalid input:')
+      expect(page).to have_content('OrgID does not exist!')
+      expect(page).to have_content('Ok')
+  end
+  
+  RSpec.describe 'Invalid orgID', type: :feature do
+    # Making a request with a orgID that is impossible to have
+    scenario 'Invalid orgID | Should have a popup with information warning' do
+      visit_applications_path
+      click_on 'New application'
+      fill_in 'applicationID', with: '5'
+      fill_in 'orgID', with: '-1'
+      fill_in 'name', with: 'Invalid orgID'
+      fill_in 'datebuilt', with: '02/28/2023'
+      fill_in 'githublink', with: 'github.com'
+      fill_in 'description', with: 'Invalid orgID desc'
+      click_on 'Create application'
+      expect(page).to have_content('Invalid input:')
+      expect(page).to have_content('OrgID does not exist!')
+      expect(page).to have_content('Ok')
+    end
+  end
