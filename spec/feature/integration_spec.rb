@@ -357,7 +357,7 @@ end
   RSpec.describe 'Missing orgID', type: :feature do
     # Making a request with an orgID that does not exist
     scenario 'Non existing orgID | Should have a popup with information warning' do
-      visit_applications_path
+      visit applications_path
       click_on 'New application'
       fill_in 'application[applicationID]', with: '4'
       fill_in 'application[orgID]', with: '10'
@@ -375,7 +375,7 @@ end
   RSpec.describe 'Invalid orgID', type: :feature do
     # Making a request with a orgID that is impossible to have
     scenario 'Invalid orgID | Should have a popup with information warning' do
-      visit_applications_path
+      visit applications_path
       click_on 'New application'
       fill_in 'application[applicationID]', with: '5'
       fill_in 'application[orgID]', with: '-1'

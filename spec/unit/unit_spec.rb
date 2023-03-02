@@ -108,7 +108,7 @@ RSpec.describe Application, type: :model do
   end
 
   it 'is not valid if githublink is empty' do
-    app6 = Application.create(applicationdID: 6, orgID: 0, name: 'Test App 6', datebuilt: '02-24-2023',
+    app6 = Application.create(applicationID: 6, orgID: 0, name: 'Test App 6', datebuilt: '02-24-2023',
                               githublink: '', description: 'test app 6')
 
     expect(app6).to_not be_valid
