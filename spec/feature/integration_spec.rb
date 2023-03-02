@@ -1,6 +1,10 @@
+<<<<<<< HEAD
+# location: spec/feature/integration_spec.rb
+=======
 # frozen_string_literal: true
 
 # location: spec/feature/feature_spec.rb
+>>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
 require 'rails_helper'
 
 # User story #1 - Scraping from the STUACT website
@@ -134,6 +138,51 @@ end
 #     click_on 'Exclude everything' # Will need to be changed based on how filter is implemented
 #     click_on 'Download as CSV'
 
+<<<<<<< HEAD
+RSpec.describe 'Editing an Existing Application', type: :feature do
+    
+    scenario 'valid inputs' do 
+        visit applications_path
+        click_on 'New application'
+        fill_in "application[name]", with: 'Test Application'
+        fill_in "application[orgID]", with: '01'
+        fill_in "application[applicationID]", with: '01'
+        click_on 'Create Application'
+        click_link 'Edit'
+        fill_in "application[name]", with: 'Test Application2'
+        fill_in "application[orgID]", with: '02'
+        fill_in "application[applicationID]", with: '02'
+        click_on 'Update Application'
+        expect(page).to have_content('Application was successfully updated.')
+    end
+ 
+    scenario 'Blank inputs' do 
+        visit applications_path
+        click_on 'New application'
+        fill_in "application[name]", with: 'Test Application'
+        fill_in "application[orgID]", with: '01'
+        fill_in "application[applicationID]", with: '01'
+        click_on 'Create Application'
+        click_link 'Edit'
+        fill_in "application[name]", with: ' '
+        click_on 'Update Application'
+        expect(page).to have_content('Name can\'t be blank')
+    end
+
+    scenario 'Irregular inputs' do 
+        visit applications_path
+        click_on 'New application'
+        fill_in "application[name]", with: 'Test Application'
+        fill_in "application[orgID]", with: '01'
+        fill_in "application[applicationID]", with: '01'
+        click_on 'Create Application'
+        click_link 'Edit'
+        fill_in "application[name]", with: 'テスト・アップ12▌╚X8_á⌂╛5'
+        click_on 'Update Application'
+
+        expect(page).to have_content('Application was successfully updated.')
+    end
+=======
 #     # Check the confirmation message appears
 #     expect(page).to have_content("You are downloading a blank CSV file. Do you wish to proceed?")
 #     click_on 'Yes'
@@ -251,6 +300,7 @@ end
 #         fill_in "application[Notes]", with: '!@#$%^&*()'
 #         fill_in "application[Type]", with: '12▌╚X8_á⌂╛5'
 #         click_on 'Confirm Changes'
+>>>>>>> 6e289dd491e82e02e7afe870b620ce0ad68dfc7e
 
 #         expect(page).to have_content('Invalid character types used, please only use alphanumeric and punctuation symbols.')
 #     end
