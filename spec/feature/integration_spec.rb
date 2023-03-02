@@ -352,6 +352,7 @@ RSpec.describe 'Invalid applicationID', type: :feature do
     expect(page).to have_content('ApplicationID invalid!')
     expect(page).to have_content('Ok')
   end
+end
 
   RSpec.describe 'Missing orgID', type: :feature do
     # Making a request with an orgID that does not exist
@@ -369,6 +370,7 @@ RSpec.describe 'Invalid applicationID', type: :feature do
       expect(page).to have_content('OrgID does not exist!')
       expect(page).to have_content('Ok')
   end
+end
   
   RSpec.describe 'Invalid orgID', type: :feature do
     # Making a request with a orgID that is impossible to have
