@@ -1,7 +1,7 @@
 class Application < ApplicationRecord
-  validates :applicationID, presence: true, uniqueness: true
+  validates :applicationID, presence: true, uniqueness: true, comparison: { greater_than: 0 }
   validate :if_applicationid_negative
-  validates :orgID, presence: true
+  validates :orgID, presence: true, comparison: { greater_than: 0 }
   validate :orgid_exists
   validate :if_orgid_negative
   validates :name, presence: true
@@ -20,19 +20,19 @@ class Application < ApplicationRecord
     end
   end
 
-  def if_orgid_negative
-    if :orgID.blank?
-      if Application[:orgID] < 1
-        errors.add(:orgID, 'cannot be less than 1')
-      end
-    end
-  end
+  # def if_orgid_negative
+  #   if :orgID.blank?
+  #     if Application[:orgID] < 1
+  #       errors.add(:orgID, 'cannot be less than 1')
+  #     end
+  #   end
+  # end
 
-  def if_applicationid_negative
-    if :applicationID.blank?
-      if Application[:applicationID] < 1
-        errors.add(:applicationID, 'cannot be less than 1')
-      end
-    end
-  end
+  # def if_applicationid_negative
+  #   if :applicationID.blank?
+  #     if Application[:applicationID] < 1
+  #       errors.add(:applicationID, 'cannot be less than 1')
+  #     end
+  #   end
+  # end
 end
