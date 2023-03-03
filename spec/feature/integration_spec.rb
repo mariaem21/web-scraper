@@ -298,7 +298,7 @@ RSpec.describe 'New valid application requests', type: :feature do
     fill_in 'application[applicationID]', with: '1'
     fill_in 'application[orgID]', with: '1'
     fill_in 'application[name]', with: 'Valid application'
-    fill_in 'application[datebuilt]', with: '02-24-2023'
+    fill_in 'application[datebuilt]', with: 20_210_621
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'First application test'
     click_on 'Create Application'
@@ -318,12 +318,12 @@ RSpec.describe 'Invalid application information request', type: :feature do
     fill_in 'application[applicationID]', with: '2'
     fill_in 'application[orgID]', with: '2'
     fill_in 'application[name]', with: 'Invalid application'
-    fill_in 'application[datebuilt]', with: '02-24-2023'
+    fill_in 'application[datebuilt]', with: 20_210_621
     # fill_in 'application[githublink]', with: ''
     # fill_in 'application[description]', with: ''
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
-    expect(page).to have_content('Github Link can\'t be blank')
+    expect(page).to have_content('Githublink can\'t be blank')
     expect(page).to have_content('Description can\'t be blank')
   end
 
@@ -339,7 +339,7 @@ RSpec.describe 'Invalid application information request', type: :feature do
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
     expect(page).to have_content('Name can\'t be blank')
-    expect(page).to have_content('Date Built can\'t be blank')
+    expect(page).to have_content('Datebuilt can\'t be blank')
   end
 end
 
@@ -355,12 +355,12 @@ RSpec.describe 'Negative applicationID', type: :feature do
     fill_in 'application[applicationID]', with: '-1'
     fill_in 'application[orgID]', with: '3'
     fill_in 'application[name]', with: 'Invalid applicationID'
-    fill_in 'application[datebuilt]', with: '02-28-2023'
+    fill_in 'application[datebuilt]', with: 20_210_621
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Invalid applicationID desc'
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
-    expect(page).to have_content('ApplicationID cannot be less than 1')
+    expect(page).to have_content('Applicationid cannot be less than 1')
   end
 end
 
@@ -371,12 +371,12 @@ RSpec.describe 'Non existing orgID', type: :feature do
     fill_in 'application[applicationID]', with: '4'
     fill_in 'application[orgID]', with: '10'
     fill_in 'application[name]', with: 'Non existing orgID'
-    fill_in 'application[datebuilt]', with: '02-28-2023'
+    fill_in 'application[datebuilt]', with: 20_210_621
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Non existing orgID desc'
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
-    expect(page).to have_content('OrgID must have a valid organization ID')
+    expect(page).to have_content('Orgid must have a valid organization ID')
   end
 end
 
@@ -387,11 +387,11 @@ RSpec.describe 'Negative orgID', type: :feature do
     fill_in 'application[applicationID]', with: '5'
     fill_in 'application[orgID]', with: '-1'
     fill_in 'application[name]', with: 'Invalid orgID'
-    fill_in 'application[datebuilt]', with: '02-28-2023'
+    fill_in 'application[datebuilt]', with: 20_210_621
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Invalid orgID desc'
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
-    expect(page).to have_content('OrgID cannot be less than 1')
+    expect(page).to have_content('Orgid cannot be less than 1')
   end
 end

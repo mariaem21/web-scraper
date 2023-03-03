@@ -9,6 +9,8 @@ class Application < ApplicationRecord
   # validates :contact, presence: true
   # belongs_to :organization
   validate :orgID_exists
+  validate :if_orgID_negative
+  validate :if_applicationID_negative
   has_many :appcats
   has_many :categories, through: :appcats
 
@@ -18,13 +20,13 @@ class Application < ApplicationRecord
     end
   end
 
-  def orgID_negative
+  def if_orgID_negative
     if :orgID < 1 then
       errors.add(:orgID, 'cannot be less than 1')
     end
   end
 
-  def applicationID_negative
+  def if_applicationID_negative
     if :applicationID < 1 then
       errors.add(:applicationID, 'cannot be less than 1')
     end
