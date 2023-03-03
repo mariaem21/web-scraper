@@ -1,6 +1,9 @@
 class Application < ApplicationRecord
   validates :applicationID, presence: true, uniqueness: true
+  validate :if_applicationid_negative
   validates :orgID, presence: true
+  validate :orgid_exists
+  validate :if_orgid_negative
   validates :name, presence: true
   validates :datebuilt, presence: true
   validates :githublink, presence: true
@@ -8,9 +11,6 @@ class Application < ApplicationRecord
   # has_one :contact
   # validates :contact, presence: true
   # belongs_to :organization
-  validate :orgid_exists
-  validate :if_orgid_negative
-  validate :if_applicationid_negative
   has_many :appcats
   has_many :categories, through: :appcats
 

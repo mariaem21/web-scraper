@@ -344,7 +344,7 @@ RSpec.describe 'Invalid application information request', type: :feature do
 end
 
 RSpec.describe 'Negative applicationID', type: :feature do
-  scenario 'Invalid applicationID | Should have a popup with information warning' do
+  scenario 'Negative applicationID | Should have a popup with information warning' do
     visit new_organization_path
     org = Organization.create(orgID: 3, name: 'Test org 3', description: 'description')
     contact = Contact.create(personID: 1, orgID: 3, year: '02-24-2023', name: 'Person A',
@@ -392,6 +392,7 @@ RSpec.describe 'Negative orgID', type: :feature do
     fill_in 'application[description]', with: 'Invalid orgID desc'
     click_on 'Create Application'
     expect(page).to have_content('error prohibited this application from being saved:')
+    expect(page).to have_content('Orgid must have a valid organization ID')
     expect(page).to have_content('Orgid cannot be less than 1')
   end
 end
