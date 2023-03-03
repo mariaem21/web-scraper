@@ -360,7 +360,7 @@ RSpec.describe 'Negative applicationID', type: :feature do
     fill_in 'application[description]', with: 'Invalid applicationID desc'
     click_on 'Create Application'
     expect(page).to have_content('error prohibited this application from being saved:')
-    expect(page).to have_content('Applicationid cannot be less than 1')
+    expect(page).to have_content('Applicationid must be greater than 0')
   end
 end
 
@@ -393,6 +393,6 @@ RSpec.describe 'Negative orgID', type: :feature do
     click_on 'Create Application'
     expect(page).to have_content('error prohibited this application from being saved:')
     expect(page).to have_content('Orgid must have a valid organization ID')
-    expect(page).to have_content('Orgid cannot be less than 1')
+    expect(page).to have_content('Orgid must be greater than 0')
   end
 end
