@@ -21,16 +21,16 @@ class Application < ApplicationRecord
   end
 
   def if_orgid_negative
-    if !:orgID.blank?
-      if applicationID < 1
+    if :orgID.blank?
+      if orgID < 1
         errors.add(:orgID, 'cannot be less than 1')
       end
     end
   end
 
   def if_applicationid_negative
-    if !:applicationID.blank?
-      if orgID < 1
+    if :applicationID.blank?
+      if applicationID < 1
         errors.add(:applicationID, 'cannot be less than 1')
       end
     end
