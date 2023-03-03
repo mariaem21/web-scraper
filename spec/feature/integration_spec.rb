@@ -340,6 +340,7 @@ RSpec.describe 'Invalid application information request', type: :feature do
     expect(page).to have_content('errors prohibited this application from being saved:')
     expect(page).to have_content('Name can\'t be blank')
     expect(page).to have_content('Date Built can\'t be blank')
+  end
 end
 
 RSpec.describe 'Negative applicationID', type: :feature do
@@ -378,7 +379,7 @@ RSpec.describe 'Non existing orgID', type: :feature do
     expect(page).to have_content('OrgID must have a valid organization ID')
   end
 end
-  
+
 RSpec.describe 'Negative orgID', type: :feature do
   scenario 'Negative orgID | Should have a popup with information warning' do
     visit applications_path
