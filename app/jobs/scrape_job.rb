@@ -113,14 +113,5 @@ class ScrapeJob < ApplicationJob
                 end
             end
         end
-
-        # Send info to CSV file
-        filename = "test_file"
-        CSV.open("#{filename}.csv", "w") do |csv|
-            csv << ["Org Name", "Link", "Name", "Email"] 
-            [@studentOrgs, @links, @names, @emails].transpose.each do |row|
-                csv << row
-            end
-        end
     end
 end

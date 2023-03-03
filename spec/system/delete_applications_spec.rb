@@ -11,7 +11,3 @@ require 'rails_helper'
 #     click_on 'delete'
 
 #     click_on 'confirm'
-
-#     expect(page).to have_content('Application Deleted!')
-#   end
-# end
