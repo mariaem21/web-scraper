@@ -8,9 +8,9 @@ class Application < ApplicationRecord
   # has_one :contact
   # validates :contact, presence: true
   # belongs_to :organization
-  validate :orgID_exists
-  validate :if_orgID_negative
-  validate :if_applicationID_negative
+  validate :orgid_exists
+  validate :if_orgid_negative
+  validate :if_applicationid_negative
   has_many :appcats
   has_many :categories, through: :appcats
 
