@@ -16,7 +16,7 @@ class Application < ApplicationRecord
 
     def orgID_exists
         if !Organization.where(orgID: self.orgID).exists? then
-            errors.add(:orgID, 'Must have a valid organization ID')
+            errors.add(:orgID, 'must have a valid organization ID')
         end
     end
 end
