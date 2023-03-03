@@ -22,7 +22,7 @@ class Application < ApplicationRecord
 
   def if_orgid_negative
     if !:orgID.blank?
-      if Integer(:orgID) < 1
+      if Application.where(applicationID: self.applicationID) < 1
         errors.add(:orgID, 'cannot be less than 1')
       end
     end
@@ -30,7 +30,7 @@ class Application < ApplicationRecord
 
   def if_applicationid_negative
     if !:applicationID.blank?
-      if Integer(:applicationID) < 1
+      if Application.where(orgID: self.orgID) < 1
         errors.add(:applicationID, 'cannot be less than 1')
       end
     end
