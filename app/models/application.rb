@@ -14,21 +14,25 @@ class Application < ApplicationRecord
   has_many :appcats
   has_many :categories, through: :appcats
 
-  def orgID_exists
+  def orgid_exists
     if !Organization.where(orgID: self.orgID).exists? then
       errors.add(:orgID, 'must have a valid organization ID')
     end
   end
 
-  def if_orgID_negative
-    if :orgID < 1 then
-      errors.add(:orgID, 'cannot be less than 1')
+  def if_orgid_negative
+    if !:orgID.blank?
+      if :orgID < 1
+        errors.add(:orgID, 'cannot be less than 1')
+      end
     end
   end
 
-  def if_applicationID_negative
-    if :applicationID < 1 then
-      errors.add(:applicationID, 'cannot be less than 1')
+  def if_applicationid_negative
+    if !:applicationID.blank?
+      if :applicationID < 1 then
+        errors.add(:applicationID, 'cannot be less than 1')
+      end
     end
   end
 end
