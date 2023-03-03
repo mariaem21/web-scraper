@@ -347,7 +347,7 @@ RSpec.describe 'Negative applicationID', type: :feature do
   scenario 'Invalid applicationID | Should have a popup with information warning' do
     visit new_organization_path
     org = Organization.create(orgID: 3, name: 'Test org 3', description: 'description')
-    contact = Contact.create(personID: 1, orgID: 1, year: '02-24-2023', name: 'Person A',
+    contact = Contact.create(personID: 1, orgID: 3, year: '02-24-2023', name: 'Person A',
                              email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
 
     visit applications_path
@@ -359,7 +359,7 @@ RSpec.describe 'Negative applicationID', type: :feature do
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Invalid applicationID desc'
     click_on 'Create Application'
-    expect(page).to have_content('errors prohibited this application from being saved:')
+    expect(page).to have_content('error prohibited this application from being saved:')
     expect(page).to have_content('Applicationid cannot be less than 1')
   end
 end
@@ -375,7 +375,7 @@ RSpec.describe 'Non existing orgID', type: :feature do
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Non existing orgID desc'
     click_on 'Create Application'
-    expect(page).to have_content('errors prohibited this application from being saved:')
+    expect(page).to have_content('error prohibited this application from being saved:')
     expect(page).to have_content('Orgid must have a valid organization ID')
   end
 end
@@ -391,7 +391,7 @@ RSpec.describe 'Negative orgID', type: :feature do
     fill_in 'application[githublink]', with: 'github.com'
     fill_in 'application[description]', with: 'Invalid orgID desc'
     click_on 'Create Application'
-    expect(page).to have_content('errors prohibited this application from being saved:')
+    expect(page).to have_content('error prohibited this application from being saved:')
     expect(page).to have_content('Orgid cannot be less than 1')
   end
 end
