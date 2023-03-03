@@ -363,35 +363,34 @@ RSpec.describe 'Negative applicationID', type: :feature do
   end
 end
 
-  RSpec.describe 'Non existing orgID', type: :feature do
-    scenario 'Non existing orgID | Should have a popup with information warning' do
-      visit applications_path
-      click_on 'New application'
-      fill_in 'application[applicationID]', with: '4'
-      fill_in 'application[orgID]', with: '10'
-      fill_in 'application[name]', with: 'Non existing orgID'
-      fill_in 'application[datebuilt]', with: '02-28-2023'
-      fill_in 'application[githublink]', with: 'github.com'
-      fill_in 'application[description]', with: 'Non existing orgID desc'
-      click_on 'Create Application'
-      expect(page).to have_content('errors prohibited this application from being saved:')
-      expect(page).to have_content('OrgID must have a valid organization ID')
+RSpec.describe 'Non existing orgID', type: :feature do
+  scenario 'Non existing orgID | Should have a popup with information warning' do
+    visit applications_path
+    click_on 'New application'
+    fill_in 'application[applicationID]', with: '4'
+    fill_in 'application[orgID]', with: '10'
+    fill_in 'application[name]', with: 'Non existing orgID'
+    fill_in 'application[datebuilt]', with: '02-28-2023'
+    fill_in 'application[githublink]', with: 'github.com'
+    fill_in 'application[description]', with: 'Non existing orgID desc'
+    click_on 'Create Application'
+    expect(page).to have_content('errors prohibited this application from being saved:')
+    expect(page).to have_content('OrgID must have a valid organization ID')
   end
 end
   
-  RSpec.describe 'Negative orgID', type: :feature do
-    scenario 'Negative orgID | Should have a popup with information warning' do
-      visit applications_path
-      click_on 'New application'
-      fill_in 'application[applicationID]', with: '5'
-      fill_in 'application[orgID]', with: '-1'
-      fill_in 'application[name]', with: 'Invalid orgID'
-      fill_in 'application[datebuilt]', with: '02-28-2023'
-      fill_in 'application[githublink]', with: 'github.com'
-      fill_in 'application[description]', with: 'Invalid orgID desc'
-      click_on 'Create Application'
-      expect(page).to have_content('errors prohibited this application from being saved:')
-      expect(page).to have_content('OrgID cannot be less than 1')
-    end
+RSpec.describe 'Negative orgID', type: :feature do
+  scenario 'Negative orgID | Should have a popup with information warning' do
+    visit applications_path
+    click_on 'New application'
+    fill_in 'application[applicationID]', with: '5'
+    fill_in 'application[orgID]', with: '-1'
+    fill_in 'application[name]', with: 'Invalid orgID'
+    fill_in 'application[datebuilt]', with: '02-28-2023'
+    fill_in 'application[githublink]', with: 'github.com'
+    fill_in 'application[description]', with: 'Invalid orgID desc'
+    click_on 'Create Application'
+    expect(page).to have_content('errors prohibited this application from being saved:')
+    expect(page).to have_content('OrgID cannot be less than 1')
   end
 end
