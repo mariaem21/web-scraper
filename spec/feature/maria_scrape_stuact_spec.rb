@@ -3,11 +3,6 @@
 # frozen_string_literal: true
 # location: spec/feature/feature_spec.rb
 require 'rails_helper'
-
-# RSpec.configure do |config|
-#   config.include(ActiveJob::TestHelper)
-# end
-
 Delayed::Worker.delay_jobs = false
 
 # User story #1 - Scraping from the STUACT website
