@@ -2,7 +2,7 @@
 
 class Application < ApplicationRecord
     validates :applicationID, presence: true, uniqueness: true, comparison: { greater_than: 0 }
-    validates :orgID, presence: true, comparison: { greater_than: 0 }
+    validates :orgID, presence: true
     validate :orgID_exists
     validates :name, presence: true
     validates :datebuilt, presence: true
