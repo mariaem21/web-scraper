@@ -11,6 +11,9 @@ RSpec.describe 'DeleteApplications', type: :system do
   before(:all) do
     Capybara.current_driver = :selenium
   end
+  after(:all) do
+    Capybara.use_default_driver
+  end
 
 
   it 'deletes application successfully' do
@@ -39,7 +42,5 @@ RSpec.describe 'DeleteApplications', type: :system do
     
   end
 
-  after(:all) do
-    Capybara.use_default_driver
-  end
+  
 end

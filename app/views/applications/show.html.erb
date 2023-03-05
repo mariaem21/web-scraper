@@ -6,5 +6,5 @@
   <%= link_to "Edit this application", edit_application_path(@application) %> |
   <%= link_to "Back to applications", applications_path %>
 
-  <%= button_to "Destroy this application", @application, method: :delete %>
+  <%= button_to "Destroy this application", @application, method: :delete, form: {data: {turbo_confirm: 'Are you sure?'}} %>
 </div>
