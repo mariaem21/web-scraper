@@ -8,7 +8,8 @@ RSpec.describe 'DeleteApplications', type: :system do
 
   it 'deletes application successfully' do
 
-    visit applications_path
+    visit "/applications"
+
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'

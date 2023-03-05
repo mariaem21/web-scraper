@@ -7,7 +7,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
 
   it 'click cancel on delete application successfully' do
-    visit applications_path
+    visit "/applications"
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'

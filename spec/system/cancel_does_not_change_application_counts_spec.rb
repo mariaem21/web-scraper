@@ -8,7 +8,7 @@ RSpec.describe "CancelDoesNotChangeApplicationCounts", type: :system do
 
   it "cancel on delete application doesn't change count" do
     
-    visit applications_path
+    visit "/applications"
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'
