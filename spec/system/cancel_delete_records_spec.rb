@@ -7,10 +7,23 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
 
   it 'click cancel on delete application successfully' do
-    visit '/applications'
+    visit applications_path
 
-    click_on 'delete'
+    click_on 'New application'
+    fill_in "application[name]", with: 'Test Application'
+    fill_in "application[orgID]", with: '01'
+    fill_in "application[applicationID]", with: '01'
+    click_on 'Create Application'
+    
+    applications_count = Application.all.count
 
-    click_on 'cancel'
+    expect(page).to have_content('Application was successfully created.')
+
+    click_on 'Destroy this application', visible: false
+
+    click_on 'Cancel', visible: false
+
+    expect(page).to have_content("Cancel", count: 0)
+      
   end
 end
