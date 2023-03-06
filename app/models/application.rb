@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 class Application < ApplicationRecord
-    validates :application_id, presence: true, uniqueness: true
-    validates :organization_id, presence: true
+    validates :application_id, presence: true, uniqueness: true, comparison: { greater_than: 0 }
+    validates :organization_id, presence: true, comparison: { greater_than: 0 }
+    validate :organization_id_exists
     validates :name, presence: true
     validates :date_built, presence: true
     validates :github_link, presence: true
     validates :description, presence: true
     
-    # has_one :contact
-    # validates :contact, presence: true
-    # belongs_to :organization
-    validate :organization_id_exists
     has_many :application_categories
     has_many :categories, through: :application_categories
 
