@@ -22,7 +22,7 @@ RSpec.describe Organization, type: :model do
 
     it 'is not valid if orgID is not valid/does not exist' do
       org1 = Organization.create(orgID: 1, name: 'Student org A', description: 'Unique description')
-      org2 = Organization.create(orgID: , name: 'Student org B', description: 'Different here')
+      org2 = Organization.create(orgID: -1, name: 'Student org B', description: 'Different here')
       expect(org1).to be_valid
       expect(org2).to_not be_valid
     end
