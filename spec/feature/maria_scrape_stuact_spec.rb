@@ -54,43 +54,43 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
 
   scenario 'Rainy day: does not replace old contact information' do
     visit new_organization_path
-    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
-    contact = Contact.create(personID: 1, orgID: 1, year: 20_210_621, name: 'Person A',
-                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+    org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
+    contact = Contact.create(contact_id: 1, organization_id: 1, year: 20_210_621, name: 'Person A',
+                             email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
     visit organizations_path
     click_on 'Scrape'
     visit organizations_path
     visit contacts_path
-    expect(Contact.find_by(personID: 1).name).to eq('Person A')
+    expect(Contact.find_by(contact_id: 1).name).to eq('Person A')
     visit organizations_path
     click_on "Delete"
   end
 
   scenario 'Rainy day: updates out of date organization information when both org name and contact name match' do
     visit new_organization_path
-    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
-    contact = Contact.create(personID: 1, orgID: 1, year: 20_210_621, name: 'Chad Parker',
-                             email: 'john@tamu.edu', officerposition: 'President', description: 'Unique description')
+    org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
+    contact = Contact.create(contact_id: 1, organization_id: 1, year: 20_210_621, name: 'Chad Parker',
+                             email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
     visit organizations_path
     click_on 'Scrape'
     visit organizations_path
     sleep 5
     visit contacts_path
-    expect(Contact.find_by(orgID: 1).email).to eq('cparker@corps.tamu.edu')
+    expect(Contact.find_by(organization_id: 1).email).to eq('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
   end
 
   scenario 'Rainy day: Creates new contact if organization exists and contact does not' do
     visit new_organization_path
-    org = Organization.create(orgID: 1, name: 'A Battery', description: 'Unique description')
+    org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
     visit organizations_path
     click_on 'Scrape'
     visit organizations_path
     sleep 5
     visit contacts_path
-    expect(Contact.find_by(orgID: 1).name).to eq('Chad Parker')
-    expect(Contact.find_by(orgID: 1).email).to eq('cparker@corps.tamu.edu')
+    expect(Contact.find_by(organization_id: 1).name).to eq('Chad Parker')
+    expect(Contact.find_by(organization_id: 1).email).to eq('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
   end

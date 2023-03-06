@@ -13,13 +13,13 @@ wb.add_worksheet(name: "Organizations") do |sheet|
     numApps = 0
 
     # There is a contact attributed to org, add to csv
-    if Contact.where(orgID: org.orgID).exists? then
-        contactName = Contact.find_by(orgID: org.orgID).name # Name in database
-        contactEmail = Contact.find_by(orgID: org.orgID).email # Name in database
-        officerPosition = Contact.find_by(orgID: org.orgID).officerposition # Position in database
-        updateYear = Contact.find_by(orgID: org.orgID).year # Last updated in database
+    if Contact.where(organization_id: org.organization_id).exists? then
+        contactName = Contact.find_by(organization_id: org.organization_id).name # Name in database
+        contactEmail = Contact.find_by(organization_id: org.organization_id).email # Name in database
+        officerPosition = Contact.find_by(organization_id: org.organization_id).officer_position # Position in database
+        updateYear = Contact.find_by(organization_id: org.organization_id).year # Last updated in database
     end
     
-    sheet.add_row [org.orgID, org.name, contactName, contactEmail, officerPosition, updateYear, numApps]
+    sheet.add_row [org.organization_id, org.name, contactName, contactEmail, officerPosition, updateYear, numApps]
   end
 end

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @application_category %>
+
+<div>
+  <%= link_to "Edit this application category", edit_application_category_path(@application_category) %> |
+  <%= link_to "Back to application categories", application_categories_path %>
+
+  <%= button_to "Destroy this application category", @application_category, method: :delete %>
+</div>

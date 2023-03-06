@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   resources :contacts
   resources :applications
-  resources :appcats
+  resources :application_categories
   resources :categories
   resources :users
 

@@ -29,7 +29,7 @@ require 'rails_helper'
 #       expect(page).to have_content('Valid application')
 #     end
 # end
-  
+
 # RSpec.describe 'Invalid application request', type: :feature do
 # # Making a request with invalid application information
 # scenario 'Invalid application | Should have a popup with information warning about each invalid field' do
