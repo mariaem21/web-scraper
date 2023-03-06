@@ -13,8 +13,8 @@ class DownloadJob < ApplicationJob
             
             # Loop through all organizations and add to CSV
             orgTable.each_with_index do |org, index|
-                orgid = Organization.find_by(orgID: index).orgID
-                orgName = Organization.find_by(orgID: index).name
+                orgid = Organization.find_by(organization_id: index).organization_id
+                orgName = Organization.find_by(organization_id: index).name
                 contactName = "Not provided on STUACT website"
                 contactEmail = "Not provided on STUACT website"
                 officerPosition = "Not provided on STUACT website"
@@ -22,11 +22,11 @@ class DownloadJob < ApplicationJob
                 appsBuilt = 0
 
                 # Find contact associated with student org
-                if Contact.where(orgID: orgid).exists? then #There is a contact attributed to org, add to csv
-                    contactName = Contact.find_by(orgID: org.orgID).name #Name in database
-                    contactEmail = Contact.find_by(orgID: org.orgID).email #Name in database
-                    officerPosition = Contact.find_by(orgID: org.orgID).officerposition #Position in database
-                    updateYear = Contact.find_by(orgID: org.orgID).year #Last updated in database
+                if Contact.where(organization_id: orgid).exists? then # There is a contact attributed to org, add to csv
+                    contactName = Contact.find_by(organization_id: orgid).name # Name in database
+                    contactEmail = Contact.find_by(organization_id: orgid).email # Name in database
+                    officerPosition = Contact.find_by(organization_id: orgid).officer_position # Position in database
+                    updateYear = Contact.find_by(organization_id: orgid).year # Last updated in database
                 end
 
                 csv << [orgid, orgName, contactName, contactEmail, officerPosition, updateYear, appsBuilt]

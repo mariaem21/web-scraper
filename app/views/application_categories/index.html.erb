@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Application categories</h1>
+
+<div id="application_categories">
+  <% @application_categories.each do |application_category| %>
+    <%= render application_category %>
+    <p>
+      <%= link_to "Show this application category", application_category %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New application category", new_application_category_path %>
