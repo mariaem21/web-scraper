@@ -1,0 +1,22 @@
+Inspecting 65 files
+...................C.........................................C...
+
+Offenses:
+
+app/jobs/scrape_job.rb:9:5: C: Metrics/AbcSize: Assignment Branch Condition size for perform is too high. [<43, 73, 20> 87.05/45]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/CyclomaticComplexity: Cyclomatic complexity for perform is too high. [13/10]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/MethodLength: Method has too many lines. [68/30]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/PerceivedComplexity: Perceived complexity for perform is too high. [15/10]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+spec/unit/sai_appcats_spec.rb:8:1: C: RSpec/FilePath: Spec path should end with application_category*_spec.rb.
+RSpec.describe ApplicationCategory, type: :model do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+65 files inspected, 5 offenses detected
