@@ -33,13 +33,13 @@ RSpec.describe Contact, type: :model do
       person4 = Contact.create(contact_id: 3, organization_id: 1, year: 20_210_621, name: '',
                                email: 'johnsmith@tamu.edu', officer_position: 'Unknown', description: 'Different here')
       person5 = Contact.create(contact_id: 4, organization_id: 1, year: 20_210_621, name: 'Person D',
-                               email: '', officer_position: 'Unknown', description: 'Different here')    
+                               email: '', officer_position: 'Unknown', description: 'Different here')
       person6 = Contact.create(contact_id: 5, organization_id: 1, year: 20_210_621, name: 'Person E',
                                email: 'johnsmith@tamu.edu', officer_position: '', description: 'Different here')
       person7 = Contact.create(contact_id: 6, organization_id: 1, year: 20_210_621, name: 'Person F',
-                               email: 'johnsmith@tamu.edu', officer_position: 'Unknown', description: '')  
+                               email: 'johnsmith@tamu.edu', officer_position: 'Unknown', description: '')
       person8 = Contact.create(contact_id: 7, organization_id: 1, year: 20_210_621, name: 'Person G',
-                               email: 'johnsmith@tamu.edu', officer_position: 'Unknown', description: 'Valid contact')                                         
+                               email: 'johnsmith@tamu.edu', officer_position: 'Unknown', description: 'Valid contact')
       expect(person1).to_not be_valid
       expect(person2).to_not be_valid
       expect(person3).to_not be_valid
