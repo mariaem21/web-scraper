@@ -1,23 +1,20 @@
 # frozen_string_literal: true
 
 class Application < ApplicationRecord
-    validates :applicationID, presence: true, uniqueness: true
-    validates :orgID, presence: true
+    validates :application_id, presence: true, uniqueness: true, comparison: { greater_than: 0 }
+    validates :organization_id, presence: true, comparison: { greater_than: 0 }
+    validate :organization_id_exists
     validates :name, presence: true
-    validates :datebuilt, presence: true
-    validates :githublink, presence: true
+    validates :date_built, presence: true
+    validates :github_link, presence: true
     validates :description, presence: true
     
-    # has_one :contact
-    # validates :contact, presence: true
-    # belongs_to :organization
-    validate :orgID_exists
-    has_many :appcats
-    has_many :categories, through: :appcats
+    has_many :application_categories
+    has_many :categories, through: :application_categories
 
-    def orgID_exists
-        if !Organization.where(orgID: self.orgID).exists? then
-            errors.add(:orgID, 'Must have a valid organization ID.')
+    def organization_id_exists
+        if !Organization.where(organization_id: self.organization_id).exists? then
+            errors.add(:organization_id, 'Must have a valid organization ID.')
         end
     end
 end
