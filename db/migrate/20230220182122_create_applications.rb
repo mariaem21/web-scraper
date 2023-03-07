@@ -1,7 +1,7 @@
 class CreateApplications < ActiveRecord::Migration[7.0]
   def change
-    create_table :applications do |t|
-      t.integer :applicationID
+    create_table :applications, id: false do |t|
+      t.primary_key :applicationID
       t.integer :orgID
       t.string :name
       t.date :datebuilt
