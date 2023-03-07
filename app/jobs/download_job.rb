@@ -12,7 +12,7 @@ class DownloadJob < ApplicationJob
             csv << ["ID", "Student Organization", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Number of Apps Built"]
             
             # Loop through all organizations and add to CSV
-            orgTable.each_with_index do |org, index|
+            orgTable.each_with_index do |_org, index|
                 orgid = Organization.find_by(organization_id: index).organization_id
                 orgName = Organization.find_by(organization_id: index).name
                 contactName = "Not provided on STUACT website"
