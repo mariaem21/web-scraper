@@ -1,0 +1,28 @@
+Inspecting 65 files
+....................C..C..C......................................
+
+Offenses:
+
+app/jobs/scrape_job.rb:9:5: C: Metrics/AbcSize: Assignment Branch Condition size for perform is too high. [<48, 77, 20> 92.91/45]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/CyclomaticComplexity: Cyclomatic complexity for perform is too high. [13/10]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/MethodLength: Method has too many lines. [77/30]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:9:5: C: Metrics/PerceivedComplexity: Perceived complexity for perform is too high. [15/10]
+    def perform(url) ...
+    ^^^^^^^^^^^^^^^^
+app/jobs/scrape_job.rb:24:9: C: Metrics/BlockLength: Block has too many lines. [64/60]
+        doc.xpath("//big/a/@href").each do |element| ...
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/application.rb:18:9: C: Naming/MethodName: Use snake_case for method names.
+    def orgID_exists
+        ^^^^^^^^^^^^
+app/models/contact.rb:15:9: C: Naming/MethodName: Use snake_case for method names.
+    def orgID_exists
+        ^^^^^^^^^^^^
+
+65 files inspected, 7 offenses detected
