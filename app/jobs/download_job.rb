@@ -4,7 +4,7 @@ require 'date'
 class DownloadJob < ApplicationJob
     queue_as :default
 
-    def perform(text)
+    def perform(text,exclude_orgid,exclude_orgname,exclude_contactname,exclude_contactemail,exclude_officer,exclude_date,exclude_appnum)
         filename = "new_file"
         orgTable = Organization.all;
 
