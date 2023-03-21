@@ -1,7 +1,5 @@
-<<<<<<< HEAD
+
 <p style="color: green"><%= notice %></p>
-
-
 
 <h1>Do you want to exclude any columns to save resources?</h1>
 
@@ -37,47 +35,3 @@
 
 </br>
 <%= link_to "Go Back", organizations_path  %>
-=======
-<p style="color: green"><%= notice %></p>
-
-
-<%= form_with url: , method: :get, local: true do |form| %>
-  
-    <div>
-    <%= form.check_box(:exclude_orgid) %>
-    <%= label_tag(:exclude_orgid, "Exclude Organization Ids") %>
-    </div>
-  
-    <%= form.submit "Download CSV" %>
-  <% end %>
-
-
-<h1>Do you want to exclude any columns to save resources?</h1>
-
-</br>
-<%= check_box "check", :exclude_orgname%>
-<%= label_tag "Exclude Student Organizations" %>
-</br>
-<%= check_box "check", :exclude_contactname%>
-<%= label_tag "Exclude Contact Names" %>
-</br>
-<%= check_box "check", :exclude_contactemail%>
-<%= label_tag "Exclude Contact Emails" %>
-</br>
-<%= check_box "check", :exclude_officer %>
-<%= label_tag "Exclude Officer Positions" %>
-</br>
-<%= check_box "check", :exclude_date%>
-<%= label_tag "Exclude Last Modified" %>
-</br>
-<%= check_box "check", :exclude_appnum%>
-<%= label_tag "Exclude Number of Apps Built" %>
-
-</br>
-</br>
-</br>
-<%= button_to 'Download as CSV', download_organizations_path %>
-
-</br>
-<%= link_to "Go Back", organizations_path  %>
->>>>>>> f07b5010f2dbe3712b1478a3dca1c5d6b1d69697
