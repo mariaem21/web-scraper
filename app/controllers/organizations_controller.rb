@@ -18,6 +18,7 @@ class OrganizationsController < ApplicationController
 
   def scrape
     ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter")
+    # Delayed::Job.enqueue(ScrapeJob.perform_later("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter"))
   end
 
   def download

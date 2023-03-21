@@ -6,6 +6,21 @@ require 'date'
 class ScrapeJob < ApplicationJob
     queue_as :default
 
+    after_perform do |job|
+        Organizations.notify_organization_processed(job.arguments.first)
+        # respond_to do |format|
+        #     format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully updated.' }
+        #     format.json { head :no_content }
+        # end
+    end
+
+    around_perform do |job, block|
+        respond_to do |format|
+            format.html { redirect_to organizations_url, notice: 'Not finished updating. Thank you for your patience.' }
+            format.json { head :no_content }
+        end
+    end
+
     def perform(url)
         html = URI.open("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter").read
         doc = Nokogiri::HTML(html)
