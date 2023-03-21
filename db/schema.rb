@@ -33,6 +33,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "books", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer "categoryID"
     t.string "name"

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+$excludeOrgID=false
 
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show edit update destroy]
@@ -21,7 +22,21 @@ class OrganizationsController < ApplicationController
   end
 
   def download
-    DownloadJob.perform_later("Input")
+    @t1= params[:param_name1]
+    @t2= params[:param_name2]
+    @t3= params[:param_name3]
+    @t4= params[:param_name4]
+    @t5= params[:param_name5]
+    @t6= params[:param_name6]
+    @organizations = Organization.all
+    respond_to.xlsx {
+        response.headers[
+          'Content-Disposition'
+        ] = "attachment; filename='excel_file.xlsx'"
+      }
+  end
+
+  def exclude
   end
 
   def delete
@@ -92,6 +107,6 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    params.require(:organization).permit(:orgID, :name, :description)
+    params.require(:organization).permit(:orgID, :name, :description, :exclude_orgid)
   end
 end
