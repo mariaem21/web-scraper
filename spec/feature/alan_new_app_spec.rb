@@ -99,7 +99,7 @@ RSpec.describe 'Non existing orgID', type: :feature do
     fill_in 'application[description]', with: 'Non existing orgID desc'
     click_on 'Create Application'
     expect(page).to have_content('error prohibited this application from being saved:')
-    expect(page).to have_content('Organization must have a valid organization ID')
+    expect(page).to have_content('Organization Must have a valid organization ID')
   end
 end
 
@@ -116,6 +116,6 @@ RSpec.describe 'Negative orgID', type: :feature do
     click_on 'Create Application'
     expect(page).to have_content('errors prohibited this application from being saved:')
     expect(page).to have_content('Organization must be greater than 0')
-    expect(page).to have_content('Organization must have a valid organization ID')
+    expect(page).to have_content('Organization Must have a valid organization ID')
   end
 end
