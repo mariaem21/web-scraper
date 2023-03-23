@@ -27,6 +27,7 @@ class OrganizationsController < ApplicationController
   def delete
     Organization.delete_all
     Contact.delete_all
+    ContactOrganization.delete_all
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }

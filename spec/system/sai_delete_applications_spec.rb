@@ -15,7 +15,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'        
-    fill_in "application[organization_id]", with: '01'
+    fill_in "application[contact_organization_id]", with: '01'
     fill_in "application[application_id]", with: '01'
     fill_in "application[date_built]", with: '01-01-2001'
     fill_in "application[github_link]", with: 'www.github.com'
@@ -43,7 +43,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'
-    fill_in "application[organization_id]", with: '01'
+    fill_in "application[contact_organization_id]", with: '01'
     fill_in "application[application_id]", with: '01'
     fill_in "application[date_built]", with: '01-01-2001'
     fill_in "application[github_link]", with: 'www.github.com'
@@ -74,7 +74,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'
-    fill_in "application[organization_id]", with: '01'
+    fill_in "application[contact_organization_id]", with: '01'
     fill_in "application[application_id]", with: '01'
     fill_in "application[date_built]", with: '01-01-2001'
     fill_in "application[github_link]", with: 'www.github.com'
@@ -100,7 +100,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
     click_on 'New application'
     fill_in "application[name]", with: 'Test Application'
-    fill_in "application[organization_id]", with: '01'
+    fill_in "application[contact_organization_id]", with: '01'
     fill_in "application[application_id]", with: '01'
     fill_in "application[date_built]", with: '01-01-2001'
     fill_in "application[github_link]", with: 'www.github.com'

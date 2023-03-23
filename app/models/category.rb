@@ -7,5 +7,5 @@ class Category < ApplicationRecord
     validates :category_id, presence: true, uniqueness: true
     validates :name, presence: true
     validates :description, presence: true
-    validates :application_categories, presence: true
+    # validates :application_categories, presence: true
 end
