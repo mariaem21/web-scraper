@@ -18,9 +18,10 @@
 
   <div id="organizations">
     <% @organizations.each do |organization| %>
-      <p>
-        <%= check_box_tag "organizations_ids[]", organization.id, false, class: "exclude-checkbox" %> Exclude
-      </p>
+        <p>
+          <%= check_box_tag "organizations_ids[]", organization.id, check_param(organization.id), class: "exclude-checkbox" %> Exclude
+        </p>
+
       <%= render organization %>
       <p>
         <%= link_to "Show this organization", organization %>

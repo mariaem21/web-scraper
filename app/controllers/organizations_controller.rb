@@ -108,4 +108,17 @@ class OrganizationsController < ApplicationController
   def save_exclude_cookie
     cookies.permanent[:organizations_ids] = params[:organizations_ids]
   end
+
+  def check_param(id)
+    if params.has_key?(:organizations_ids)
+      if params[:organizations_ids].include?(id.to_s)
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+  helper_method :check_param
 end
