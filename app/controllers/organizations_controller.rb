@@ -11,8 +11,6 @@ class OrganizationsController < ApplicationController
       params[:organizations_ids] = cookies[:organizations_ids]
     end
 
-    puts params.inspect
-
     @organizations = Organization.all
     respond_to do |format|
       format.xlsx {
@@ -101,8 +99,7 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    # params.require(:organization).permit(:organization_id, :name, :description)
-    params.permit(:organization, :name, :description, :organizations_ids)
+    params.require(:organization).permit(:organization_id, :name, :description)
   end
 
   def save_exclude_cookie
