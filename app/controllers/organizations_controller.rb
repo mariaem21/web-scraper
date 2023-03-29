@@ -5,6 +5,14 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
+    if params[:commit] == "Save changes?"
+      save_exclude_cookie
+    else
+      params[:organizations_ids] = cookies[:organizations_ids]
+    end
+
+    puts params.inspect
+
     @organizations = Organization.all
     respond_to do |format|
       format.xlsx {
@@ -22,6 +30,7 @@ class OrganizationsController < ApplicationController
 
   def download
     DownloadJob.perform_later("Input")
+    puts params.inspect
   end
 
   def delete
@@ -35,7 +44,7 @@ class OrganizationsController < ApplicationController
   end
 
   # GET /organizations/1 or /organizations/1.json
-  def show; end
+  def show;  end
 
   # GET /organizations/new
   def new
@@ -92,6 +101,11 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    params.require(:organization).permit(:organization_id, :name, :description)
+    # params.require(:organization).permit(:organization_id, :name, :description)
+    params.permit(:organization, :name, :description, :organizations_ids)
+  end
+
+  def save_exclude_cookie
+    cookies.permanent[:organizations_ids] = params[:organizations_ids]
   end
 end
