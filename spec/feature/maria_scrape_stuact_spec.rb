@@ -13,7 +13,7 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     # Checks has right entries for student organizations
     visit organizations_path
     click_on 'Scrape'
-    sleep 20
+    sleep 10
     visit organizations_path
     sleep 5
     expect(page).to have_content('A&M Esports') # First
@@ -55,7 +55,8 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
   scenario 'Rainy day: does not replace old contact information' do
     visit new_organization_path
     org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
-    contact = Contact.create(contact_id: 1, organization_id: 1, year: 20_210_621, name: 'Person A',
+    con_org = ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
+    contact = Contact.create(contact_id: 1, year: 20_210_621, name: 'Person A',
                              email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
     visit organizations_path
     click_on 'Scrape'
@@ -69,14 +70,15 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
   scenario 'Rainy day: updates out of date organization information when both org name and contact name match' do
     visit new_organization_path
     org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
-    contact = Contact.create(contact_id: 1, organization_id: 1, year: 20_210_621, name: 'Chad Parker',
+    con_org = ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
+    contact = Contact.create(contact_id: 1, year: 20_210_621, name: 'Chad Parker',
                              email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
     visit organizations_path
     click_on 'Scrape'
     visit organizations_path
     sleep 5
     visit contacts_path
-    expect(Contact.find_by(organization_id: 1).email).to eq('cparker@corps.tamu.edu')
+    expect(Contact.find_by(contact_id: 1).email).to eq('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
   end
@@ -89,8 +91,8 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     visit organizations_path
     sleep 5
     visit contacts_path
-    expect(Contact.find_by(organization_id: 1).name).to eq('Chad Parker')
-    expect(Contact.find_by(organization_id: 1).email).to eq('cparker@corps.tamu.edu')
+    expect(page).to have_content('Chad Parker')
+    expect(page).to have_content('cparker@corps.tamu.edu')
     visit organizations_path
     click_on "Delete"
   end
