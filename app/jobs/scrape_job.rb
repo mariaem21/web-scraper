@@ -9,39 +9,29 @@ class ScrapeJob < ApplicationJob
     def perform(url)
         html = URI.open("https://stuactonline.tamu.edu/app/search/index/index/q/a/search/letter").read
         doc = Nokogiri::HTML(html)
-    
-        @items = []
-        @studentOrgs = []
-        @links = []
-        @emails = []
-        @names = []
-        orgcount = 0
-        contactcount = 0
 
+        org_count = 0
+        contact_count = 0
+        con_org_count = 0
         org = {}
         contact = {}
+        contact_org = {}
 
         doc.xpath("//big/a/@href").each do |element|
             element = element.text
-            @links << element
 
             link_html = URI.open("#{element}").read
             link_doc = Nokogiri::HTML(link_html)
 
+            # Gets the student organization name
             link_org = link_doc.xpath("//h1[@class = 'title']").text
-            # puts "#{link_org}"
-            @studentOrgs << link_org
         
+            # Gets the contact name
             link_name = link_doc.xpath("//div[@class = 'form-view']/dl[2]/dd[1]").text
-            # puts "#{link_name}"
-            @names << link_name
 
+            # Gets the contact email
             link_email = link_doc.xpath("//div[@class = 'form-view']/dl[2]/dd[2]").text
-            # puts "#{link_email}"
-            @emails << link_email
 
-            # orgcount = orgcount + 1
-            # contactcount = contactcount + 1
             if (link_name == "") then
                 link_name = "empty"
             end
@@ -51,65 +41,86 @@ class ScrapeJob < ApplicationJob
 
             # If org already in database
             if Organization.where(name: link_org).exists? then
-                # puts "Org #{link_org} already exists"
 
                 orgID_temp = Organization.find_by(name: link_org)
-                # puts "orgID #{orgID_temp}"
 
                 # If contact name is already there, it updates that contact
-                if Contact.where(orgID: orgID_temp.orgID, name: link_name).exists? then
-                    contact[:personID] = Contact.find_by(orgID: orgID_temp.orgID, name: link_name).personID
-                    contact[:orgID] = orgID_temp.orgID
-                    contact[:year] = Date.today
-                    contact[:name] = link_name
-                    contact[:email] = link_email
-                    contact[:officerposition] = "Both org and contact name existed"
-                    contact[:description] = "Updating the contact information"
-                    # puts "Contact: #{contact}"
-                    Contact.where(orgID: orgID_temp.orgID, name: link_name).update(contact)
-            
-                # If contact name does not exist, increments contactcount to free PK then creates contact
-                else
-                    while Contact.where(personID: contactcount).exists? do
-                        contactcount = contactcount + 1
-                    end
-                    if !(link_name == "empty" && link_email == "empty") then
-                        contact[:personID] = contactcount
-                        contact[:orgID] = orgID_temp.orgID
+                    # Find all instances in contact_organizations with organization_id
+                    # Loop through all, checking if the contact name matches
+                if ContactOrganization.where(organization_id: orgID_temp.organization_id).exists? && Contact.where(name: link_name).exists? then
+
+                    possible_contact_ids = Contact.select{|x| x[:name] == link_name}.map{|y| y[:contact_id]}
+
+                    if ContactOrganization.where(organization_id: orgID_temp.organization_id, contact_id: possible_contact_ids).exists? then
+                        found_con_org = ContactOrganization.find_by(organization_id: orgID_temp.organization_id, contact_id: possible_contact_ids)
+                        contact[:contact_id] = found_con_org.contact_id
                         contact[:year] = Date.today
                         contact[:name] = link_name
                         contact[:email] = link_email
-                        contact[:officerposition] = "Org existed, but contact did not"
-                        contact[:description] = "empty"
-                        # puts "Contact: #{contact}"
+                        contact[:officer_position] = "Not provided on the STUACT website"
+                        contact[:description] = "Updating the existing contact information"
+                        Contact.where(contact_id: found_con_org.contact_id, name: link_name).update(contact)
+                    end
+            
+                # If contact name does not exist, increments contact_count & con_org_count to free PK then creates contact & con_org
+                else
+                    while Contact.where(contact_id: contact_count).exists? do
+                        contact_count = contact_count + 1
+                    end
+
+                    # Increment id for contact_organization table too
+                    while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+                        con_org_count = con_org_count + 1
+                    end
+
+                    if !(link_name == "empty" && link_email == "empty") then
+                        contact[:contact_id] = contact_count
+                        contact[:year] = Date.today
+                        contact[:name] = link_name
+                        contact[:email] = link_email
+                        contact[:officer_position] = "Not provided on the STUACT website"
+                        contact[:description] = "Organization existed, but contact did not"
                         Contact.where(contact).first_or_create
+
+                        # Make the contact_organization to link contact and org
+                        contact_org[:contact_organization_id] = con_org_count
+                        contact_org[:contact_id] = contact_count
+                        contact_org[:organization_id] = orgID_temp.organization_id
+                        ContactOrganization.where(contact_org).first_or_create
                     end
                 end
         
             # Org not already in database
             else
-                while Organization.where(orgID: orgcount).exists? do
-                    orgcount = orgcount + 1
+                while Organization.where(organization_id: org_count).exists? do
+                    org_count = org_count + 1
                 end
-                while Contact.where(personID: contactcount).exists? do
-                    contactcount = contactcount + 1
+                while Contact.where(contact_id: contact_count).exists? do
+                    contact_count = contact_count + 1
                 end
-                org[:orgID] = orgcount
+                while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+                    con_org_count = con_org_count + 1
+                end
+
+                org[:organization_id] = org_count
                 org[:name] = link_org
-                org[:description] = "Org not already in database"
-                # puts "Org: #{org}"
+                org[:description] = "Organization not already in database"
                 Organization.where(org).first_or_create
 
                 if !(link_name == "empty" && link_email == "empty") then
-                    contact[:personID] = contactcount
-                    contact[:orgID] = orgcount
+                    contact[:contact_id] = contact_count
                     contact[:year] = Date.today
                     contact[:name] = link_name
                     contact[:email] = link_email
-                    contact[:officerposition] = "not in database"
-                    contact[:description] = "neither name or email are empty"
-                    # puts "Contact: #{contact}"
+                    contact[:officer_position] = "Not provided on the STUACT website"
+                    contact[:description] = "Contact information was not already in database"
                     Contact.where(contact).first_or_create
+
+                    # Make the contact_organization to link contact and org
+                    contact_org[:contact_organization_id] = con_org_count
+                    contact_org[:contact_id] = contact_count
+                    contact_org[:organization_id] = org_count
+                    ContactOrganization.where(contact_org).first_or_create
                 end
             end
         end

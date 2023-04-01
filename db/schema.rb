@@ -10,44 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_184116) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appcats", force: :cascade do |t|
-    t.integer "appcatID"
-    t.integer "categoryID"
-    t.integer "applicationID"
+  create_table "application_categories", primary_key: "application_category_id", force: :cascade do |t|
+    t.integer "application_id"
+    t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "applications", force: :cascade do |t|
-    t.integer "applicationID"
-    t.integer "orgID"
+  create_table "applications", primary_key: "application_id", force: :cascade do |t|
+    t.integer "contact_organization_id"
     t.string "name"
-    t.date "datebuilt"
-    t.string "githublink"
+    t.date "date_built"
+    t.string "github_link"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.integer "categoryID"
+  create_table "categories", primary_key: "category_id", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", force: :cascade do |t|
-    t.integer "personID"
-    t.integer "orgID"
+  create_table "contact_organizations", primary_key: "contact_organization_id", force: :cascade do |t|
+    t.integer "contact_id"
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", primary_key: "contact_id", force: :cascade do |t|
     t.date "year"
     t.string "name"
     t.string "email"
-    t.string "officerposition"
+    t.string "officer_position"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -68,20 +70,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_181136) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.integer "orgID"
+  create_table "organizations", primary_key: "organization_id", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.integer "userID"
+  create_table "users", primary_key: "user_id", force: :cascade do |t|
     t.string "name"
     t.string "username"
     t.string "password"
-    t.boolean "isadmin"
+    t.boolean "is_admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

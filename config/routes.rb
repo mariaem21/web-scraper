@@ -7,8 +7,9 @@ Rails.application.routes.draw do
     match 'exclude', to: 'organizations#exclude', via: :get, on: :collection
   end
   resources :contacts
+  resources :contact_organizations
   resources :applications
-  resources :appcats
+  resources :application_categories
   resources :categories
   resources :users
 

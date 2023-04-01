@@ -38,6 +38,7 @@ class OrganizationsController < ApplicationController
   def delete
     Organization.delete_all
     Contact.delete_all
+    ContactOrganization.delete_all
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -103,6 +104,6 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    params.require(:organization).permit(:orgID, :name, :description)
+    params.require(:organization).permit(:organization_id, :name, :description)
   end
 end
