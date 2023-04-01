@@ -1,26 +1,13 @@
 {
   "RSpec": {
     "coverage": {
-      "/csce431/web-scraper/spec/feature/alan_new_app_spec.rb": {
+      "/csce431/test_app/spec/feature/tripper_filter_csv_spec.rb": {
         "lines": [
           null,
           null,
           null,
           null,
           1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
           1,
           1,
           1,
@@ -33,6 +20,48 @@
           1,
           null,
           null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
           null,
           1,
           1,
@@ -126,7 +155,7 @@
           null
         ]
       },
-      "/csce431/web-scraper/spec/rails_helper.rb": {
+      "/csce431/test_app/spec/rails_helper.rb": {
         "lines": [
           null,
           null,
@@ -197,7 +226,7 @@
           null
         ]
       },
-      "/csce431/web-scraper/config/environment.rb": {
+      "/csce431/test_app/config/environment.rb": {
         "lines": [
           null,
           1,
@@ -206,7 +235,7 @@
           1
         ]
       },
-      "/csce431/web-scraper/config/application.rb": {
+      "/csce431/test_app/config/application.rb": {
         "lines": [
           1,
           null,
@@ -248,7 +277,7 @@
           null
         ]
       },
-      "/csce431/web-scraper/config/boot.rb": {
+      "/csce431/test_app/config/boot.rb": {
         "lines": [
           1,
           null,
@@ -256,7 +285,7 @@
           1
         ]
       },
-      "/csce431/web-scraper/config/environments/test.rb": {
+      "/csce431/test_app/config/environments/test.rb": {
         "lines": [
           1,
           null,
@@ -320,7 +349,7 @@
           null
         ]
       },
-      "/csce431/web-scraper/config/initializers/assets.rb": {
+      "/csce431/test_app/config/initializers/assets.rb": {
         "lines": [
           null,
           null,
@@ -336,7 +365,7 @@
           null
         ]
       },
-      "/csce431/web-scraper/config/initializers/content_security_policy.rb": {
+      "/csce431/test_app/config/initializers/content_security_policy.rb": {
         "lines": [
           null,
           null,
@@ -345,174 +374,6 @@
           null,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/csce431/web-scraper/config/initializers/filter_parameter_logging.rb": {
-        "lines": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null
-        ]
-      },
-      "/csce431/web-scraper/config/initializers/inflections.rb": {
-        "lines": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/csce431/web-scraper/config/initializers/permissions_policy.rb": {
-        "lines": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/csce431/web-scraper/config/routes.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/application_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/application_categories_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/applications_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/categories_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/contact_organizations_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/contacts_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/organizations_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/app/helpers/users_helper.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          null
-        ]
-      },
-      "/csce431/web-scraper/spec/feature/maria_download_csv_spec.rb": {
-        "lines": [
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
           null,
           null,
           null,
@@ -533,62 +394,57 @@
           null
         ]
       },
-      "/csce431/web-scraper/spec/feature/maria_scrape_stuact_spec.rb": {
+      "/csce431/test_app/config/initializers/filter_parameter_logging.rb": {
         "lines": [
           null,
           null,
           null,
           null,
-          1,
-          1,
-          null,
           null,
           1,
           null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
+          null
+        ]
+      },
+      "/csce431/test_app/config/initializers/inflections.rb": {
+        "lines": [
           null,
           null,
           null,
           null,
           null,
           null,
-          1,
-          1,
           null,
           null,
-          1,
           null,
           null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
           null,
           null,
-          1,
-          1,
-          1,
-          1,
           null,
           null,
+          null,
+          null
+        ]
+      },
+      "/csce431/test_app/config/initializers/permissions_policy.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/csce431/test_app/config/routes.rb": {
+        "lines": [
+          1,
+          1,
           1,
           1,
           1,
@@ -601,23 +457,210 @@
           1,
           1,
           1,
+          null,
           1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/application_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/application_categories_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/applications_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/categories_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/contact_organizations_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/contacts_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/organizations_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/helpers/users_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/controllers/organizations_controller.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          3,
+          1,
+          null,
+          2,
+          null,
+          null,
+          null,
+          null,
+          9,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      },
+      "/csce431/test_app/app/controllers/application_controller.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/models/organization.rb": {
+        "lines": [
           null,
           null,
           1,
           1,
           1,
-          1,
-          1,
           null,
           1,
           1,
           1,
-          1,
-          1,
-          1,
-          1,
-          1,
+          null
+        ]
+      },
+      "/csce431/test_app/app/models/application_record.rb": {
+        "lines": [
           null,
           null,
           1,
