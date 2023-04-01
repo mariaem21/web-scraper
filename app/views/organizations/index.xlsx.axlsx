@@ -13,13 +13,25 @@ wb.add_worksheet(name: "Organizations") do |sheet|
     numApps = 0
 
     # There is a contact attributed to org, add to csv
-    if Contact.where(organization_id: org.organization_id).exists? then
-        contactName = Contact.find_by(organization_id: org.organization_id).name # Name in database
-        contactEmail = Contact.find_by(organization_id: org.organization_id).email # Name in database
-        officerPosition = Contact.find_by(organization_id: org.organization_id).officer_position # Position in database
-        updateYear = Contact.find_by(organization_id: org.organization_id).year # Last updated in database
-    end
+    if ContactOrganization.where(organization_id: org.organization_id).exists? then
     
-    sheet.add_row [org.organization_id, org.name, contactName, contactEmail, officerPosition, updateYear, numApps]
+      possible_contact_ids = ContactOrganization.select{|x| x[:organization_id] == org.organization_id}.map{|y| y[:contact_id]}
+      
+      # Find number of applications with the contact_organization_id
+      contact_org_ids = ContactOrganization.select{|x| x[:organization_id] == org.organization_id}.map{|y| y[:contact_organization_id]}
+      contact_org_ids.each do |con_org|
+        application_contact_org_ids = Application.select{|x| x[:contact_organization_id] == con_org}
+        numApps += 1
+      end
+
+      possible_contact_ids.each do |n|
+        found_contact = Contact.find_by(contact_id: n)
+        contactName = found_contact.name
+        contactEmail = found_contact.email
+        officerPosition = found_contact.officer_position
+        updateYear = found_contact.year
+        sheet.add_row [org.organization_id, org.name, contactName, contactEmail, officerPosition, updateYear, numApps]
+      end
+    end
   end
 end

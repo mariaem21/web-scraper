@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
       format.xlsx {
         response.headers[
           'Content-Disposition'
-        ] = "attachment; filename='excel_file.xlsx'"
+        ] = "attachment; filename=excel_file.xlsx"
       }
       format.html { render :index }
     end

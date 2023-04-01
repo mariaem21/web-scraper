@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Application < ApplicationRecord
-    validates :application_id, presence: true, uniqueness: true, comparison: { greater_than: 0 }
-    validates :contact_organization_id, presence: true, comparison: { greater_than: 0 }
+    validates :application_id, presence: true, uniqueness: true, comparison: { greater_than: -1 }
+    validates :contact_organization_id, presence: true, comparison: { greater_than: -1 }
     # validate :organization_id_exists
     validates :name, presence: true
     validates :date_built, presence: true
