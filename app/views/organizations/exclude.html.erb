@@ -1,31 +1,31 @@
 
-<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= notice %></p>
 
 <h1>Do you want to exclude any columns to save resources?</h1>
 
-<%= form_tag download_organizations_path, :method => 'post' do %>
+<%= form_tag organizations_path(format: :xlsx), :method => 'get' do %>
   <div class="checkbox">
     <td>
       <%= label_tag(:param_name1, "Exclude Organization IDs") %>
-      <%= check_box 'param_name1', 'excludeOrgID', {}, 1, 0 %>
+      <%= check_box 'param_name1', 'excludeOrgID', {:id => "param_name1"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name2, "Exclude Student Organization Names") %>
-      <%= check_box 'param_name2', 'exclude_orgname', {}, 1, 0 %>
+      <%= check_box 'param_name2', 'exclude_orgname', {:id => "param_name2"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name3, "Exclude Contact Names") %>
-      <%= check_box 'param_name3', 'exclude_contactname', {}, 1, 0 %>
+      <%= check_box 'param_name3', 'exclude_contactname', {:id => "param_name3"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name4, "Exclude Contact Emails") %>
-      <%= check_box 'param_name4', 'exclude_contactemail', {}, 1, 0 %>
+      <%= check_box 'param_name4', 'exclude_contactemail', {:id => "param_name4"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name5, "Exclude Officer Position") %>
-      <%= check_box 'param_name5', 'exclude_officer', {}, 1, 0 %>
+      <%= check_box 'param_name5', 'exclude_officer', {:id => "param_name5"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name6, "Exclude Last Modified Date") %>
-      <%= check_box 'param_name6', 'exclude_date', {}, 1, 0 %>
+      <%= check_box 'param_name6', 'exclude_date', {:id => "param_name6"}, 1, 0 %>
       </br>
       <%= label_tag(:param_name7, "Exclude Number of Apps Built") %>
-      <%= check_box 'param_name7', 'exclude_appnum', {}, 1, 0 %>
+      <%= check_box 'param_name7', 'exclude_appnum', {:id => "param_name7"}, 1, 0 %>
       </br>
       </br>
     </td>

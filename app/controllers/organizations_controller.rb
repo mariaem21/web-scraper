@@ -7,11 +7,22 @@ class OrganizationsController < ApplicationController
   # GET /organizations or /organizations.json
   def index
     @organizations = Organization.all
+    @t1= params[:param_name1]
+    @t2= params[:param_name2]
+    @t3= params[:param_name3]
+    @t4= params[:param_name4]
+    @t5= params[:param_name5]
+    @t6= params[:param_name6]
+    @t7= params[:param_name7]
     respond_to do |format|
-      format.xlsx {
-        response.headers[
+      format.xlsx  {
+        if params[:param_name1][:excludeOrgID]=="1" && params[:param_name2][:exclude_orgname]=="1" && params[:param_name3][:exclude_contactname]=="1" && params[:param_name4][:exclude_contactemail]=="1"  && params[:param_name5][:exclude_officer]=="1" && params[:param_name6][:exclude_date]=="1" && params[:param_name7][:exclude_appnum]=="1"
+          redirect_to exclude_organizations_path, notice: 'Cannot Exclude All Collumns'
+        else 
+          response.headers[
           'Content-Disposition'
-        ] = "attachment; filename='excel_file.xlsx'"
+        ] = "attachment; filename=excel_file.xlsx"
+        end
       }
       format.html { render :index }
     end
@@ -22,18 +33,6 @@ class OrganizationsController < ApplicationController
   end
 
   def download
-    @t1= params[:param_name1]
-    @t2= params[:param_name2]
-    @t3= params[:param_name3]
-    @t4= params[:param_name4]
-    @t5= params[:param_name5]
-    @t6= params[:param_name6]
-    @organizations = Organization.all
-    respond_to.xlsx {
-        response.headers[
-          'Content-Disposition'
-        ] = "attachment; filename='excel_file.xlsx'"
-      }
   end
 
   def exclude
@@ -107,6 +106,6 @@ class OrganizationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def organization_params
-    params.require(:organization).permit(:orgID, :name, :description, :exclude_orgid)
+    params.require(:organization).permit(:orgID, :name, :description, :param_name1, :param_name2, :param_name3, :param_name4, :param_name5, :param_name6, :param_name7)
   end
 end
