@@ -6,11 +6,22 @@ class OrganizationsController < ApplicationController
   # GET /organizations or /organizations.json
   def index
     @organizations = Organization.all
+    @t1= params[:param_name1]
+    @t2= params[:param_name2]
+    @t3= params[:param_name3]
+    @t4= params[:param_name4]
+    @t5= params[:param_name5]
+    @t6= params[:param_name6]
+    @t7= params[:param_name7]
     respond_to do |format|
-      format.xlsx {
-        response.headers[
+      format.xlsx  {
+        if params[:param_name1][:excludeOrgID]=="1" && params[:param_name2][:exclude_orgname]=="1" && params[:param_name3][:exclude_contactname]=="1" && params[:param_name4][:exclude_contactemail]=="1"  && params[:param_name5][:exclude_officer]=="1" && params[:param_name6][:exclude_date]=="1" && params[:param_name7][:exclude_appnum]=="1"
+          redirect_to exclude_organizations_path, notice: 'Cannot Exclude All Collumns'
+        else 
+          response.headers[
           'Content-Disposition'
-        ] = "attachment; filename='excel_file.xlsx'"
+        ] = "attachment; filename=excel_file.xlsx"
+        end
       }
       format.html { render :index }
     end

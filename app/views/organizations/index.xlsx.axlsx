@@ -1,25 +1,71 @@
 wb = xlsx_package.workbook
 
-wb.add_worksheet(name: "Organizations") do |sheet|
-  # Create the header row
-  sheet.add_row ["ID", "Student Organization", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Number of Apps Built"]
-  
-  # Create entries for each organization
-  @organizations.each do |org|
-    contactName = "Not provided on STUACT website"
-    contactEmail = "Not provided on STUACT website"
-    officerPosition = "Not provided on STUACT website"
-    updateYear = "Contact information was never entered"
-    numApps = 0
-
-    # There is a contact attributed to org, add to csv
-    if Contact.where(orgID: org.orgID).exists? then
-        contactName = Contact.find_by(orgID: org.orgID).name # Name in database
-        contactEmail = Contact.find_by(orgID: org.orgID).email # Name in database
-        officerPosition = Contact.find_by(orgID: org.orgID).officerposition # Position in database
-        updateYear = Contact.find_by(orgID: org.orgID).year # Last updated in database
+  wb.add_worksheet(name: "Organizations") do |sheet|
+    # Create the header row
+    sheet.add_row []
+    row=sheet.rows[0]
+    rownum=1
+    if params[:param_name1][:excludeOrgID]=="0" 
+     row.add_cell "ID"
     end
+    if params[:param_name2][:exclude_orgname]=="0"
+     row.add_cell "Organization Name"
+    end
+    if params[:param_name3][:exclude_contactname]=="0"
+     row.add_cell "Contact Name"
+    end
+    if params[:param_name4][:exclude_contactemail]=="0" 
+     row.add_cell "Contact Email"
+    end
+    if params[:param_name5][:exclude_officer]=="0"
+     row.add_cell "Officer Position"
+    end
+    if params[:param_name6][:exclude_date]=="0"
+     row.add_cell "Last Modified Date"
+    end
+    if params[:param_name7][:exclude_appnum]=="0"
+     row.add_cell "# Apps Per Organization"
+    end
+
+    # Create entries for each organization
+    @organizations.each do |org|
+      contactName = "Not provided on STUACT website"
+      contactEmail = "Not provided on STUACT website"
+      officerPosition = "Not provided on STUACT website"
+      updateYear = "Contact information was never entered"
+      numApps = 0
+
+      # There is a contact attributed to org, add to csv
+      if Contact.where(orgID: org.orgID).exists? then
+          contactName = Contact.find_by(orgID: org.orgID).name # Name in database
+          contactEmail = Contact.find_by(orgID: org.orgID).email # Name in database
+          officerPosition = Contact.find_by(orgID: org.orgID).officerposition # Position in database
+          updateYear = Contact.find_by(orgID: org.orgID).year # Last updated in database
+      end
     
-    sheet.add_row [org.orgID, org.name, contactName, contactEmail, officerPosition, updateYear, numApps]
+      sheet.add_row []
+      row=sheet.rows[rownum]
+      rownum=rownum+1
+      if params[:param_name1][:excludeOrgID]=="0" 
+       row.add_cell org.orgID
+      end
+      if params[:param_name2][:exclude_orgname]=="0"
+       row.add_cell org.name
+      end
+      if params[:param_name3][:exclude_contactname]=="0"
+       row.add_cell contactName
+      end
+      if params[:param_name4][:exclude_contactemail]=="0" 
+       row.add_cell contactEmail
+      end
+      if params[:param_name5][:exclude_officer]=="0"
+       row.add_cell officerPosition
+      end
+      if params[:param_name6][:exclude_date]=="0"
+       row.add_cell updateYear
+      end
+      if params[:param_name7][:exclude_appnum]=="0"
+       row.add_cell numApps
+      end
+    end
   end
-end
