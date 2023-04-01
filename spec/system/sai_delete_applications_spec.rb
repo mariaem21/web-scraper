@@ -35,7 +35,6 @@ RSpec.describe "CancelDeleteRecords", type: :system do
   end
 
 
-  
   it "cancel on delete application doesn't change count" do
     org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
 

@@ -5,6 +5,26 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
+
+    @orgs = ActiveRecord::Base.connection.execute("
+      SELECT 
+        organizations.name AS org_name, 
+        contacts.name AS contact_name, 
+        contact_organizations.*, 
+        organizations.*, 
+        contacts.*
+      FROM contact_organizations
+      INNER JOIN organizations
+      ON contact_organizations.organization_id = organizations.organization_id
+      INNER JOIN contacts
+      ON contact_organizations.contact_id = contacts.contact_id    
+    ")
+    puts "Column names: #{@orgs.fields.join(', ')}"
+
+
+
+    
+
     @organizations = Organization.all
     respond_to do |format|
       format.xlsx {
@@ -45,6 +65,28 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/1/edit
   def edit; end
+
+  def list
+    # orgs = Organization.order("#{params[:column]} #{params[:direction]}")
+    orgs = ActiveRecord::Base.connection.execute("
+      SELECT 
+        organizations.name AS org_name, 
+        contacts.name AS contact_name, 
+        contact_organizations.*, 
+        organizations.*, 
+        contacts.*
+      FROM contact_organizations
+      INNER JOIN organizations
+      ON contact_organizations.organization_id = organizations.organization_id
+      INNER JOIN contacts
+      ON contact_organizations.contact_id = contacts.contact_id
+      ORDER BY #{params[:column]} #{params[:direction]};  
+    ")
+
+    render(partial: 'custom_view', locals: { orgs: orgs })    
+    
+  end
+
 
   # POST /organizations or /organizations.json
   def create
@@ -95,4 +137,8 @@ class OrganizationsController < ApplicationController
   def organization_params
     params.require(:organization).permit(:organization_id, :name, :description)
   end
+
+
+  
+
 end

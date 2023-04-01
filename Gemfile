@@ -95,3 +95,6 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
 
 
+
+gem "cssbundling-rails", "~> 1.1"
+gem "jsbundling-rails", "~> 1.1"

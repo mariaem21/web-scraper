@@ -1,3 +1,13 @@
+
+
+<div class="max-w-7xl mx-auto mt-12">
+  <%= render "custom_view", orgs: @orgs %>
+</div>
+
+
+
+
+
 <p style="color: green"><%= notice %></p>
 
 <%= button_to 'Scrape', scrape_organizations_path %>
@@ -21,3 +31,4 @@
 </div>
 
 <%= link_to "New organization", new_organization_path %>
+

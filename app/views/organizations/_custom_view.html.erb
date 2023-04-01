@@ -1,0 +1,45 @@
+<%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+    <table class="min-w-full bg-white">
+        <thead class="bg-gray-800 text-white">
+        <tr>
+            <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            </th>
+
+            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+            </th>
+
+            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+            </th>
+    
+            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+            </th>
+
+            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+            </th>
+
+            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody class="text-gray-700">
+        <% orgs.each do |org| %>
+            <tr>
+            <td class="text-left py-3 px-6"><%= "checkbox" %></td>
+            <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
+            <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+            <td class="text-left py-3 px-6"><%= org['email'] %></td>
+            <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+            <td class="text-left py-3 px-6"><%= org['year'] %></td>
+            
+            <!-- ... -->
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+  <% end %>
