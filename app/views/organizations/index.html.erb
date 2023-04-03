@@ -11,7 +11,7 @@
   organizations_path(format: :xlsx)
 %>
 
-<%= form_tag organizations_path, method: :get, id: "organization-form" do %>
+<%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
   <div id="save-exclude" style="display:none;">
     <%= submit_tag "Save changes?" %>
   </div>
@@ -21,7 +21,6 @@
         <p>
           <%= check_box_tag "organizations_ids[]", organization.id, check_param(organization.id), class: "exclude-checkbox" %> Exclude
         </p>
-
       <%= render organization %>
       <p>
         <%= link_to "Show this organization", organization %>
@@ -33,7 +32,7 @@
 <%= link_to "New organization", new_organization_path %>
 
 <script>
-  const checkboxes = document.querySelectorAll('.exclude-checkbox');
+  var checkboxes = document.querySelectorAll('.exclude-checkbox');
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('click', () => {

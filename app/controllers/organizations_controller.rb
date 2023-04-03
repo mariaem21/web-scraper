@@ -28,7 +28,6 @@ class OrganizationsController < ApplicationController
 
   def download
     DownloadJob.perform_later("Input")
-    puts params.inspect
   end
 
   def delete
@@ -55,7 +54,6 @@ class OrganizationsController < ApplicationController
   # POST /organizations or /organizations.json
   def create
     @organization = Organization.new(organization_params)
-
     respond_to do |format|
       if @organization.save
         format.html { redirect_to(organization_url(@organization), notice: 'Organization was successfully created.') }
