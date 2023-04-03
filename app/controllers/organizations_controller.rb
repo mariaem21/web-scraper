@@ -5,12 +5,6 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
-    if params[:commit] == "Save changes?"
-      save_exclude_cookie
-    else
-      params[:organizations_ids] = cookies[:organizations_ids]
-    end
-
     @organizations = Organization.all
     respond_to do |format|
       format.xlsx {
@@ -18,7 +12,15 @@ class OrganizationsController < ApplicationController
           'Content-Disposition'
         ] = "attachment; filename='excel_file.xlsx'"
       }
-      format.html { render :index }
+
+      if params[:commit] == "Save changes?"
+        save_exclude_cookie(params[:organizations_ids])
+        flash[:confirmation] = "Changes have been saved!"
+        format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
+      else
+        params[:organizations_ids] = cookies[:organizations_ids]
+        format.html { render :index }
+      end
     end
   end
 
@@ -33,6 +35,8 @@ class OrganizationsController < ApplicationController
   def delete
     Organization.delete_all
     Contact.delete_all
+
+    save_exclude_cookie("")
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -80,6 +84,13 @@ class OrganizationsController < ApplicationController
 
   # DELETE /organizations/1 or /organizations/1.json
   def destroy
+    new_params = cookies[:organizations_ids]
+    new_params = new_params.delete(params[:id])
+    puts "HELLO"
+    puts params[:id]
+    puts params[:organizations_ids]
+    save_exclude_cookie(new_params)
+
     @organization.destroy!
 
     respond_to do |format|
@@ -100,13 +111,13 @@ class OrganizationsController < ApplicationController
     params.require(:organization).permit(:organization_id, :name, :description)
   end
 
-  def save_exclude_cookie
-    cookies.permanent[:organizations_ids] = params[:organizations_ids]
+  def save_exclude_cookie(new_params)
+    cookies.permanent[:organizations_ids] = new_params
   end
 
   def check_param(id)
     if params.has_key?(:organizations_ids)
-      if params[:organizations_ids]&.include?(id.to_s)
+      if params[:organizations_ids].include?(id.to_s)
         return true
       else
         return false
@@ -116,4 +127,12 @@ class OrganizationsController < ApplicationController
     end
   end
   helper_method :check_param
+
+  def check_for_confirmation
+    if params.has_key?(:confirmation)
+      return true
+    else
+      return false
+    end
+  end
 end
