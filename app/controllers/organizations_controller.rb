@@ -106,7 +106,7 @@ class OrganizationsController < ApplicationController
 
   def check_param(id)
     if params.has_key?(:organizations_ids)
-      if params[:organizations_ids].include?(id.to_s)
+      if params[:organizations_ids]&.include?(id.to_s)
         return true
       else
         return false
