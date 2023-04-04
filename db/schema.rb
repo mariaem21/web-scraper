@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_06_170818) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_184116) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,7 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_170818) do
   end
 
   create_table "applications", primary_key: "application_id", force: :cascade do |t|
-    t.integer "organization_id"
+    t.integer "contact_organization_id"
     t.string "name"
     t.date "date_built"
     t.string "github_link"
@@ -38,8 +38,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_170818) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", primary_key: "contact_id", force: :cascade do |t|
+  create_table "contact_organizations", primary_key: "contact_organization_id", force: :cascade do |t|
+    t.integer "contact_id"
     t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", primary_key: "contact_id", force: :cascade do |t|
     t.date "year"
     t.string "name"
     t.string "email"

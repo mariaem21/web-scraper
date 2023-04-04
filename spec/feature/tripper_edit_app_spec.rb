@@ -12,7 +12,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
-        fill_in "application[organization_id]", with: '01'
+        fill_in "application[contact_organization_id]", with: '01'
         fill_in "application[application_id]", with: '01'
         fill_in "application[date_built]", with: '01-01-2001'
         fill_in "application[github_link]", with: 'www.github.com'
@@ -21,7 +21,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         click_on 'Create Application'
         click_link 'Edit'
         fill_in "application[name]", with: 'Test Application2'
-        fill_in "application[organization_id]", with: '02'
+        fill_in "application[contact_organization_id]", with: '02'
         fill_in "application[application_id]", with: '02'
         click_on 'Update Application'
         expect(page).to have_content('Application was successfully updated.')
@@ -33,7 +33,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
-        fill_in "application[organization_id]", with: '01'
+        fill_in "application[contact_organization_id]", with: '01'
         fill_in "application[application_id]", with: '01'
         fill_in "application[date_built]", with: '01-01-2001'
         fill_in "application[github_link]", with: 'www.github.com'
@@ -52,7 +52,7 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
         visit applications_path
         click_on 'New application'
         fill_in "application[name]", with: 'Test Application'
-        fill_in "application[organization_id]", with: '01'
+        fill_in "application[contact_organization_id]", with: '01'
         fill_in "application[application_id]", with: '01'
         fill_in "application[date_built]", with: '01-01-2001'
         fill_in "application[github_link]", with: 'www.github.com'

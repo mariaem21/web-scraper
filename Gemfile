@@ -85,6 +85,7 @@ group :test do
     gem 'selenium-webdriver'
     gem 'webdrivers'
     gem 'simplecov', :require => false
+    gem 'rubyXL'
 end
 
 gem 'daemons'

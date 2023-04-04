@@ -1,0 +1,2 @@
+class ContactOrganization < ApplicationRecord
+end
