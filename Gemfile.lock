@@ -110,6 +110,8 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     daemons (1.4.1)
     date (3.3.3)
@@ -128,6 +130,7 @@ GEM
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hashdiff (1.0.1)
     headless (2.3.1)
     htmlentities (4.3.4)
     http-cookie (1.0.5)
@@ -337,6 +340,7 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
+    vcr (6.1.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -346,6 +350,10 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (~> 4.0)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.8.1)
     webrobots (0.1.2)
     websocket (1.2.9)
@@ -395,8 +403,10 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
+  vcr
   web-console
   webdrivers
+  webmock
   yaml_db
 
 RUBY VERSION

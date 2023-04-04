@@ -6,12 +6,8 @@ require 'date'
 class ScrapeJob < ApplicationJob
     queue_as :default
 
-    def perform(url)
-        # available = Organization.find(organization_id: available_id)
-        # job[:completed] = 0
-        # Job.where(job).first_or_create
+    def perform(letters)
 
-        letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
         letters.each do |letter|
             url = "https://stuactonline.tamu.edu/app/search/index/index/q/" + letter + "/search/letter"
             puts "#{url}"
