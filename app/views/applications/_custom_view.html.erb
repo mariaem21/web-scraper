@@ -1,5 +1,5 @@
 <div id="name_search" class="flex justify-end mb-1">
-<%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+<%= form_with url: applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
     <%= form.text_field :name,
     placeholder: "Search by name",
     class: "border border-blue-500 rounded p-2",
@@ -8,17 +8,19 @@
     %>
 <% end %>
 </div>
-<%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+<%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
    
     <table class="min-w-full bg-white">
         <thead class="bg-gray-800 text-white">
         <tr>
             <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link(column: "organizations.name", label: "Exclude") %>
+
             </th>
 
             <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "organizations.name" %>
-                <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+                <%= sort_link(column: "organizations.name", label: "Application Developed") %>
             </th>
 
             <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
@@ -38,32 +40,35 @@
 
             <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "contacts.year" %>
-                <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+                <%= sort_link(column: "contacts.year", label: "Github Link") %>
             </th>
             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-            <%= sort_indicator if params[:column] == "applications_count" %>
-            <%= sort_link(column: "applications_count", label: "Applications") %>
-        </th>
+                <%= sort_indicator if params[:column] == "applications_count" %>
+                <%= sort_link(column: "applications_count", label: "Year Developed") %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications_count" %>
+                <%= sort_link(column: "applications_count", label: "Notes") %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications_count" %>
+                <%= sort_link(column: "applications_count", label: "Category") %>
+            </th>
         </tr>
         </thead>
 
         <tbody class="text-gray-700">
-        <% orgs.each do |org| %>
+        <% apps.each do |app| %>
             <tr>
             <td class="text-left py-3 px-6"><%= "checkbox" %></td>
-            <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
-            <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
-            <td class="text-left py-3 px-6"><%= org['email'] %></td>
-            <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
-            <td class="text-left py-3 px-6"><%= org['year'] %></td>
+            <td class="text-left py-3 px-6"><%= app['app_name'] %></td>
+            <td class="text-left py-3 px-6"><%= app['contact_name'] %></td>
+            <td class="text-left py-3 px-6"><%= app['email'] %></td>
+            <td class="text-left py-3 px-6"><%= app['officer_position'] %></td>
+            <td class="text-left py-3 px-6"><%= app['github_link'] %></td>
+            <td class="text-left py-3 px-6"><%= app['year'] %></td>
+            <td class="text-left py-3 px-6"><%= app['description'] %></td>
 
-            <% if org['app_count'] %>
-                <td class="text-left py-3 px-6">
-                    <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
-                </td>
-            <% else %>
-                <td class="text-left py-3 px-6"><%= org['app_count'] %></td>
-            <% end %>
             
 
 

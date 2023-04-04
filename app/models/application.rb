@@ -9,10 +9,7 @@ class Application < ApplicationRecord
     validates :github_link, presence: true
     validates :description, presence: true
     
-    has_many :application_categories
-    has_many :categories, through: :application_categories
 
-    belongs_to :contact_organiztion
 
     # def organization_id_exists
     #     if !Organization.where(organization_id: self.organization_id).exists? then

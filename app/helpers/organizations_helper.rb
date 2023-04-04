@@ -6,12 +6,16 @@ module OrganizationsHelper
         if column == params[:column]
             link_to(label, list_organizations_path(column: column, direction: next_direction))
         else
-            link_to(label, list_organizations_path(column: column, direction: 'ASC'))
+            link_to(label, list_organizations_path(column: column, direction: 'asc'))
         end
     end
         
     def next_direction
-        params[:direction] == 'ASC' ? 'DESC' : 'ASC'
+        params[:direction] == 'asc' ? 'desc' : 'asc'
+    end
+
+    def sort_indicator
+        tag.span(class: "sort sort-#{params[:direction]}")
     end
     
 end
