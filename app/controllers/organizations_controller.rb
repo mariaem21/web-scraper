@@ -5,6 +5,41 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
+    @orgs = ActiveRecord::Base.connection.execute("
+        SELECT 
+          organizations.name AS org_name,
+          organizations.organization_id,
+          contacts.name AS contact_name,
+          contacts.email,
+          contacts.officer_position,
+          contacts.year,
+          app_counter.app_count
+        FROM contact_organizations
+        INNER JOIN organizations
+        ON contact_organizations.organization_id = organizations.organization_id
+        INNER JOIN contacts
+        ON contact_organizations.contact_id = contacts.contact_id    
+        LEFT JOIN (
+              SELECT
+                  organizations.name AS name,
+                  COUNT(*) AS app_count
+              FROM
+                  contact_organizations
+              INNER JOIN 
+                  organizations
+              ON 
+                  contact_organizations.organization_id = organizations.organization_id
+              INNER JOIN
+                  applications
+              ON
+                  contact_organizations.contact_organization_id = applications.contact_organization_id
+              GROUP BY organizations.name
+        ) AS app_counter
+        ON organizations.name = app_counter.name
+    ")
+
+    puts "Column names: #{@orgs.fields.join(', ')}"
+
     @organizations = Organization.all
     @t1= params[:param_name1]
     @t2= params[:param_name2]
@@ -63,6 +98,92 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/1/edit
   def edit; end
+
+  def list
+    # players = players.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
+    if params[:name]
+        query = " SELECT 
+                    organizations.name AS org_name,
+                    organizations.organization_id,
+                    contacts.name AS contact_name,
+                    contacts.email,
+                    contacts.officer_position,
+                    contacts.year,
+                    app_counter.app_count
+                  FROM contact_organizations
+                  INNER JOIN organizations
+                  ON contact_organizations.organization_id = organizations.organization_id
+                  INNER JOIN contacts
+                  ON contact_organizations.contact_id = contacts.contact_id    
+                  LEFT JOIN (
+                        SELECT
+                            organizations.name AS name,
+                            COUNT(*) AS app_count
+                        FROM
+                            contact_organizations
+                        INNER JOIN 
+                            organizations
+                        ON 
+                            contact_organizations.organization_id = organizations.organization_id
+                        INNER JOIN
+                            applications
+                        ON
+                            contact_organizations.contact_organization_id = applications.contact_organization_id
+                        GROUP BY organizations.name
+                  ) AS app_counter
+                  ON organizations.name = app_counter.name
+                  WHERE organizations.name LIKE '#{params[:name]}%'
+              "
+    else
+        query = "
+                  SELECT 
+                    organizations.name AS org_name,
+                    organizations.organization_id,
+                    contacts.name AS contact_name,
+                    contacts.email,
+                    contacts.officer_position,
+                    contacts.year,
+                    app_counter.app_count
+                  FROM contact_organizations
+                  INNER JOIN organizations
+                  ON contact_organizations.organization_id = organizations.organization_id
+                  INNER JOIN contacts
+                  ON contact_organizations.contact_id = contacts.contact_id    
+                  LEFT JOIN (
+                        SELECT
+                            organizations.name AS name,
+                            COUNT(*) AS app_count
+                        FROM
+                            contact_organizations
+                        INNER JOIN 
+                            organizations
+                        ON 
+                            contact_organizations.organization_id = organizations.organization_id
+                        INNER JOIN
+                            applications
+                        ON
+                            contact_organizations.contact_organization_id = applications.contact_organization_id
+                        GROUP BY organizations.name
+                  ) AS app_counter
+                  ON organizations.name = app_counter.name
+                  ORDER BY LOWER(#{params[:column]}) #{params[:direction]}  
+                "
+    end
+
+    # num_apps_query = "
+    #   SELECT
+    #     organization.name as org_name
+    #     COUNT(*)
+    #   FROM contact_organizations
+    #   INNER JOIN organizations
+    #   ON contact_organizations.organization_id = organizations.organization_id
+    #   INNER JOIN applications
+    #   ON contact_organizations.contact_organization_id = applications.contact_organization_id
+    #   GROUP BY org_name
+    # "
+    orgs = ActiveRecord::Base.connection.execute(query)
+    render(partial: 'custom_view', locals: { orgs: orgs })    
+  end
 
   # POST /organizations or /organizations.json
   def create

@@ -1,4 +1,4 @@
-/* .sort {
+.sort {
     position: absolute;
     top: 1rem;
     left: 0.5rem;
@@ -14,4 +14,4 @@
 
 .sort-asc {
     border-bottom: 8px solid #fff;
-} */
+}

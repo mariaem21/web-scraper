@@ -113,6 +113,8 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    cssbundling-rails (1.1.2)
+      railties (>= 6.0.0)
     daemons (1.4.1)
     date (3.3.3)
     debug (1.7.1)
@@ -146,6 +148,8 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.1.1)
+      railties (>= 6.0.0)
     json (2.6.3)
     kimurai (1.4.0)
       activesupport
@@ -379,11 +383,13 @@ DEPENDENCIES
   bootsnap
   brakeman
   capybara (>= 3.26)
+  cssbundling-rails (~> 1.1)
   daemons
   debug
   delayed_job_active_record
   importmap-rails
   jbuilder
+  jsbundling-rails (~> 1.1)
   kimurai
   pg (~> 1.1)
   puma (~> 5.0)

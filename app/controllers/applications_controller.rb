@@ -6,6 +6,23 @@ class ApplicationsController < ApplicationController
   # GET /applications or /applications.json
   def index
     @applications = Application.all
+
+    @apps = ActiveRecord::Base.connection.execute("
+      SELECT 
+        applications.name AS app_name, 
+        contacts.name AS contact_name,
+        contacts.email,
+        contacts.officer_position,
+        applications.github_link,
+        contacts.year,
+        applications.description
+      FROM contact_organizations
+      INNER JOIN contacts
+      ON contact_organizations.contact_id = contacts.contact_id    
+      INNER JOIN applications
+      ON contact_organizations.contact_organization_id = applications.contact_organization_id
+      WHERE contact_organizations.organization_id = #{params[:org_id]}
+    ")
   end
 
   # GET /applications/1 or /applications/1.json

@@ -1,4 +1,4 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -19,4 +19,4 @@
 
 .sort-asc {
     border-bottom: 8px solid #fff;
-} */
+}
