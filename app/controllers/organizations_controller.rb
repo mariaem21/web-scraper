@@ -36,7 +36,13 @@ class OrganizationsController < ApplicationController
   end
 
   def delete
-    Organization.delete_all
+
+    Organization.all.each do |org|
+      if (org.organization_id != 0)
+        org.destroy
+      end
+    end
+
     Contact.delete_all
     ContactOrganization.delete_all
 
@@ -87,7 +93,9 @@ class OrganizationsController < ApplicationController
 
   # DELETE /organizations/1 or /organizations/1.json
   def destroy
-    @organization.destroy!
+    if (@organization.organization_id != 0)
+      @organization.destroy!
+    end
 
     respond_to do |format|
       format.html { redirect_to(organizations_url, notice: 'Organization was successfully destroyed.') }

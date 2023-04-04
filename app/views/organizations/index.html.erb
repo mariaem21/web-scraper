@@ -1,5 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
+<% if @organizations.count != 0 %>
+  <% org = @organizations.first %>
+  <h3><%= org.description %></h3>
+<% end %>
+
 <%= button_to 'Scrape', scrape_organizations_path %>
 <%= button_to 'Delete', delete_organizations_path %>
 <%= link_to 'Download as CSV', exclude_organizations_path %>
