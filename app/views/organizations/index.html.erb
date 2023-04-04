@@ -5,6 +5,7 @@
   <h3><%= org.description %></h3>
 <% end %>
 
+<%= link_to "Log Out", organizations_path %>
 <%= button_to 'Update', scrape_organizations_path %>
 <%= button_to 'Delete', delete_organizations_path %>
 <%= link_to 'Download as CSV', exclude_organizations_path %>
