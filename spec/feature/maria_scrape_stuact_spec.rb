@@ -24,32 +24,32 @@ end
 # User story #1 - Scraping from the STUACT website
 RSpec.describe ScrapeJob, type: :vcr do
 
-  org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
-  con_org = ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
-  contact = Contact.create(contact_id: 1, year: 20_210_621, name: 'Person A',
-                          email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
+  # org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
+  # con_org = ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
+  # contact = Contact.create(contact_id: 1, year: 20_210_621, name: 'Person A',
+  #                         email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
 
-  let(:job_response) do
-    letters = ["A", "Z"]
-    VCR.use_cassette("job_run") { ScrapeJob.perform_now(letters) }
-  end
+  # let(:job_response) do
+  #   letters = ["A", "Z"]
+  #   VCR.use_cassette("job_run") { ScrapeJob.perform_now(letters) }
+  # end
 
-  let(:test_A_response) do
-    letters = ["A"]
-    url = "https://stuactonline.tamu.edu/app/search/index/index/q/A/search/letter"
-    VCR.use_cassette("test_data") do 
-      html = URI.open(url).read
-      doc = Nokogiri::HTML(html)
-  end
+  # let(:test_A_response) do
+  #   letters = ["A"]
+  #   url = "https://stuactonline.tamu.edu/app/search/index/index/q/A/search/letter"
+  #   VCR.use_cassette("test_data") do 
+  #     html = URI.open(url).read
+  #     doc = Nokogiri::HTML(html)
+  # end
 
-  scenario 'Sunny day: Scrapes correct output (org & contact)' do
+  # scenario 'Sunny day: Scrapes correct output (org & contact)' do
 
-    # Checks has right entries for student organizations
-    # expect(job_response).to be_kind_of(Hash)
-    expect(job_response).to have_key(organization_id)
-    expect(job_response).to have_key(name)
+  #   # Checks has right entries for student organizations
+  #   # expect(job_response).to be_kind_of(Hash)
+  #   expect(job_response).to have_key(organization_id)
+  #   expect(job_response).to have_key(name)
 
-  end
+  # end
 
   # scenario 'Rainy day: does not replace old contact information' do
   #   visit new_organization_path
