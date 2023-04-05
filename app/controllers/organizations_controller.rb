@@ -23,14 +23,14 @@ class OrganizationsController < ApplicationController
         LEFT JOIN (
               SELECT
                   organizations.name AS name,
-                  COUNT(*) AS app_count
+                  COUNT(applications.application_id) AS app_count
               FROM
                   contact_organizations
               INNER JOIN 
                   organizations
               ON 
                   contact_organizations.organization_id = organizations.organization_id
-              INNER JOIN
+              LEFT JOIN
                   applications
               ON
                   contact_organizations.contact_organization_id = applications.contact_organization_id
@@ -121,21 +121,21 @@ class OrganizationsController < ApplicationController
               ON 
                 contact_organizations.contact_id = contacts.contact_id    
               LEFT JOIN (
-                    SELECT
-                        organizations.name AS name,
-                        COUNT(*) AS app_count
-                    FROM
-                        contact_organizations
-                    INNER JOIN 
-                        organizations
-                    ON 
-                        contact_organizations.organization_id = organizations.organization_id
-                    INNER JOIN
-                        applications
-                    ON
-                        contact_organizations.contact_organization_id = applications.contact_organization_id
-                    GROUP BY organizations.name
-              ) AS app_counter
+                  SELECT
+                      organizations.name AS name,
+                      COUNT(applications.application_id) AS app_count
+                  FROM
+                      contact_organizations
+                  INNER JOIN 
+                      organizations
+                  ON 
+                      contact_organizations.organization_id = organizations.organization_id
+                  LEFT JOIN
+                      applications
+                  ON
+                      contact_organizations.contact_organization_id = applications.contact_organization_id
+                  GROUP BY organizations.name
+            ) AS app_counter
               ON organizations.name = app_counter.name
             "
 
@@ -177,10 +177,18 @@ class OrganizationsController < ApplicationController
       query += "  AND app_counter.app_count <= '#{session['filters']['count_end']}' 
       "
     end
-    if session['filters']['column'] or session['filters']['direction']
+    if session['filters']['column'] or session['filters']['direction'] and session['filters']['column'] != "contacts.year" and session['filters']['column'] != "applications_count"
         query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}
         "
+    elsif (session['filters']['column'] or session['filters']['direction']) and session['filters']['column'] == "contacts.year"
+        puts "inside"
+        query += "  ORDER BY DATE(#{session['filters']['column']}) #{session['filters']['direction']}
+          "
+    elsif (session['filters']['column'] or session['filters']['direction']) and session['filters']['column'] == "applications_count"
+      query += "  ORDER BY app_counter.app_count #{session['filters']['direction']}
+      "
     end
+
 
     orgs = ActiveRecord::Base.connection.execute(query)
     render(partial: 'custom_view', locals: { orgs: orgs })

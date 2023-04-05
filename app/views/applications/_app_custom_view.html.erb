@@ -1,7 +1,7 @@
-<div id="name_search" class="flex justify-end mb-1">
-<%= form_with url: applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-    <%= form.text_field :name,
-    placeholder: "Search by name",
+<div id="app_name_search" class="flex justify-end mb-1">
+<%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+    <%= form.text_field :app_name,
+    placeholder: "Search by App Name",
     class: "border border-blue-500 rounded p-2",
     autocomplete: "off",
     data: { action: "input->search-form#search" }
@@ -14,45 +14,45 @@
         <thead class="bg-gray-800 text-white">
         <tr>
             <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-            <%= sort_link(column: "organizations.name", label: "Exclude") %>
+            <%= sort_link_app(column: "applications.name", label: "Exclude", org_id: org_id) %>
 
             </th>
 
-            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "organizations.name" %>
-                <%= sort_link(column: "organizations.name", label: "Application Developed") %>
+            <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications.name" %>
+                <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
             </th>
 
             <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "contacts.name" %>
-                <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+                <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
             </th>
     
             <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "contacts.email" %>
-                <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+                <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
             </th>
 
             <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "contacts.officer_position" %>
-                <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+                <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
             </th>
 
             <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.github_link" %>
+                <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "contacts.year" %>
-                <%= sort_link(column: "contacts.year", label: "Github Link") %>
+                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications.description" %>
+                <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
             </th>
             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                 <%= sort_indicator if params[:column] == "applications_count" %>
-                <%= sort_link(column: "applications_count", label: "Year Developed") %>
-            </th>
-            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "applications_count" %>
-                <%= sort_link(column: "applications_count", label: "Notes") %>
-            </th>
-            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "applications_count" %>
-                <%= sort_link(column: "applications_count", label: "Category") %>
+                <%= sort_link_app(column: "applications_count", label: "Category", org_id: org_id) %>
             </th>
         </tr>
         </thead>

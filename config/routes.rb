@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   resources :contacts
   resources :contact_organizations
-  resources :applications
+  resources :applications do
+    collection do
+      get 'list'
+    end
+  end
   resources :application_categories
   resources :categories
   resources :users

@@ -132,7 +132,9 @@
                     <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
                 </td>
             <% else %>
-                <td class="text-left py-3 px-6"><%= org['app_count'] %></td>
+            <td class="text-left py-3 px-6">
+                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+            </td>
             <% end %>
             
 
