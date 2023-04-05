@@ -92,6 +92,13 @@ class OrganizationsController < ApplicationController
     # session['filters'].merge!(params)
 
     session['filters']['name'] = params[:name] if params[:name] != session['filters']['name'] and params[:name] != nil
+    session['filters']['contact_name'] = params[:contact_name] if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
+    session['filters']['contact_email'] = params[:contact_email] if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
+    session['filters']['officer_position'] = params[:officer_position] if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
+    session['filters']['date_start'] = params[:date_start] if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
+    session['filters']['date_end'] = params[:date_end] if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
+    session['filters']['count_start'] = params[:count_start] if params[:count_start] != session['filters']['count_start'] and params[:count_start] != nil
+    session['filters']['count_end'] = params[:count_end] if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
     
@@ -133,10 +140,46 @@ class OrganizationsController < ApplicationController
             "
 
     if session['filters']['name']
-        query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['name']}%')"
+        query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['name']}%')
+        "
+    end
+    if session['filters']['contact_name'] and session['filters']['contact_name']
+      query += "  AND LOWER(contacts.name) LIKE LOWER('#{session['filters']['contact_name']}%')
+      "
+    end
+    if session['filters']['contact_email']
+      query += "  AND LOWER(contacts.email) LIKE LOWER('#{session['filters']['contact_email']}%')
+      "
+    end
+    if session['filters']['officer_position']
+      query += "  AND LOWER(contacts.officer_position) LIKE LOWER('#{session['filters']['officer_position']}%')
+      "
+    end
+
+    if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
+      query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
+      "
+    elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
+      query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
+      "
+    elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
+      query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
+      "
+    end
+
+    if session['filters']['count_start'] and session['filters']['count_end'] and session['filters']['count_start'] != "" and session['filters']['count_end'] != ""
+      query += "  AND app_counter.app_count BETWEEN '#{session['filters']['count_start']}' AND '#{session['filters']['count_end']}'
+      "
+    elsif session['filters']['count_start'] and session['filters']['count_start'] != "" 
+      query += "  AND app_counter.app_count >= '#{session['filters']['count_start']}' 
+      "
+    elsif session['filters']['count_end'] and session['filters']['count_end'] != ""
+      query += "  AND app_counter.app_count <= '#{session['filters']['count_end']}' 
+      "
     end
     if session['filters']['column'] or session['filters']['direction']
-        query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}"
+        query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}
+        "
     end
 
     orgs = ActiveRecord::Base.connection.execute(query)
