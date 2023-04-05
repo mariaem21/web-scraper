@@ -88,95 +88,59 @@ class OrganizationsController < ApplicationController
   def list
 
        
+    session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
+    # session['filters'].merge!(params)
 
+    session['filters']['name'] = params[:name] if params[:name] != session['filters']['name'] and params[:name] != nil
+    session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
+    session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
+    
+    query = " SELECT 
+                organizations.name AS org_name,
+                organizations.organization_id,
+                contacts.name AS contact_name,
+                contacts.email,
+                contacts.officer_position,
+                contacts.year,
+                app_counter.app_count
+              FROM 
+                contact_organizations
+              INNER JOIN 
+                organizations
+              ON 
+                contact_organizations.organization_id = organizations.organization_id
+              INNER JOIN 
+                contacts
+              ON 
+                contact_organizations.contact_id = contacts.contact_id    
+              LEFT JOIN (
+                    SELECT
+                        organizations.name AS name,
+                        COUNT(*) AS app_count
+                    FROM
+                        contact_organizations
+                    INNER JOIN 
+                        organizations
+                    ON 
+                        contact_organizations.organization_id = organizations.organization_id
+                    INNER JOIN
+                        applications
+                    ON
+                        contact_organizations.contact_organization_id = applications.contact_organization_id
+                    GROUP BY organizations.name
+              ) AS app_counter
+              ON organizations.name = app_counter.name
+            "
 
-    # players = players.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
-    if params[:name]
-      
-
-        query = " SELECT 
-                    organizations.name AS org_name,
-                    organizations.organization_id,
-                    contacts.name AS contact_name,
-                    contacts.email,
-                    contacts.officer_position,
-                    contacts.year,
-                    app_counter.app_count
-                  FROM contact_organizations
-                  INNER JOIN organizations
-                  ON contact_organizations.organization_id = organizations.organization_id
-                  INNER JOIN contacts
-                  ON contact_organizations.contact_id = contacts.contact_id    
-                  LEFT JOIN (
-                        SELECT
-                            organizations.name AS name,
-                            COUNT(*) AS app_count
-                        FROM
-                            contact_organizations
-                        INNER JOIN 
-                            organizations
-                        ON 
-                            contact_organizations.organization_id = organizations.organization_id
-                        INNER JOIN
-                            applications
-                        ON
-                            contact_organizations.contact_organization_id = applications.contact_organization_id
-                        GROUP BY organizations.name
-                  ) AS app_counter
-                  ON organizations.name = app_counter.name
-                  WHERE organizations.name LIKE '#{params[:name]}%'
-              "
-    else
-        query = "
-
-                  SELECT 
-                    organizations.name AS org_name,
-                    organizations.organization_id,
-                    contacts.name AS contact_name,
-                    contacts.email,
-                    contacts.officer_position,
-                    contacts.year,
-                    app_counter.app_count
-                  FROM contact_organizations
-                  INNER JOIN organizations
-                  ON contact_organizations.organization_id = organizations.organization_id
-                  INNER JOIN contacts
-                  ON contact_organizations.contact_id = contacts.contact_id    
-                  LEFT JOIN (
-                        SELECT
-                            organizations.name AS name,
-                            COUNT(*) AS app_count
-                        FROM
-                            contact_organizations
-                        INNER JOIN 
-                            organizations
-                        ON 
-                            contact_organizations.organization_id = organizations.organization_id
-                        INNER JOIN
-                            applications
-                        ON
-                            contact_organizations.contact_organization_id = applications.contact_organization_id
-                        GROUP BY organizations.name
-                  ) AS app_counter
-                  ON organizations.name = app_counter.name
-                  ORDER BY LOWER(#{params[:column]}) #{params[:direction]}  
-
-                "
+    if session['filters']['name']
+        query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['name']}%')"
+    end
+    if session['filters']['column'] or session['filters']['direction']
+        query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}"
     end
 
-    # num_apps_query = "
-    #   SELECT
-    #     organization.name as org_name
-    #     COUNT(*)
-    #   FROM contact_organizations
-    #   INNER JOIN organizations
-    #   ON contact_organizations.organization_id = organizations.organization_id
-    #   INNER JOIN applications
-    #   ON contact_organizations.contact_organization_id = applications.contact_organization_id
-    #   GROUP BY org_name
-    # "
     orgs = ActiveRecord::Base.connection.execute(query)
-    render(partial: 'custom_view', locals: { orgs: orgs })    
+    render(partial: 'custom_view', locals: { orgs: orgs })
     
   end
 
