@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   resources :application_categories
   resources :categories
   resources :users
-
   root to: 'organizations#index'
   devise_for :admins, controllers: { omniauth_callbacks: 'admins/omniauth_callbacks' }
   devise_scope :admin do

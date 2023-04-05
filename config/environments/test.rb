@@ -57,6 +57,4 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
-  ENV['GOOGLE_OAUTH_CLIENT_ID'] = '240744789867-63ncug0rrvo9plh9tstjdgoq1ces27kg.apps.googleusercontent.com'
-  ENV['GOOGLE_OAUTH_CLIENT_SECRET'] = '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'
 end

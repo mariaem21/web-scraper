@@ -24,6 +24,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_200854) do
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
+  create_table "appcats", primary_key: "appcatID", force: :cascade do |t|
+    t.integer "categoryID"
+    t.integer "applicationID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "application_categories", primary_key: "application_category_id", force: :cascade do |t|
     t.integer "application_id"
     t.integer "category_id"
