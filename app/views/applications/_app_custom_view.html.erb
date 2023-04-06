@@ -1,0 +1,164 @@
+<%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+    <table class="min-w-full bg-white">
+        <thead class="bg-gray-800 text-white">
+        <tr>
+            <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <%= sort_link_app(column: "applications.name", label: "Exclude", org_id: org_id) %>
+
+            </th>
+
+            <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications.name" %>
+                <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
+            </th>
+
+            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.name" %>
+                <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
+            </th>
+    
+            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.email" %>
+                <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
+            </th>
+
+            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
+            </th>
+
+            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.github_link" %>
+                <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "contacts.year" %>
+                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications.description" %>
+                <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
+            </th>
+            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                <%= sort_indicator if params[:column] == "applications_count" %>
+                <%= sort_link_app(column: "applications_count", label: "Category", org_id: org_id) %>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody class="text-gray-700">
+        <tr>
+            <td class="text-left py-3 px-6">
+                Include All
+            </td>
+            <td class="text-left py-3 px-6">
+                <div id="app_name_search" class="flex justify-end mb-1">
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                        <%= form.text_field :app_name,
+                        placeholder: "Search by App Name",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td class="text-left py-3 px-6">
+            <div id="contact_name_search" class="flex justify-end mb-1">
+                <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form.text_field :contact_name,
+                    placeholder: "Search by Contact Name",
+                    class: "border border-blue-500 rounded p-2",
+                    autocomplete: "off",
+                    data: { action: "input->search-form#search" }
+                    %>
+                <% end %>
+            </div>
+            </td>
+            <td class="text-left py-3 px-6">
+            <div id="contact_email_search" class="flex justify-end mb-1">
+                <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form.text_field :contact_email,
+                    placeholder: "Search by Contact Email",
+                    class: "border border-blue-500 rounded p-2",
+                    autocomplete: "off",
+                    data: { action: "input->search-form#search" }
+                    %>
+                <% end %>
+            </div>
+            </td>
+            <td class="text-left py-3 px-6">
+            <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form.text_field :officer_position,
+                    placeholder: "Search by Contact Officer Position",
+                    class: "border border-blue-500 rounded p-2",
+                    autocomplete: "off",
+                    data: { action: "input->search-form#search" }
+                    %>
+                <% end %>
+            </div>
+            </td>
+            <td class="text-left py-3 px-6">
+            <div id="github_link_position_search" class="flex justify-end mb-1">
+                <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form.text_field :github_link,
+                    placeholder: "Search by Contact Officer Position",
+                    class: "border border-blue-500 rounded p-2",
+                    autocomplete: "off",
+                    data: { action: "input->search-form#search" }
+                    %>
+                <% end %>
+            </div>
+            </td>
+            <td class="text-left py-3 px-6">
+                <div id="contact_date_start" class="flex justify-end mb-1">
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                        <%= form.text_field :date_start,
+                        placeholder: "Start Date",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+                <div id="contact_date_end" class="flex justify-end mb-1">
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                        <%= form.text_field :date_end,
+                        placeholder: "End Date",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td class="text-left py-3 px-6">
+                <div id="application_note" class="flex justify-end mb-1">
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                        <%= form.text_field :description,
+                        placeholder: "Search Notes",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+        </tr>
+        <% apps.each do |app| %>
+            <tr>
+            <td class="text-left py-3 px-6"><%= "checkbox" %></td>
+            <td class="text-left py-3 px-6"><%= app['app_name'] %></td>
+            <td class="text-left py-3 px-6"><%= app['contact_name'] %></td>
+            <td class="text-left py-3 px-6"><%= app['email'] %></td>
+            <td class="text-left py-3 px-6"><%= app['officer_position'] %></td>
+            <td class="text-left py-3 px-6"><%= app['github_link'] %></td>
+            <td class="text-left py-3 px-6"><%= app['year'] %></td>
+            <td class="text-left py-3 px-6"><%= app['description'] %></td>
+            <!-- ... -->
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>

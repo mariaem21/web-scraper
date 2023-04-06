@@ -1,42 +1,18 @@
 <p style="color: green"><%= notice %></p>
 
-<%= button_to 'Scrape', scrape_organizations_path %>
+<% if @organizations.count != 0 %>
+  <% org = @organizations.first %>
+  <h3><%= org.description %></h3>
+<% end %>
+
+<%= link_to "Log Out", destroy_admin_session_path %>
+<%= button_to 'Update', scrape_organizations_path %>
 <%= button_to 'Delete', delete_organizations_path %>
-<%= button_to 'Download as CSV', download_organizations_path %>
+<%= link_to 'Download as CSV', exclude_organizations_path %>
+<%= link_to "New organization", new_organization_path %>
 
 <h1>Organizations</h1>
 
-<%# <%=
-  link_to 'Download as Excel',
-  organizations_path(format: :xlsx)
-%>
-
-<%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
-  <div id="save-exclude" style="display:none;">
-    <%= submit_tag "Save changes?" %>
-  </div>
-
-  <div id="organizations">
-    <% @organizations.each do |organization| %>
-        <p>
-          <%= check_box_tag "organizations_ids[]", organization.id, check_param(organization.id), class: "exclude-checkbox" %> Exclude
-        </p>
-      <%= render organization %>
-      <p>
-        <%= link_to "Show this organization", organization %>
-      </p>
-    <% end %>
-  </div>
-<% end %>
-
-<%= link_to "New organization", new_organization_path %>
-
-<script>
-  var checkboxes = document.querySelectorAll('.exclude-checkbox');
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('click', () => {
-      var e = document.getElementById("save-exclude");
-      e.style.display = 'block';
-    })
-  })
-</script>
+<div class="max-w-7xl mx-auto mt-12">
+  <%= render "custom_view", orgs: @orgs %>
+</div>
