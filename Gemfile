@@ -86,15 +86,22 @@ group :test do
     gem 'webdrivers'
     gem 'simplecov', :require => false
     gem 'rubyXL'
+    gem 'vcr'
 end
 
 gem 'daemons'
 gem 'delayed_job_active_record'
+
 gem 'devise'
 gem 'omniauth', '~> 1.9.1'
 gem 'omniauth-google-oauth2'
+
 gem 'rubyzip', '>= 1.2.1'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
+gem 'webmock'
 
+gem "cssbundling-rails", "~> 1.1"
+gem "jsbundling-rails", "~> 1.1"
 
+gem "hotwire-rails", "~> 0.1.3"
