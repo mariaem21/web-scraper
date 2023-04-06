@@ -10,12 +10,12 @@ Rails.application.routes.draw do
     end
   end
   resources :contacts
-    # collection do
-    #   get 'list'
-    # end
-  #end
   resources :contact_organizations
-  resources :applications
+  resources :applications do
+    collection do
+      get 'list'
+    end
+  end
   resources :application_categories
   resources :categories
   resources :users
@@ -23,4 +23,9 @@ Rails.application.routes.draw do
   match '/custom_view', to: 'organizations#custom_view', via: [:get, :post], as: :custom_view
   
   root to: 'organizations#index'
+  devise_for :admins, controllers: { omniauth_callbacks: 'admins/omniauth_callbacks' }
+  devise_scope :admin do
+    get 'admins/sign_in', to: 'admins/sessions#new', as: :new_admin_session
+    get 'admins/sign_out', to: 'admins/sessions#destroy', as: :destroy_admin_session
+  end
 end

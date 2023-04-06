@@ -4,8 +4,8 @@
         <thead class="bg-gray-800 text-white">
         <tr>
             <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-            <%= sort_link(column: "organizations.name", label: "Exclude") %>
-
+                <%= sort_indicator if params[:column] == "organizations.name" %>
+                <%= sort_link(column: "organizations.name", label: "Exclude") %>
             </th>
 
             <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
