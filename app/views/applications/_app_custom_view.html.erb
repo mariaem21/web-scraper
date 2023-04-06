@@ -8,6 +8,77 @@
     %>
 <% end %>
 </div>
+<div id="contact_name_search" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :contact_name,
+        placeholder: "Search by Contact Name",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+
+<div id="contact_email_search" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :contact_email,
+        placeholder: "Search by Contact Email",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+<div id="contact_officer_position_search" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :officer_position,
+        placeholder: "Search by Contact Officer Position",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+<div id="github_link_position_search" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :github_link,
+        placeholder: "Search by Contact Officer Position",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+<div id="contact_date_start" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :date_start,
+        placeholder: "Start Date",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+<div id="contact_date_end" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :date_end,
+        placeholder: "End Date",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
+<div id="application_note" class="flex justify-end mb-1">
+    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+        <%= form.text_field :description,
+        placeholder: "Search Notes",
+        class: "border border-blue-500 rounded p-2",
+        autocomplete: "off",
+        data: { action: "input->search-form#search" }
+        %>
+    <% end %>
+</div>
 <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
    
     <table class="min-w-full bg-white">

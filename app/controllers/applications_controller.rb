@@ -44,11 +44,15 @@ class ApplicationsController < ApplicationController
 
   def list 
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
-    # session['filters']['org_id'] = params[:org_id]
+    session['filters']['org_id'] = params[:org_id] if params[:org_id] != session['filters']['org_id'] and params[:org_id] != nil
     session['filters']['app_name'] = params[:app_name] if params[:app_name] != session['filters']['app_name'] and params[:app_name] != nil
+    session['filters']['contact_name'] = params[:contact_name] if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
+    session['filters']['contact_email'] = params[:contact_email] if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
+    session['filters']['officer_position'] = params[:officer_position] if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
     session['filters']['github_link'] = params[:github_link] if params[:github_link] != session['filters']['github_link'] and params[:github_link] != nil
-
-    session['filters']['github_link'] = params[:github_link] if params[:github_link] != session['filters']['github_link'] and params[:github_link] != nil
+    session['filters']['date_start'] = params[:date_start] if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
+    session['filters']['date_end'] = params[:date_end] if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
+    session['filters']['description'] = params[:description] if params[:description] != session['filters']['description'] and params[:description] != nil
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
     
@@ -66,13 +70,45 @@ class ApplicationsController < ApplicationController
       ON contact_organizations.contact_id = contacts.contact_id    
       INNER JOIN applications
       ON contact_organizations.contact_organization_id = applications.contact_organization_id
-      WHERE contact_organizations.organization_id = #{params[:org_id]}
+      WHERE contact_organizations.organization_id = #{session['filters']['org_id']}
     "
     if session['filters']['app_name']
-        query += "  WHERE LOWER(applications.name) LIKE LOWER('#{session['filters']['app_name']}%')
+        query += " AND LOWER(applications.name) LIKE LOWER('#{session['filters']['app_name']}%')
         "
     end
 
+    if session['filters']['contact_name'] and session['filters']['contact_name']
+      query += "  AND LOWER(contacts.name) LIKE LOWER('#{session['filters']['contact_name']}%')
+      "
+    end
+    if session['filters']['contact_email']
+      query += "  AND LOWER(contacts.email) LIKE LOWER('#{session['filters']['contact_email']}%')
+      "
+    end
+    if session['filters']['officer_position']
+      query += "  AND LOWER(contacts.officer_position) LIKE LOWER('#{session['filters']['officer_position']}%')
+      "
+    end
+    if session['filters']['github_link']
+      query += "  AND LOWER(applications.github_link) LIKE LOWER('#{session['filters']['github_link']}%')
+      "
+    end
+
+    if session['filters']['description']
+      query += "  AND LOWER(applications.description) LIKE LOWER('#{session['filters']['description']}%')
+      "
+    end
+
+    if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
+      query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
+      "
+    elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
+      query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
+      "
+    elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
+      query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
+      "
+    end
 
     if session['filters']['column'] or session['filters']['direction'] and session['filters']['column'] != "contacts.year"
         query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}
