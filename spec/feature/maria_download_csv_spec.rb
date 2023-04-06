@@ -18,7 +18,7 @@ RSpec.describe 'Downloading CSV', type: :feature do
     expect(row).to have_content('Number of Apps Built')
   end
 
-  Checks the first and last student orgs in the STUACT wesbite & a random middle one
+  # Checks the first and last student orgs in the STUACT wesbite & a random middle one
   scenario '1-1 Matching: Contains (randomly selected) A Battery, Alpha Epsilon Phi Sorority, Aggie Bridge Club' do
     pass = 0
     CSV.foreach("new_file.csv") do |row|
