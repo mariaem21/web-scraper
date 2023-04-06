@@ -8,7 +8,7 @@ RSpec.describe 'Wildcard filtering with search bar', type: :feature do
         fill_in 'org_name_search', :with => 'Aggies'
         # org_count = page.all(:css, 'table tr').size
         # page.all('table#myTable tr').count.should == org_count
-        within(:xpath, "//table/tr").each do |row|
+        within(:xpath, "//tbody/tr").each do |row|
             row.should have_content("Aggies")
         end
         # number of times aggies appears is greater than the number of rows

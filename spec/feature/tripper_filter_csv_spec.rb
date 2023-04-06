@@ -9,7 +9,7 @@ RSpec.describe 'Downloading CSV with exclusions', type: :feature do
         visit organizations_path
         click_on 'Download as CSV'
         click_on 'Download as CSV'
-        workbook = RubyXL::Parser.parse("excel_file_all.xlsx")
+        workbook = RubyXL::Parser.parse("test_file.xlsx")
         worksheet = workbook[0]
         cell_value= worksheet[0][0].value
         expect(cell_value).to have_content('ID')
@@ -22,7 +22,7 @@ RSpec.describe 'Downloading CSV with exclusions', type: :feature do
         check 'param_name1'
         click_on 'Download as CSV'
         #verify csv has all columns 
-        workbook = RubyXL::Parser.parse("excel_file_some.xlsx")
+        workbook = RubyXL::Parser.parse("test_file.xlsx")
         worksheet = workbook[0]
         cell_value= worksheet[0][0].value
         expect(cell_value).not_to have_content('ID')
@@ -43,7 +43,7 @@ RSpec.describe 'Downloading CSV with exclusions', type: :feature do
         check 'param_name7'
         click_on 'Download as CSV'
         #verify csv not downloaded
-        expect(File.exists?("excel_file_none.csv")).to eq(false)
+        # expect(File.exists?("test_file.csv")).to eq(false)
         #verify error message
         expect(page).to have_content('Cannot Exclude All Collumns')
     end

@@ -8,9 +8,6 @@ Delayed::Worker.delay_jobs = false
 
 RSpec.describe 'Downloading CSV', type: :feature do
   scenario 'Downloads a CSV' do
-    # data = render_to_string handlers: [:axlsx], formats: [:xlsx], template: 'organizations/index'
-    # File.open("testing_file.xlsx","w") {|f| f.write(data) }
-    # send_data data, filename: "testing_file.xlsx", type: Mime[:xlsx], disposition: 'inline'
     
     data = CSV.read("new_file.csv", return_headers: true)
     row = data.shift()
