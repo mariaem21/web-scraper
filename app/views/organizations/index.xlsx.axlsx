@@ -53,7 +53,6 @@ wb = xlsx_package.workbook
           contactEmail = found_contact.email
           officerPosition = found_contact.officer_position
           updateYear = found_contact.year
-
           sheet.add_row []
           row=sheet.rows[rownum]
           rownum=rownum+1

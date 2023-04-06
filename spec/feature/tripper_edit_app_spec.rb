@@ -7,6 +7,13 @@ require 'rails_helper'
 RSpec.describe 'Editing an Existing Application', type: :feature do
     
     scenario 'valid inputs' do 
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
+      visit admin_google_oauth2_omniauth_authorize_path
       org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
       org = Organization.create(organization_id: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path
@@ -28,6 +35,13 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
     end
 
     scenario 'Blank inputs' do 
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
+      visit admin_google_oauth2_omniauth_authorize_path
       org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
       org = Organization.create(organization_id: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path
@@ -47,6 +61,13 @@ RSpec.describe 'Editing an Existing Application', type: :feature do
     end
 
     scenario 'Irregular inputs' do 
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
+      visit admin_google_oauth2_omniauth_authorize_path
       org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
       org = Organization.create(organization_id: 2, name: 'B Battery', description: 'Unique description')
         visit applications_path

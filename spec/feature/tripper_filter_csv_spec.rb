@@ -6,6 +6,13 @@ require 'rails_helper'
 require 'csv'
 RSpec.describe 'Downloading CSV with exclusions', type: :feature do
     scenario 'No Exclusion' do
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.add_mock(:google_oauth2, {
+          :info =>{
+            :email => 'test@tamu.edu'
+          }
+        })
+        visit admin_google_oauth2_omniauth_authorize_path
         visit organizations_path
         click_on 'Download as CSV'
         click_on 'Download as CSV'
@@ -16,6 +23,13 @@ RSpec.describe 'Downloading CSV with exclusions', type: :feature do
     end
     
     scenario 'Some Exclusion' do
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.add_mock(:google_oauth2, {
+          :info =>{
+            :email => 'test@tamu.edu'
+          }
+        })
+        visit admin_google_oauth2_omniauth_authorize_path
         visit organizations_path
         click_on 'Download as CSV'
         
@@ -30,6 +44,13 @@ RSpec.describe 'Downloading CSV with exclusions', type: :feature do
     end
     
     scenario 'All Excluded' do
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.add_mock(:google_oauth2, {
+          :info =>{
+            :email => 'test@tamu.edu'
+          }
+        })
+        visit admin_google_oauth2_omniauth_authorize_path
         visit organizations_path
         click_on 'Download as CSV'
         
