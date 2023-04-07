@@ -2,7 +2,7 @@
 
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show edit update destroy]
-
+  
   # GET /organizations or /organizations.json
   def index
     @orgs = ActiveRecord::Base.connection.execute("
