@@ -42,7 +42,7 @@
 <div id="github_link_position_search" class="flex justify-end mb-1">
     <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
         <%= form.text_field :github_link,
-        placeholder: "Search by Contact Officer Position",
+        placeholder: "Search by Github Link",
         class: "border border-blue-500 rounded p-2",
         autocomplete: "off",
         data: { action: "input->search-form#search" }
