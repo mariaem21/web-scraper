@@ -1,4 +1,3 @@
-yarn add @hotwired/turbo-rails
 bundle add cssbundling-rails jsbundling-rails
 rails javascript:install:webpack
 rails css:install:tailwind
