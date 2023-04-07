@@ -91,14 +91,48 @@ class OrganizationsController < ApplicationController
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     # session['filters'].merge!(params)
 
-    session['filters']['name'] = params[:name] if params[:name] != session['filters']['name'] and params[:name] != nil
-    session['filters']['contact_name'] = params[:contact_name] if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
-    session['filters']['contact_email'] = params[:contact_email] if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
-    session['filters']['officer_position'] = params[:officer_position] if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
-    session['filters']['date_start'] = params[:date_start] if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
-    session['filters']['date_end'] = params[:date_end] if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
-    session['filters']['count_start'] = params[:count_start] if params[:count_start] != session['filters']['count_start'] and params[:count_start] != nil
-    session['filters']['count_end'] = params[:count_end] if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
+    if params[:name] != session['filters']['name'] and params[:name] != nil
+      session['filters']['name'] = params[:name] 
+    else
+      session['filters']['name'] = ""
+    end
+    if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
+      session['filters']['contact_name'] = params[:contact_name] 
+    else
+      session['filters']['contact_name'] = ""
+    end
+    if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
+      session['filters']['contact_email'] = params[:contact_email] 
+    else
+      session['filters']['contact_email'] = ""
+    end
+    if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
+      session['filters']['officer_position'] = params[:officer_position] 
+    else
+      session['filters']['officer_position'] = ""
+    end
+    if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
+      session['filters']['date_start'] = params[:date_start] 
+    else
+      session['filters']['date_start'] = ""
+    end
+    if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
+      session['filters']['date_end'] = params[:date_end] 
+    else
+      session['filters']['date_end'] = ""
+    end
+    if params[:count_start] != session['filters']['count_start'] and params[:count_start] != nil
+      session['filters']['count_start'] = params[:count_start] 
+    else
+      session['filters']['count_start'] = ""
+    end
+    if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
+      session['filters']['count_end'] = params[:count_end] 
+    else
+      session['filters']['count_end'] = ""
+    end
+    
+    
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
     
