@@ -49,16 +49,16 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       if params[:commit] == "Save changes?"
         puts "inside if statement"
+        puts params[:organizations_ids]
         save_exclude_cookie(params[:organizations_ids])
-        flash[:confirmation] = "Changes have been saved!"
         format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
       else
+        puts "current cookies, #{cookies[:organizations_ids]}"
         if params[:organizations_ids] == nil
           params[:organizations_ids] = cookies[:organizations_ids]
         else
           params[:organizations_ids] = params[:organizations_ids].merge(cookies[:organizations_ids])
         end
-        puts "params here, #{params[:organizations_ids]}!"
         format.html { render :index }
       end
 
@@ -95,7 +95,7 @@ end
     Contact.delete_all
     ContactOrganization.delete_all
 
-    save_exclude_cookie("")
+    save_exclude_cookie([])
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -317,7 +317,14 @@ end
   end
 
   def save_exclude_cookie(new_params)
-    cookies.permanent[:organizations_ids] = new_params
+    if new_params != nil
+      if new_params == []
+        cookies.permanent[:organizations_ids] = []
+      else
+        new_params = new_params.push(cookies[:organizations_ids])
+        cookies.permanent[:organizations_ids] = new_params
+      end
+    end
   end
 
   def check_param(id)
