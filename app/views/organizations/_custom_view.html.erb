@@ -184,27 +184,30 @@
             <div id="save-exclude" style="display:none;">
                 <%= submit_tag "Save changes?" %>
             </div>
+
             <% orgs.each do |org| %>
-                <tr>
-                <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
-                <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
-                <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
-                <td class="text-left py-3 px-6"><%= org['email'] %></td>
-                <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
-                <td class="text-left py-3 px-6"><%= org['year'] %></td>
+                <% if !check_param(org['organization_id']) %>
+                    <tr>
+                        <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
+                        <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                        <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                        <td class="text-left py-3 px-6"><%= org['email'] %></td>
+                        <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                        <td class="text-left py-3 px-6"><%= org['year'] %></td>
 
-                <% if org['app_count'] %>
-                    <td class="text-left py-3 px-6">
-                        <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
-                    </td>
-                <% else %>
-                <td class="text-left py-3 px-6">
-                    <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
-                </td>
+                        <% if org['app_count'] %>
+                            <td class="text-left py-3 px-6">
+                                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                            </td>
+                        <% else %>
+                        <td class="text-left py-3 px-6">
+                            <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                        </td>
+                        <% end %>
+
+                        <!-- ... -->
+                    </tr>
                 <% end %>
-
-                <!-- ... -->
-                </tr>
             <% end %>
         <% end %>
         </tbody>

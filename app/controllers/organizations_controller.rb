@@ -49,14 +49,20 @@ class OrganizationsController < ApplicationController
     @t6= params[:param_name6]
     @t7= params[:param_name7]
     respond_to do |format|
-      # if params[:commit] == "Save changes?"
-      #   save_exclude_cookie(params[:organization_id])
-      #   flash[:confirmation] = "Changes have been saved!"
-      #   format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
-      # else
-      #   params[:organization_id] = cookies[:organization_id]
-      #   format.html { render :index }
-      # end
+      if params[:commit] == "Save changes?"
+        puts "inside if statement"
+        save_exclude_cookie(params[:organizations_ids])
+        flash[:confirmation] = "Changes have been saved!"
+        format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
+      else
+        if params[:organizations_ids] == nil
+          params[:organizations_ids] = cookies[:organizations_ids]
+        else
+          params[:organizations_ids] = params[:organizations_ids].merge(cookies[:organizations_ids])
+        end
+        puts "params here, #{params[:organizations_ids]}!"
+        format.html { render :index }
+      end
 
       format.xlsx  {
         if params[:param_name1][:excludeOrgID]=="1" && params[:param_name2][:exclude_orgname]=="1" && params[:param_name3][:exclude_contactname]=="1" && params[:param_name4][:exclude_contactemail]=="1"  && params[:param_name5][:exclude_officer]=="1" && params[:param_name6][:exclude_date]=="1" && params[:param_name7][:exclude_appnum]=="1"
@@ -306,12 +312,12 @@ class OrganizationsController < ApplicationController
   end
 
   def save_exclude_cookie(new_params)
-    cookies.permanent[:organization_id] = new_params
+    cookies.permanent[:organizations_ids] = new_params
   end
 
   def check_param(id)
-    if params.has_key?(:organization_id)
-      if params[:organization_id].include?(id.to_s)
+    if params.has_key?(:organizations_ids) and params[:organizations_ids] != nil
+      if params[:organizations_ids].include?(id.to_s)
         return true
       else
         return false
