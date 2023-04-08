@@ -1,3 +1,143 @@
+<table>
+    <thead class="bg-gray-800 text-white">
+        <tr>
+            
+            <th>
+                Exclude
+            </th>
+            <th>
+                Organization Name
+            </th>
+            <th>
+                Contact Name
+            </th>
+            <th>
+                Contact Email
+            </th>
+            <th>
+                Officer Position
+            </th>
+            <th>
+                <div>
+                    Start Date
+                </div>
+                <div>
+                    End Date
+                </div>
+            </th>
+            <th>
+                <div>
+                    App Count <=
+                </div>
+                <div>
+                    App Count >=
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-left py-3 px-6">
+                Include All
+            </td>
+            <td>
+                <div id="name_search" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :name,
+                        placeholder: "Organization",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td>
+                <div id="contact_name_search" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :contact_name,
+                        placeholder: "Contact Name",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td>
+                <div id="contact_email_search" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :contact_email,
+                        placeholder: "Email",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td>
+                <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :officer_position,
+                        placeholder: "Officer Position",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+            <td>
+                <div id="contact_date_start" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :date_start,
+                        placeholder: "Start Date",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+                <div id="contact_date_end" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :date_end,
+                        placeholder: "End Date",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+
+            <td>
+                <div id="app_count_start" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :count_start,
+                        placeholder: "App Count >=",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+                <div id="app_count_end" class="flex justify-end mb-1">
+                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                        <%= form.text_field :count_end,
+                        placeholder: "App Count <=",
+                        class: "border border-blue-500 rounded p-2",
+                        autocomplete: "off",
+                        data: { action: "input->search-form#search" }
+                        %>
+                    <% end %>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
 <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
     <table class="min-w-full bg-white">
@@ -39,103 +179,7 @@
         </thead>
 
         <tbody class="text-gray-700">
-        <tr>
-            <td class="text-left py-3 px-6">
-                Include All
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="name_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :name,
-                    placeholder: "Search by name",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_name_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_name,
-                    placeholder: "Search by Contact Name",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_email_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_email,
-                    placeholder: "Search by Contact Email",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_officer_position,
-                    placeholder: "Search by Contact Officer Position",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-                <div id="contact_date_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :date_start,
-                        placeholder: "Start Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-                <div id="contact_date_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :date_end,
-                        placeholder: "End Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td class="text-left py-3 px-6">
-                <div id="app_count_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :count_start,
-                        placeholder: "Application Count Start",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-                <div id="app_count_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :count_end,
-                        placeholder: "Application Count End",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-        </tr>
+
         <%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
             <div id="save-exclude" style="display:none;">
                 <%= submit_tag "Save changes?" %>
