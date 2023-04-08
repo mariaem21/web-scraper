@@ -40,44 +40,40 @@ class OrganizationsController < ApplicationController
 
     puts "Column names: #{@orgs.fields.join(', ')}"
 
+    @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
+    @displayed_columns = session[:displayed_columns] || @columns
+    @records = Organization.all
+
     @organizations = Organization.all
-    @t1= params[:param_name1]
-    @t2= params[:param_name2]
-    @t3= params[:param_name3]
-    @t4= params[:param_name4]
-    @t5= params[:param_name5]
-    @t6= params[:param_name6]
-    @t7= params[:param_name7]
+
     respond_to do |format|
-      # if params[:commit] == "Save changes?"
-      #   save_exclude_cookie(params[:organization_id])
-      #   flash[:confirmation] = "Changes have been saved!"
-      #   format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
-      # else
-      #   params[:organization_id] = cookies[:organization_id]
-      #   format.html { render :index }
-      # end
 
       format.xlsx  {
-        if params[:param_name1][:excludeOrgID]=="1" && params[:param_name2][:exclude_orgname]=="1" && params[:param_name3][:exclude_contactname]=="1" && params[:param_name4][:exclude_contactemail]=="1"  && params[:param_name5][:exclude_officer]=="1" && params[:param_name6][:exclude_date]=="1" && params[:param_name7][:exclude_appnum]=="1"
-          redirect_to exclude_organizations_path, notice: 'Cannot Exclude All Collumns'
-        else 
           response.headers[
           'Content-Disposition'
           ] = "attachment; filename=excel_file.xlsx"
-        end
       }
       format.html { render :index }
     end
   end
 
+  def display_columns
+    # session[:displayed_columns] = params[:columns] || @columns
+    # if (@displayed_columns.empty?) then
+    #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
+    # end
+      selected_columns = params[:columns] || @columns
+    if selected_columns == @columns || selected_columns.blank?
+      flash[:error] = "You must display at least one column."
+    else
+      session[:displayed_columns] = selected_columns
+    end
+    redirect_to action: :index
+end
+
   def scrape
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     ScrapeJob.perform_later(letters)
-  end
-
-  def download
-    DownloadJob.perform_later("Input")
   end
 
   def delete
@@ -105,6 +101,8 @@ class OrganizationsController < ApplicationController
   def edit; end
 
   def list
+    @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
+    @displayed_columns = session[:displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     # session['filters'].merge!(params)
 

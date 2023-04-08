@@ -1,170 +1,226 @@
-<%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+<h1>Check which columns to include. All columns are included by default.</h1>
+<%= form_tag display_columns_organizations_path, method: :post do %>
+    <% @columns.each do |column| %>
+      <div class="form-check form-switch">
+        <%= check_box_tag "columns[]", column, @displayed_columns.include?(column), class: "form-check-input", id: "column-#{column}" %>
+        <%= label_tag "column-#{column}", column, class: "form-check-label" %>
+      </div>
+    <% end %>
+    <%= submit_tag "Save Changes", class: "btn btn-primary" %>
+<% end %>
 
-    <table class="min-w-full bg-white">
-        <thead class="bg-gray-800 text-white">
-        <tr>
-            <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                Exclude
-            </th>
+<% if flash[:error] %>
+  <div class="alert alert-danger"><%= flash[:error] %></div>
+<% elsif @displayed_columns.empty? %>
+  <p>No columns selected.</p>
+<% else %>
 
-            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "organizations.name" %>
-                <%= sort_link(column: "organizations.name", label: "Student Organization") %>
-            </th>
+    <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
-            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "contacts.name" %>
-                <%= sort_link(column: "contacts.name", label: "Contact Name") %>
-            </th>
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-800 text-white">
+            <tr>
+                <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                    Exclude
+                </th>
 
-            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "contacts.email" %>
-                <%= sort_link(column: "contacts.email", label: "Contact Email") %>
-            </th>
-
-            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
-                <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
-            </th>
-
-            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "contacts.year" %>
-                <%= sort_link(column: "contacts.year", label: "Last Modified") %>
-            </th>
-            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "applications_count" %>
-                <%= sort_link(column: "applications_count", label: "Applications") %>
-            </th>
-        </tr>
-        </thead>
-
-        <tbody class="text-gray-700">
-        <tr>
-            <td class="text-left py-3 px-6">
-                Include All
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="name_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :name,
-                    placeholder: "Search by name",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
+                <% if @displayed_columns.include?("Organization Name") then %>
+                    <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "organizations.name" %>
+                        <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+                    </th>
                 <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_name_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_name,
-                    placeholder: "Search by Contact Name",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_email_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_email,
-                    placeholder: "Search by Contact Email",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-            <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                    <%= form.text_field :contact_officer_position,
-                    placeholder: "Search by Contact Officer Position",
-                    class: "border border-blue-500 rounded p-2",
-                    autocomplete: "off",
-                    data: { action: "input->search-form#search" }
-                    %>
-                <% end %>
-            </div>
-            </td>
-            <td class="text-left py-3 px-6">
-                <div id="contact_date_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :date_start,
-                        placeholder: "Start Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-                <div id="contact_date_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :date_end,
-                        placeholder: "End Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td class="text-left py-3 px-6">
-                <div id="app_count_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :count_start,
-                        placeholder: "Application Count Start",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-                <div id="app_count_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
-                        <%= form.text_field :count_end,
-                        placeholder: "Application Count End",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-        </tr>
-        <%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
-            <div id="save-exclude" style="display:none;">
-                <%= submit_tag "Save changes?" %>
-            </div>
-            <% orgs.each do |org| %>
-                <tr>
-                <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
-                <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
-                <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
-                <td class="text-left py-3 px-6"><%= org['email'] %></td>
-                <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
-                <td class="text-left py-3 px-6"><%= org['year'] %></td>
 
-                <% if org['app_count'] %>
-                    <td class="text-left py-3 px-6">
-                        <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
-                    </td>
-                <% else %>
+                <% if @displayed_columns.include?("Contact Name") then %>
+                    <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.name" %>
+                        <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+                    </th>
+                <% end %>
+
+                <% if @displayed_columns.include?("Contact Email") then %>
+                    <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.email" %>
+                        <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+                    </th>
+                <% end %>
+
+                <% if @displayed_columns.include?("Officer Position") then %>
+                    <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                        <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+                    </th>
+                <% end %>
+
+                <% if @displayed_columns.include?("Last Modified") then %>
+                    <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.year" %>
+                        <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+                    </th>
+                <% end %>
+
+                <% if @displayed_columns.include?("Applications") then %>
+                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "applications_count" %>
+                        <%= sort_link(column: "applications_count", label: "Applications") %>
+                    </th>
+                <% end %>
+            </tr>
+            </thead>
+
+            <tbody class="text-gray-700">
+            <tr>
                 <td class="text-left py-3 px-6">
-                    <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                    Include All
                 </td>
+                <% if @displayed_columns.include?("Organization Name") then %>
+                    <td class="text-left py-3 px-6">
+                    <div id="name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                            <%= form.text_field :name,
+                            placeholder: "Search by name",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                    </td>
                 <% end %>
 
-                <!-- ... -->
-                </tr>
+                <% if @displayed_columns.include?("Contact Name") then %>
+                    <td class="text-left py-3 px-6">
+                    <div id="contact_name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                            <%= form.text_field :contact_name,
+                            placeholder: "Search by Contact Name",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                    </td>
+                <% end %>
+
+                <% if @displayed_columns.include?("Contact Email") then %>
+                    <td class="text-left py-3 px-6">
+                    <div id="contact_email_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                            <%= form.text_field :contact_email,
+                            placeholder: "Search by Contact Email",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                    </td>
+                <% end %>
+
+                <% if @displayed_columns.include?("Officer Position") then %>
+                    <td class="text-left py-3 px-6">
+                    <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                            <%= form.text_field :contact_officer_position,
+                            placeholder: "Search by Contact Officer Position",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                    </td>
+                <% end %>
+
+                <% if @displayed_columns.include?("Last Modified") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_date_start" class="flex justify-end mb-1">
+                            <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                                <%= form.text_field :date_start,
+                                placeholder: "Start Date",
+                                class: "border border-blue-500 rounded p-2",
+                                autocomplete: "off",
+                                data: { action: "input->search-form#search" }
+                                %>
+                            <% end %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
+                            <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                                <%= form.text_field :date_end,
+                                placeholder: "End Date",
+                                class: "border border-blue-500 rounded p-2",
+                                autocomplete: "off",
+                                data: { action: "input->search-form#search" }
+                                %>
+                            <% end %>
+                        </div>
+                    </td>
+                <% end %>
+
+                <% if @displayed_columns.include?("Applications") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="app_count_start" class="flex justify-end mb-1">
+                            <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                                <%= form.text_field :count_start,
+                                placeholder: "Application Count Start",
+                                class: "border border-blue-500 rounded p-2",
+                                autocomplete: "off",
+                                data: { action: "input->search-form#search" }
+                                %>
+                            <% end %>
+                        </div>
+                        <div id="app_count_end" class="flex justify-end mb-1">
+                            <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "organizations" } do |form| %>
+                                <%= form.text_field :count_end,
+                                placeholder: "Application Count End",
+                                class: "border border-blue-500 rounded p-2",
+                                autocomplete: "off",
+                                data: { action: "input->search-form#search" }
+                                %>
+                            <% end %>
+                        </div>
+                    </td>
+                <% end %>
+            </tr>
+            <%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
+                <div id="save-exclude" style="display:none;">
+                    <%= submit_tag "Save changes?" %>
+                </div>
+                <% orgs.each do |org| %>
+                    <tr>
+                        <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
+                        <% @displayed_columns.each do |column| %>
+                            <% case column %>
+                            <% when "Organization Name" %>
+                                <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                            <% when "Contact Name" %>
+                                <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                            <% when "Contact Email" %>
+                                <td class="text-left py-3 px-6"><%= org['email'] %></td>
+                            <% when "Officer Position" %>
+                                <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                            <% when "Last Modified" %>
+                                <td class="text-left py-3 px-6"><%= org['year'] %></td>
+                            <% when "Applications" %>
+                                <% if org['app_count'] %>
+                                    <td class="text-left py-3 px-6">
+                                        <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                    </td>
+                                <% else %>
+                                    <td class="text-left py-3 px-6">
+                                        <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                    </td>
+                                <% end %>
+                            <!-- ... -->
+                            <% end %>
+                        <% end %>
+                    </tr>
+                <% end %>
             <% end %>
-        <% end %>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    <% end %>
 <% end %>
 
 <script>
