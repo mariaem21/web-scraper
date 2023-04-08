@@ -8,7 +8,7 @@
 <%= link_to "Log Out", destroy_admin_session_path %>
 <%= button_to 'Update', scrape_organizations_path %>
 <%= button_to 'Delete', delete_organizations_path %>
-<%= link_to 'Download as CSV', exclude_organizations_path %>
+<%= link_to 'Download', organizations_path(format: :xlsx) %>
 <%= link_to "New organization", new_organization_path %>
 
 <h1>Organizations</h1>
