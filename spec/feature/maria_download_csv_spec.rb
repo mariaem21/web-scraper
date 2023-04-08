@@ -20,18 +20,18 @@ RSpec.describe 'Downloading CSV', type: :feature do
   end
 
   # Checks the first and last student orgs in the STUACT wesbite & a random middle one
-  # scenario '1-1 Matching: Contains (randomly selected) A Battery, Alpha Epsilon Phi Sorority, Aggie Bridge Club' do
-  #   pass = 0
-  #   CSV.foreach("new_file.csv") do |row|
-  #     puts row
-  #     if row.include? 'A Battery' 
-  #       pass = pass + 1
-  #     elsif row.include? 'Alpha Epsilon Phi Sorority'
-  #       pass = pass + 1
-  #     elsif row.include? 'Aggie Bridge Club'
-  #       pass = pass + 1
-  #     end
-  #   end
-  #   expect(pass).to equal(3)
-  # end
+  scenario '1-1 Matching: Contains (randomly selected) A Battery, Alpha Epsilon Phi Sorority, Aggie Bridge Club' do
+    pass = 0
+    CSV.foreach("new_file.csv") do |row|
+      puts row
+      if row.include? 'A Battery' 
+        pass = pass + 1
+      elsif row.include? 'Alpha Epsilon Phi Sorority'
+        pass = pass + 1
+      elsif row.include? 'Aggie Bridge Club'
+        pass = pass + 1
+      end
+    end
+    expect(pass).to equal(3)
+  end
 end

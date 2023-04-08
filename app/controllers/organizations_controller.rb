@@ -2,7 +2,7 @@
 
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show edit update destroy]
-
+  
   # GET /organizations or /organizations.json
   def index
     @orgs = ActiveRecord::Base.connection.execute("
@@ -80,13 +80,7 @@ class OrganizationsController < ApplicationController
   end
 
   def delete
-
-    Organization.all.each do |org|
-      if (org.organization_id != 0)
-        org.destroy
-      end
-    end
-
+    Organization.delete_all
     Contact.delete_all
     ContactOrganization.delete_all
 
