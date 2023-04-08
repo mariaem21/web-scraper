@@ -1,30 +1,76 @@
-<%= form_with(model: organization) do |form| %>
-  <% if organization.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+<%= form_with url: organizations_path, method: :post do |form| %>
+  <% if @organization.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
 
-      <ul>
-        <% organization.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <ul>
+    <% @organization.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
-  <div>
-    <%= form.label :organization_id, style: "display: block" %>
-    <%= form.number_field :organization_id %>
+<% if @contact.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+
+    <ul>
+    <% @contact.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+  <div  >
+    <%= form.label :organization_id %>
+    <%= form.text_field :id %>
   </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
+  <div  >
+    <%= form.label :organization_name %>
     <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
+  <div  >
+    <%= form.label :organization_description %>
     <%= form.text_field :description %>
   </div>
+
+  <hr>
+
+  <div  >
+    <%= form.label :contact_id %>
+    <%= form.text_field :id %>
+  </div>
+
+  <div  >
+    <%= form.label :contact_year %>
+    <%= form.text_field :year %>
+  </div>
+
+  <div  >
+    <%= form.label :contact_name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div  >
+    <%= form.label :contact_email %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div  >
+    <%= form.label :contact_officer_position %>
+    <%= form.text_field :officer_position %>
+  </div>
+
+  <div  >
+    <%= form.label :contact_description %>
+    <%= form.text_field :description %>
+  </div>
+
+
 
   <div>
     <%= form.submit %>

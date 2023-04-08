@@ -109,6 +109,7 @@ end
   # GET /organizations/new
   def new
     @organization = Organization.new
+    @contact = Contact.new
   end
 
   # GET /organizations/1/edit
@@ -261,16 +262,26 @@ end
   # POST /organizations or /organizations.json
   def create
     @organization = Organization.new(organization_params)
+    @contact = Contact.new(contact_params)
 
-    respond_to do |format|
-      if @organization.save
-        format.html { redirect_to(organization_url(@organization), notice: 'Organization was successfully created.') }
-        format.json { render(:show, status: :created, location: @organization) }
-      else
-        format.html { render(:new, status: :unprocessable_entity) }
-        format.json { render(json: @organization.errors, status: :unprocessable_entity) }
-      end
+    if @organization.save && @contact.save
+      ContactOrganization.create(contact_id: @contact.id, organization_id: @organization.id)
+      @organization.contacts << @contact
+      redirect_to organizations_path
+    else
+      format.html { render(:new, status: :unprocessable_entity) }
+      format.json { render(json: @organization.errors, json: @contact.errors, status: :unprocessable_entity) }
     end
+
+    # respond_to do |format|
+    #   if @organization.save
+    #     format.html { redirect_to(organization_url(@organization), notice: 'Organization was successfully created.') }
+    #     format.json { render(:show, status: :created, location: @organization) }
+    #   else
+    #     format.html { render(:new, status: :unprocessable_entity) }
+    #     format.json { render(json: @organization.errors, status: :unprocessable_entity) }
+    #   end
+    # end
   end
 
   # PATCH/PUT /organizations/1 or /organizations/1.json
@@ -314,6 +325,10 @@ end
   # Only allow a list of trusted parameters through.
   def organization_params
     params.require(:organization).permit(:organization_id, :name, :description)
+  end
+
+  def contact_params
+    params.require(:contact).permit(:name, :email, :officer_position)
   end
 
   def save_exclude_cookie(new_params)
