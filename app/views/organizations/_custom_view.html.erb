@@ -248,6 +248,9 @@
                 <tbody class="text-gray-700">
                         <% orgs.each do |org| %>
                             <% if !check_param(org['organization_id']) %>
+                                <% if !$not_filtered_out.include?(org['organization_id']) %>
+                                    <% $not_filtered_out.push(org['organization_id']) %>
+                                <% end %>
                                 <tr>
                                     <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
                                     <% @displayed_columns.each do |column| %>
@@ -284,6 +287,9 @@
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
+                            <% if $not_filtered_out.include?(org['organization_id']) %>
+                                <% $not_filtered_out.delete(org['organization_id']) %>
+                            <% end %>
                             <tr>
                                 <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
                                 <% @displayed_columns.each do |column| %>
