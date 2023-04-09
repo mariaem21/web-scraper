@@ -47,27 +47,18 @@ class OrganizationsController < ApplicationController
     @organizations = Organization.all
 
     respond_to do |format|
-      if params[:commit] == "Save changes?"
-        puts "inside if statement"
-        puts params[:organizations_ids]
-        save_exclude_cookie(params[:organizations_ids])
-        format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
-      else
-        puts "current cookies, #{cookies[:organizations_ids]}"
-        if params[:organizations_ids] == nil
-          params[:organizations_ids] = cookies[:organizations_ids]
-        else
-          params[:organizations_ids] = params[:organizations_ids].merge(cookies[:organizations_ids])
-        end
-        format.html { render :index }
-      end
-
       format.xlsx  {
           response.headers[
           'Content-Disposition'
           ] = "attachment; filename=excel_file.xlsx"
       }
-      format.html { render :index }
+      if params[:commit] == "Save exclude orgs?"
+        save_exclude_cookie(params[:organizations_ids])
+        format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
+      else
+        params[:organizations_ids] = cookies[:organizations_ids]
+        format.html { render :index }
+      end
     end
   end
 
@@ -76,7 +67,7 @@ class OrganizationsController < ApplicationController
     # if (@displayed_columns.empty?) then
     #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
     # end
-      selected_columns = params[:columns] || @columns
+    selected_columns = params[:columns] || @columns
     if selected_columns == @columns || selected_columns.blank?
       flash[:error] = "You must display at least one column."
     else
@@ -95,7 +86,7 @@ end
     Contact.delete_all
     ContactOrganization.delete_all
 
-    save_exclude_cookie([])
+    cookies.permanent[:organizations_ids] = []
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -115,6 +106,7 @@ end
   def edit; end
 
   def list
+    $exluded_rows = []
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @displayed_columns = session[:displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
@@ -252,10 +244,84 @@ end
       "
     end
 
-
+    $not_filtered_out = []
     orgs = ActiveRecord::Base.connection.execute(query)
+    orgs.each do |row|
+      $not_filtered_out.push(row['organization_id'])
+    end
+
     render(partial: 'custom_view', locals: { orgs: orgs })
     
+  end
+
+  def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
+      org_name = params[:org_name] 
+      contact_name = params[:contact_name]
+      contact_email = params[:contact_email]
+      officer_position = params[:officer_position]
+
+      org_count = 0
+      contact_count = 0
+      con_org_count = 0
+      org = {}
+      contact = {}
+      con_org = {}
+      while Organization.where(organization_id: org_count).exists? do
+          org_count = org_count + 1
+      end
+      while Contact.where(contact_id: contact_count).exists? do
+          contact_count = contact_count + 1
+      end
+      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+          con_org_count = con_org_count + 1
+      end
+
+      query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
+      orgs = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+      # Autofill in organization: organization_id, organization_description
+      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
+      # Autofill in contact: contact_id, year, description
+  end
+
+  def delete_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
+      org_name = params[:org_name] 
+      contact_name = params[:contact_name]
+      contact_email = params[:contact_email]
+      officer_position = params[:officer_position]
+
+      org_count = 0
+      contact_count = 0
+      con_org_count = 0
+      org = {}
+      contact = {}
+      con_org = {}
+      while Organization.where(organization_id: org_count).exists? do
+          org_count = org_count + 1
+      end
+      while Contact.where(contact_id: contact_count).exists? do
+          contact_count = contact_count + 1
+      end
+      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+          con_org_count = con_org_count + 1
+      end
+
+      query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
+      orgs = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+      # Autofill in organization: organization_id, organization_description
+      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
+      # Autofill in contact: contact_id, year, description
   end
 
   # POST /organizations or /organizations.json
@@ -290,7 +356,6 @@ end
   def destroy
     new_params = cookies[:organizations_ids]
     new_params = new_params.delete(params[:id])
-    puts "HELLO"
     puts params[:id]
     puts params[:organizations_ids]
     save_exclude_cookie(new_params)
@@ -317,13 +382,10 @@ end
   end
 
   def save_exclude_cookie(new_params)
-    if new_params != nil
-      if new_params == []
-        cookies.permanent[:organizations_ids] = []
-      else
-        new_params = new_params.push(cookies[:organizations_ids])
-        cookies.permanent[:organizations_ids] = new_params
-      end
+    if new_params == [] || new_params == nil
+      cookies.permanent[:organizations_ids] = []
+    else
+      cookies.permanent[:organizations_ids] = new_params
     end
   end
 
