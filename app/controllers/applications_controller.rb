@@ -116,11 +116,15 @@ class ApplicationsController < ApplicationController
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
 
-    if session['filters']['column'] == "applications_count"
+    if session['filters']['column'] == "applications.name" or session['filters']['column'] == "contacts.name" or session['filters']['column'] == "contacts.email" or session['filters']['column'] == "contacts.officer_position" or session['filters']['column'] == "contacts.github_link" or session['filters']['column'] == "contacts.year" or session['filters']['column'] == "applications.description"
+      puts "valid column name, continuing"
+    else
       session['filters']['column'] = nil
       session['filters']['direction'] = nil
     end
-    
+   
+
+
     query = "
         SELECT 
         applications.name AS app_name, 
