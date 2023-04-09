@@ -243,13 +243,16 @@
                                 <%= sort_link(column: "applications_count", label: "Applications") %>
                             </th>
                         <% end %>
+                        <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Delete
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody class="text-gray-700">
                         <% orgs.each do |org| %>
                             <% if !check_param(org['organization_id']) %>
-                                <% if !$not_filtered_out.include?(org['organization_id']) %>
+                                <% if $not_filtered_out && !$not_filtered_out.include?(org['organization_id']) %>
                                     <% $not_filtered_out.push(org['organization_id']) %>
                                 <% end %>
                                 <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
@@ -278,6 +281,9 @@
                                             <% end %>
                                         <% end %>
                                     <% end %>
+                                    <td class="text-left py-3 px-6">
+                                        <%= link_to "Delete", delete_row_organizations_path({organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']}) %>
+                                    </td>
                                 </tr>
                             <% end %>
                         <% end %>
@@ -290,7 +296,7 @@
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
-                            <% if $not_filtered_out.include?(org['organization_id']) %>
+                            <% if $not_filtered_out && $not_filtered_out.include?(org['organization_id']) %>
                                 <% $not_filtered_out.delete(org['organization_id']) %>
                             <% end %>
                             <tr>

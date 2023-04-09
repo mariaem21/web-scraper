@@ -102,6 +102,67 @@ end
     end
   end
 
+  def delete_row
+    query = "
+      DELETE FROM organizations 
+      WHERE organizations.organization_id = #{params[:organization_id]}
+    "
+    orgs = ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contact_organizations 
+      WHERE contact_organizations.contact_organization_id = #{params[:contact_organization_id]}
+    "
+    orgs = ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contacts 
+      WHERE contacts.contact_id = #{params[:contact_id]}
+    "
+    orgs = ActiveRecord::Base.connection.execute(query)
+
+    query = " SELECT 
+    contact_organizations.contact_organization_id,
+    organizations.name AS org_name,
+    organizations.organization_id,
+    contacts.name AS contact_name,
+    contacts.contact_id,
+    contacts.email,
+    contacts.officer_position,
+    contacts.year,
+    app_counter.app_count
+  FROM 
+    contact_organizations
+  INNER JOIN 
+    organizations
+  ON 
+    contact_organizations.organization_id = organizations.organization_id
+  INNER JOIN 
+    contacts
+  ON 
+    contact_organizations.contact_id = contacts.contact_id    
+  LEFT JOIN (
+      SELECT
+          organizations.name AS name,
+          COUNT(applications.application_id) AS app_count
+      FROM
+          contact_organizations
+      INNER JOIN 
+          organizations
+      ON 
+          contact_organizations.organization_id = organizations.organization_id
+      LEFT JOIN
+          applications
+      ON
+          contact_organizations.contact_organization_id = applications.contact_organization_id
+      GROUP BY organizations.name
+) AS app_counter
+  ON organizations.name = app_counter.name
+"
+    orgs = ActiveRecord::Base.connection.execute(query)
+    render(partial: 'custom_view', locals: { orgs: orgs })
+  end
+
   # GET /organizations/1 or /organizations/1.json
   def show; end
 

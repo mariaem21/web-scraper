@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post :add_table_entry
       post :delete_table_entry
       post :display_columns
+      post :delete_row
       get 'list'
     end
   end
