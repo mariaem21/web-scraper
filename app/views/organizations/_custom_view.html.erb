@@ -171,7 +171,7 @@
         <%= label_tag "column-#{column}", column, class: "form-check-label" %>
       </div>
     <% end %>
-    <%= submit_tag "Save Changes", class: "btn btn-primary" %>
+    <%= submit_tag "Save exclude columns", class: "btn btn-primary" %>
 <% end %>
 
 <% if flash[:error] %>
@@ -179,63 +179,96 @@
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
-    <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+    <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
+        <div id="save-exclude" style="display:none">
+            <%= submit_tag "Save exclude orgs?" %>
+        </div>
+        <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Exclude
+                        </th>
 
-        <table class="min-w-full bg-white">
-            <thead class="bg-gray-800 text-white">
-                <tr>
-                    <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        Exclude
-                    </th>
+                        <% if @displayed_columns.include?("Organization Name") then %>
+                            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "organizations.name" %>
+                                <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+                            </th>
+                        <% end %>
+                        <% if @displayed_columns.include?("Contact Name") then %>
+                            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.name" %>
+                                <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+                            </th>
+                        <% end %>
+                        <% if @displayed_columns.include?("Contact Email") then %>
+                            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.email" %>
+                                <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+                            </th>
+                        <% end %>
+                        <% if @displayed_columns.include?("Officer Position") then %>
+                            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                                <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+                            </th>
+                        <% end %>
+                        <% if @displayed_columns.include?("Last Modified") then %>
+                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.year" %>
+                                <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+                            </th>
+                        <% end %>
+                        <% if @displayed_columns.include?("Applications") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications_count" %>
+                                <%= sort_link(column: "applications_count", label: "Applications") %>
+                            </th>
+                        <% end %>
+                    </tr>
+                </thead>
 
-                    <% if @displayed_columns.include?("Organization Name") then %>
-                        <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "organizations.name" %>
-                            <%= sort_link(column: "organizations.name", label: "Student Organization") %>
-                        </th>
+                <tbody class="text-gray-700">
+                        <% orgs.each do |org| %>
+                            <% if !check_param(org['organization_id']) %>
+                                <tr>
+                                    <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
+                                    <% @displayed_columns.each do |column| %>
+                                        <% case column %>
+                                        <% when "Organization Name" %>
+                                            <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                                        <% when "Contact Name" %>
+                                            <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                                        <% when "Contact Email" %>
+                                            <td class="text-left py-3 px-6"><%= org['email'] %></td>
+                                        <% when "Officer Position" %>
+                                            <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                                        <% when "Last Modified" %>
+                                            <td class="text-left py-3 px-6"><%= org['year'] %></td>
+                                        <% when "Applications" %>
+                                            <% if org['app_count'] %>
+                                                <td class="text-left py-3 px-6">
+                                                    <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                                </td>
+                                            <% else %>
+                                                <td class="text-left py-3 px-6">
+                                                    <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                                </td>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                </tr>
+                            <% end %>
+                        <% end %>
                     <% end %>
-                    <% if @displayed_columns.include?("Contact Name") then %>
-                        <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "contacts.name" %>
-                            <%= sort_link(column: "contacts.name", label: "Contact Name") %>
-                        </th>
-                    <% end %>
-                    <% if @displayed_columns.include?("Contact Email") then %>
-                        <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "contacts.email" %>
-                            <%= sort_link(column: "contacts.email", label: "Contact Email") %>
-                        </th>
-                    <% end %>
-                    <% if @displayed_columns.include?("Officer Position") then %>
-                        <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "contacts.officer_position" %>
-                            <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
-                        </th>
-                    <% end %>
-                    <% if @displayed_columns.include?("Last Modified") then %>
-                        <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "contacts.year" %>
-                            <%= sort_link(column: "contacts.year", label: "Last Modified") %>
-                        </th>
-                    <% end %>
-                    <% if @displayed_columns.include?("Applications") then %>
-                        <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                            <%= sort_indicator if params[:column] == "applications_count" %>
-                            <%= sort_link(column: "applications_count", label: "Applications") %>
-                        </th>
-                    <% end %>
-                </tr>
-            </thead>
-
-            <tbody class="text-gray-700">
-
-                <%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
-                    <div id="save-exclude" style="display:none;">
-                        <%= submit_tag "Save changes?" %>
-                    </div>
-
+                </tbody>
+            </table>
+            <table class="min-w-full bg-white">
+                <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
-                        <% if !check_param(org['organization_id']) %>
+                        <% if check_param(org['organization_id']) %>
                             <tr>
                                 <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
                                 <% @displayed_columns.each do |column| %>
@@ -265,14 +298,12 @@
                             </tr>
                         <% end %>
                     <% end %>
-                <% end %>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
     <% end %>
 <% end %>
 
 <script>
-    alert("SCRIPT LOADED")
     var checkboxes = document.querySelectorAll('.exclude-checkbox');
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('click', () => {

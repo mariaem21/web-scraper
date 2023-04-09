@@ -47,27 +47,22 @@ class OrganizationsController < ApplicationController
     @organizations = Organization.all
 
     respond_to do |format|
-      if params[:commit] == "Save changes?"
-        puts "inside if statement"
-        save_exclude_cookie(params[:organizations_ids])
-        flash[:confirmation] = "Changes have been saved!"
-        format.html{ redirect_to organizations_url, notice: 'Changes saved!' }
-      else
-        if params[:organizations_ids] == nil
-          params[:organizations_ids] = cookies[:organizations_ids]
-        else
-          params[:organizations_ids] = params[:organizations_ids].merge(cookies[:organizations_ids])
-        end
-        puts "params here, #{params[:organizations_ids]}!"
-        format.html { render :index }
-      end
-
       format.xlsx  {
           response.headers[
           'Content-Disposition'
           ] = "attachment; filename=excel_file.xlsx"
       }
-      format.html { render :index }
+      if params[:commit] == "Save exclude orgs?"
+        save_exclude_cookie(params[:organizations_ids])
+        format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
+      else
+        if params[:organizations_ids] == nil
+          params[:organizations_ids] = cookies[:organizations_ids]
+        else
+          params[:organizations_ids] = params[:organizations_ids].concat(cookies[:organizations_ids])
+        end
+        format.html { render :index }
+      end
     end
   end
 
@@ -91,11 +86,7 @@ end
   end
 
   def delete
-    Organization.delete_all
-    Contact.delete_all
-    ContactOrganization.delete_all
-
-    save_exclude_cookie("")
+    cookies.permanent[:organizations_ids] = []
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -290,7 +281,6 @@ end
   def destroy
     new_params = cookies[:organizations_ids]
     new_params = new_params.delete(params[:id])
-    puts "HELLO"
     puts params[:id]
     puts params[:organizations_ids]
     save_exclude_cookie(new_params)
@@ -317,7 +307,11 @@ end
   end
 
   def save_exclude_cookie(new_params)
-    cookies.permanent[:organizations_ids] = new_params
+    if new_params == [] || new_params == nil
+      cookies.permanent[:organizations_ids] = []
+    else
+      cookies.permanent[:organizations_ids] = new_params
+    end
   end
 
   def check_param(id)
