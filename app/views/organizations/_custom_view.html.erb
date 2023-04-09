@@ -171,7 +171,7 @@
         <%= label_tag "column-#{column}", column, class: "form-check-label" %>
       </div>
     <% end %>
-    <%= submit_tag "Save Changes", class: "btn btn-primary" %>
+    <%= submit_tag "Save Changes", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
 
 <% if flash[:error] %>
@@ -181,8 +181,8 @@
 <% else %>
     <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
-        <table class="min-w-full bg-white">
-            <thead class="bg-gray-800 text-white">
+        <table class="min-w-full">
+            <thead class="bg-gray-800">
                 <tr>
                     <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                         Exclude
@@ -227,7 +227,7 @@
                 </tr>
             </thead>
 
-            <tbody class="text-gray-700">
+            <tbody class="text-gray-800">
 
                 <%= form_tag organizations_path, method: :get, remote: true, id: "organization-form" do %>
                     <div id="save-exclude" style="display:none;">
@@ -272,7 +272,7 @@
 <% end %>
 
 <script>
-    alert("SCRIPT LOADED")
+    #alert("SCRIPT LOADED")
     var checkboxes = document.querySelectorAll('.exclude-checkbox');
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('click', () => {
