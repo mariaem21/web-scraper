@@ -7,12 +7,12 @@
             </th>
             <% if @displayed_columns.include?("Organization Name") then %>
                 <th>
-                    Exclude
+                    Organization Name
                 </th>
             <% end %>
             <% if @displayed_columns.include?("Contact Name") then %>
                 <th>
-                    Organization Name
+                    Contact Name
                 </th>
             <% end %>
             <% if @displayed_columns.include?("Contact Email") then %>
@@ -161,6 +161,21 @@
     </tbody>
 </table>
 
+<%= form_tag add_table_entry_organizations_path, method: :post do %>
+    <%= label_tag :org_name, "Enter Organization Name:" %>
+    <%= text_field_tag :org_name, params[:org_name] %>
+
+    <%= label_tag :contact_name, "Enter Contact Name:" %>
+    <%= text_field_tag :contact_name, params[:contact_name] %>
+
+    <%= label_tag :contact_email, "Enter Contact Email:" %>
+    <%= text_field_tag :contact_email, params[:contact_email] %>
+
+    <%= label_tag :officer_position, "Enter Officer Position:" %>
+    <%= text_field_tag :officer_position, params[:officer_position] %>
+
+    <%= submit_tag "Submit" %>
+<% end %>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
