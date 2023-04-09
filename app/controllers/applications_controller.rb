@@ -10,23 +10,36 @@ class ApplicationsController < ApplicationController
   # GET /applications or /applications.json
   def index
     @applications = Application.all
-
     @apps = ActiveRecord::Base.connection.execute("
-      SELECT 
+        SELECT 
         applications.name AS app_name, 
         contacts.name AS contact_name,
         contacts.email,
         contacts.officer_position,
         applications.github_link,
         contacts.year,
-        applications.description
-      FROM contact_organizations
-      INNER JOIN contacts
-      ON contact_organizations.contact_id = contacts.contact_id    
-      INNER JOIN applications
-      ON contact_organizations.contact_organization_id = applications.contact_organization_id
-      WHERE contact_organizations.organization_id = #{params[:org_id]}
+        applications.description,
+        categories.cat_name
+        FROM contact_organizations
+        INNER JOIN contacts
+        ON contact_organizations.contact_id = contacts.contact_id    
+        INNER JOIN applications
+        ON contact_organizations.contact_organization_id = applications.contact_organization_id
+        LEFT JOIN (
+            SELECT
+                categories.name AS cat_name,
+                application_categories.application_id AS app_id
+            FROM 
+                application_categories
+            INNER JOIN categories
+            ON application_categories.category_id = categories.category_id
+
+        ) AS categories
+        ON categories.app_id = applications.application_id
+        WHERE contact_organizations.organization_id = #{params[:org_id]}
     ")
+
+
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
@@ -49,8 +62,9 @@ class ApplicationsController < ApplicationController
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     
     
-    session['filters']['org_id'] = params[:org_id] if params[:org_id] != session['filters']['org_id'] and params[:org_id] != nil
-    session['filters']['org_id'] = $org_id if session['filters']['org_id'] == nil
+    # session['filters']['org_id'] = params[:org_id] if params[:org_id] != session['filters']['org_id'] and params[:org_id] != nil
+    # session['filters']['org_id'] = $org_id if session['filters']['org_id'] == nil
+    # puts "global variable #{$org_id}"
     
     if params[:app_name] != session['filters']['app_name'] and params[:app_name] != nil
       session['filters']['app_name'] = params[:app_name] 
@@ -92,25 +106,48 @@ class ApplicationsController < ApplicationController
     else
       session['filters']['description'] = ""
     end
+    if params[:cat_name] != session['filters']['cat_name'] and params[:cat_name] != nil
+      session['filters']['cat_name'] = params[:cat_name] 
+    else
+      session['filters']['cat_name'] = ""
+    end
+    
     
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
+
+    if session['filters']['column'] == "applications_count"
+      session['filters']['column'] = nil
+      session['filters']['direction'] = nil
+    end
     
     query = "
-      SELECT 
+        SELECT 
         applications.name AS app_name, 
         contacts.name AS contact_name,
         contacts.email,
         contacts.officer_position,
         applications.github_link,
         contacts.year,
-        applications.description
-      FROM contact_organizations
-      INNER JOIN contacts
-      ON contact_organizations.contact_id = contacts.contact_id    
-      INNER JOIN applications
-      ON contact_organizations.contact_organization_id = applications.contact_organization_id
-      WHERE contact_organizations.organization_id = #{session['filters']['org_id']}
+        applications.description,
+        categories.cat_name
+        FROM contact_organizations
+        INNER JOIN contacts
+        ON contact_organizations.contact_id = contacts.contact_id    
+        INNER JOIN applications
+        ON contact_organizations.contact_organization_id = applications.contact_organization_id
+        LEFT JOIN (
+            SELECT
+                categories.name AS cat_name,
+                application_categories.application_id AS app_id
+            FROM 
+                application_categories
+            INNER JOIN categories
+            ON application_categories.category_id = categories.category_id
+
+        ) AS categories
+        ON categories.app_id = applications.application_id
+        WHERE contact_organizations.organization_id = #{$org_id}
     "
     if session['filters']['app_name']
         query += " AND LOWER(applications.name) LIKE LOWER('#{session['filters']['app_name']}%')
@@ -136,6 +173,11 @@ class ApplicationsController < ApplicationController
 
     if session['filters']['description']
       query += "  AND LOWER(applications.description) LIKE LOWER('#{session['filters']['description']}%')
+      "
+    end
+
+    if session['filters']['cat_name']
+      query += "  AND LOWER(categories.cat_name) LIKE LOWER('#{session['filters']['cat_name']}%')
       "
     end
 

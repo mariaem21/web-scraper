@@ -136,9 +136,9 @@
                 </div>
             </td>
             <td>
-                <div id="category" class="flex justify-end mb-1">
+                <div id="cat_name" class="flex justify-end mb-1">
                     <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :category,
+                        <%= form.text_field :cat_name,
                         placeholder: "Category",
                         class: "border border-blue-500 rounded p-2",
                         autocomplete: "off",
@@ -190,7 +190,7 @@
                 <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
             </th>
 
-            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
                 <%= sort_indicator if params[:column] == "contacts.github_link" %>
                 <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
             </th>
@@ -203,8 +203,8 @@
                 <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
             </th>
             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_indicator if params[:column] == "applications_count" %>
-                <%= sort_link_app(column: "applications_count", label: "Category", org_id: org_id) %>
+                <%= sort_indicator if params[:column] == "cat_name" %>
+                <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
             </th>
         </tr>
         </thead>
@@ -225,6 +225,7 @@
             <td class="text-left py-3 px-6"><%= app['github_link'] %></td>
             <td class="text-left py-3 px-6"><%= app['year'] %></td>
             <td class="text-left py-3 px-6"><%= app['description'] %></td>
+            <td class="text-left py-3 px-6"><%= app['cat_name'] %></td>
             <!-- ... -->
             </tr>
         <% end %>
