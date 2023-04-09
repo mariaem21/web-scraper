@@ -29,8 +29,6 @@ gem 'stimulus-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem "rubocop", require: false
-
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -80,7 +78,6 @@ end
 
 group :test do
     gem 'brakeman'
-    gem 'rubocop'
     gem 'capybara', '>= 3.26'
     gem 'selenium-webdriver'
     gem 'webdrivers'

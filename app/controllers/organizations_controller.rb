@@ -56,12 +56,7 @@ class OrganizationsController < ApplicationController
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
       else
-        puts "current cookies, #{cookies[:organizations_ids]}"
-        if params[:organizations_ids] == nil
-          params[:organizations_ids] = cookies[:organizations_ids]
-        else
-          params[:organizations_ids] = params[:organizations_ids].concat(cookies[:organizations_ids])
-        end
+        params[:organizations_ids] = cookies[:organizations_ids]
         format.html { render :index }
       end
     end
