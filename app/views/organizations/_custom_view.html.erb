@@ -199,6 +199,7 @@
             <%= submit_tag "Save exclude orgs?" %>
         </div>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+            
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-800 text-white">
                     <tr>
@@ -251,18 +252,18 @@
                                 <% if !$not_filtered_out.include?(org['organization_id']) %>
                                     <% $not_filtered_out.push(org['organization_id']) %>
                                 <% end %>
-                                <tr>
+                                <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
                                     <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
                                     <% @displayed_columns.each do |column| %>
                                         <% case column %>
                                         <% when "Organization Name" %>
-                                            <td class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                                            <td id="edit_me", contenteditable='true', class="text-left py-3 px-6"><%= org['org_name'] %></td>
                                         <% when "Contact Name" %>
-                                            <td class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                                            <td id="edit_me", contenteditable='true', class="text-left py-3 px-6"><%= org['contact_name'] %></td>
                                         <% when "Contact Email" %>
-                                            <td class="text-left py-3 px-6"><%= org['email'] %></td>
+                                            <td id="edit_me", contenteditable='true', class="text-left py-3 px-6"><%= org['email'] %></td>
                                         <% when "Officer Position" %>
-                                            <td class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                                            <td id="edit_me", contenteditable='true', class="text-left py-3 px-6"><%= org['officer_position'] %></td>
                                         <% when "Last Modified" %>
                                             <td class="text-left py-3 px-6"><%= org['year'] %></td>
                                         <% when "Applications" %>
@@ -282,7 +283,9 @@
                         <% end %>
                     <% end %>
                 </tbody>
+                <button onclick="printRowValues()">Print Row Values</button>
             </table>
+
             <table class="min-w-full bg-white">
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
@@ -332,4 +335,19 @@
             e.style.display = 'block';
         })
     })
+
+    function printRowValues() {
+        var rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function(row) {
+            var org_id = row.getAttribute('org-id');
+            var con_id = row.getAttribute('con-id');
+            var con_org_id = row.getAttribute('con-org-id');
+            var org_name = row.querySelector('td:nth-child(2)').textContent;
+            var con_name = row.querySelector('td:nth-child(3)').textContent;
+            var con_email = row.querySelector('td:nth-child(4)').textContent;
+            var officer_position = row.querySelector('td:nth-child(5)').textContent;
+            console.log(org_id + ', ' + con_id + ', ' + con_org_id + ', ' + org_name + ' ' + con_name);
+            $edited_rows[org_id] = {organization_id: org_id, organization_name: org_name, contact_id: con_id, contact_name: con_name, contact_email: con_email, officer_position: officer_position};
+        });
+    }
 </script>
