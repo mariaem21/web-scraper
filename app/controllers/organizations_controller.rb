@@ -56,6 +56,7 @@ class OrganizationsController < ApplicationController
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
       else
+        puts "current cookies, #{cookies[:organizations_ids]}"
         if params[:organizations_ids] == nil
           params[:organizations_ids] = cookies[:organizations_ids]
         else
@@ -86,6 +87,10 @@ end
   end
 
   def delete
+    Organization.delete_all
+    Contact.delete_all
+    ContactOrganization.delete_all
+
     cookies.permanent[:organizations_ids] = []
 
     respond_to do |format|
