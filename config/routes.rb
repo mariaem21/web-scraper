@@ -6,10 +6,11 @@ Rails.application.routes.draw do
     match '/exclude', to: 'organizations#exclude', via: :post, on: :collection
     match 'exclude', to: 'organizations#exclude', via: :get, on: :collection
     collection do
+      get :delete_row
       post :add_table_entry
       post :delete_table_entry
       post :display_columns
-      post :delete_row
+      # post :delete_row
       get 'list'
     end
   end
