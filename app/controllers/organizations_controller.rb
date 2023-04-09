@@ -40,16 +40,6 @@ class OrganizationsController < ApplicationController
 
     puts "Column names: #{@orgs.fields.join(', ')}"
 
-    # orgs_not_filtered = []
-    # @orgs.each do |row|
-    #   # puts row.inspect
-    #   orgs_not_filtered.push(row['organization_id'])
-    #   # puts @is_filtered_out
-    # end
-
-    # $not_filtered_out = session[:not_filtered_out] || orgs_not_filtered
-    puts "IN INDEX, not filtered orgs are: #{$not_filtered_out}"
-
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @displayed_columns = session[:displayed_columns] || @columns
     @records = Organization.all
@@ -121,6 +111,7 @@ end
   def edit; end
 
   def list
+    $exluded_rows = []
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @displayed_columns = session[:displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
@@ -290,8 +281,6 @@ end
           con_org_count = con_org_count + 1
       end
 
-      puts "ORG ID: #{org_count}"
-
       query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
       orgs = ActiveRecord::Base.connection.execute(query)
 
@@ -326,8 +315,6 @@ end
       while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
           con_org_count = con_org_count + 1
       end
-
-      puts "ORG ID: #{org_count}"
 
       query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
       orgs = ActiveRecord::Base.connection.execute(query)
