@@ -215,6 +215,9 @@
                 Include All
             </td>
         </tr>
+        <% if apps.ntuples == 0 %>
+            There are no applications for this organization
+        <% end %>
         <% apps.each do |app| %>
             <tr>
             <td class="text-left py-3 px-6"><%= "checkbox" %></td>
