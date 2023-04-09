@@ -248,7 +248,7 @@
                 <tbody class="text-gray-700">
                         <% orgs.each do |org| %>
                             <% if !check_param(org['organization_id']) %>
-                                <% if !$not_filtered_out.include?(org['organization_id']) %>
+                                <% if $not_filtered_out and !$not_filtered_out.include?(org['organization_id'])  %>
                                     <% $not_filtered_out.push(org['organization_id']) %>
                                 <% end %>
                                 <tr>
@@ -287,7 +287,7 @@
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
-                            <% if $not_filtered_out.include?(org['organization_id']) %>
+                            <% if $not_filtered_out and $not_filtered_out.include?(org['organization_id']) %>
                                 <% $not_filtered_out.delete(org['organization_id']) %>
                             <% end %>
                             <tr>

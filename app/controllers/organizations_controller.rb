@@ -15,7 +15,7 @@ class OrganizationsController < ApplicationController
           contacts.year,
           app_counter.app_count
         FROM contact_organizations
-        INNER JOIN organizations
+        RIGHT JOIN organizations
         ON contact_organizations.organization_id = organizations.organization_id
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -167,7 +167,7 @@ end
                 app_counter.app_count
               FROM 
                 contact_organizations
-              INNER JOIN 
+              RIGHT JOIN 
                 organizations
               ON 
                 contact_organizations.organization_id = organizations.organization_id
