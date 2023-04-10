@@ -154,7 +154,8 @@
 </table>
 
 <div class="create-new">
-<%= form_tag add_table_entry_applications_path, method: :post do %>
+<%= form_tag add_table_entry_applications_path(organization_id: org_id), method: :post do %>
+
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
     <%= text_field_tag :app_name, params[:app_name] %>
     
@@ -170,13 +171,16 @@
     <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
     <%= text_field_tag :github_link, params[:github_link] %>
 
+    <%= label_tag :date_built, "Enter Date Built:" ,class: "create-new-item" %>
+    <%= text_field_tag :date_built, params[:date_built] %>
+
     <%= label_tag :notes, "Enter Notes:" ,class: "create-new-item" %>
     <%= text_field_tag :notes, params[:notes] %>
 
     <%= label_tag :category, "Enter Category:" ,class: "create-new-item" %>
     <%= text_field_tag :category, params[:category] %>
     
-    <%= submit_tag "Add New Org", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+    <%= submit_tag "Add New App", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
 <% end %>
 </div>
 

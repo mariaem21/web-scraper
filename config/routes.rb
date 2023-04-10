@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :applications do
     collection do
       post :add_table_entry
+      post :display_columns
       get 'list'
     end
   end

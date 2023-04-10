@@ -39,6 +39,10 @@ class ApplicationsController < ApplicationController
         ) AS categories
         ON categories.app_id = applications.application_id
     "
+
+    @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
+    @displayed_columns = session[:displayed_columns] || @columns
+    @records = Organization.all
         
     if params.has_key?(:org_id) and params[:org_id] != nil
       query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
@@ -230,20 +234,35 @@ class ApplicationsController < ApplicationController
 
   end
 
-  def add_table_entry(organization_id: -1, app_name: "new", contact_name: "new", contact_email: "new", officer_position: "new", github_link: "new", notes: "new", category: "new")
+  def display_columns
+      # session[:displayed_columns] = params[:columns] || @columns
+      # if (@displayed_columns.empty?) then
+      #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
+      # end
+      selected_columns = params[:columns] || @columns
+      if selected_columns == @columns || selected_columns.blank?
+        flash[:error] = "You must display at least one column."
+      else
+        session[:displayed_columns] = selected_columns
+      end
+      redirect_to action: :index
+  end
+
+  def add_table_entry(organization_id: -1, app_name: "new", contact_name: "new", contact_email: "new", officer_position: "new", github_link: "new", date_built: Date.today, notes: "new", category: "new")
       organization_id = params[:organization_id]
       app_name = params[:app_name] 
       contact_name = params[:contact_name]
       contact_email = params[:contact_email]
       officer_position = params[:officer_position]
       github_link = params[:github_link]
+      date_built = params[:date_built]
       notes = params[:notes]
       category = params[:category]
 
-      org_count = 1
+      app_count = 1
       contact_count = 1
       con_org_count = 1
-      org = {}
+      app = {}
       contact = {}
       con_org = {}
 
@@ -253,11 +272,17 @@ class ApplicationsController < ApplicationController
       while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
           con_org_count = con_org_count + 1
       end
+      while Application.where(application_id: app_count).exists? do
+          app_count = app_count + 1
+      end
 
       query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
       contacts = ActiveRecord::Base.connection.execute(query)
 
       query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{organization_id}', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO applications (application_id, contact_organization_id, name, date_built, github_link, description, created_at, updated_at) VALUES ('#{app_count}', '#{con_org_count}', '#{app_name}', '#{date_built}', '#{github_link}', 'None', '#{Date.today}', '#{Date.today}');"
       contacts = ActiveRecord::Base.connection.execute(query)
       # Autofill in organization: organization_id, organization_description
       # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
