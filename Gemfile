@@ -102,3 +102,5 @@ gem "cssbundling-rails", "~> 1.1"
 gem "jsbundling-rails", "~> 1.1"
 
 gem "hotwire-rails", "~> 0.1.3"
+
+gem 'redis', '~> 4.0'
