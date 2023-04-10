@@ -161,21 +161,21 @@
     </tbody>
 </table>
 
+<div class="create-new">
 <%= form_tag add_table_entry_organizations_path, method: :post do %>
-    <%= label_tag :org_name, "Enter Organization Name:" %>
+    <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
     <%= text_field_tag :org_name, params[:org_name] %>
-
-    <%= label_tag :contact_name, "Enter Contact Name:" %>
+    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
     <%= text_field_tag :contact_name, params[:contact_name] %>
 
-    <%= label_tag :contact_email, "Enter Contact Email:" %>
+    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
     <%= text_field_tag :contact_email, params[:contact_email] %>
 
-    <%= label_tag :officer_position, "Enter Officer Position:" %>
+    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
     <%= text_field_tag :officer_position, params[:officer_position] %>
-
-    <%= submit_tag "Submit" %>
+    <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
 <% end %>
+</div>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
@@ -186,8 +186,10 @@
         <%= label_tag "column-#{column}", column, class: "form-check-label" %>
       </div>
     <% end %>
-    <%= submit_tag "Save exclude columns", class: "btn btn-primary" %>
+    <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
+
+<div class="paddiv"></div>
 
 <% if flash[:error] %>
   <div class="alert alert-danger"><%= flash[:error] %></div>
@@ -195,12 +197,14 @@
   <p>No columns selected.</p>
 <% else %>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
+        <%= submit_tag "Include all orgs" %>
         <div id="save-exclude" style="display:none">
             <%= submit_tag "Save exclude orgs?" %>
         </div>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
-            
-            <table class="min-w-full bg-white">
+
+            <table class="min-w-full">
+
                 <thead class="bg-gray-800 text-white">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
@@ -255,7 +259,7 @@
                 <tbody class="text-gray-700">
                         <% orgs.each do |org| %>
                             <% if !check_param(org['organization_id']) %>
-                                <% if $not_filtered_out && !$not_filtered_out.include?(org['organization_id']) %>
+                                <% if $not_filtered_out and !$not_filtered_out.include?(org['organization_id'])  %>
                                     <% $not_filtered_out.push(org['organization_id']) %>
                                 <% end %>
                                 <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
@@ -297,12 +301,11 @@
                 </tbody>
                 <button onclick="printRowValues()">Print Row Values</button>
             </table>
-
-            <table class="min-w-full bg-white">
+            <table class="min-w-full">
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
-                            <% if $not_filtered_out && $not_filtered_out.include?(org['organization_id']) %>
+                            <% if $not_filtered_out and $not_filtered_out.include?(org['organization_id']) %>
                                 <% $not_filtered_out.delete(org['organization_id']) %>
                             <% end %>
                             <tr>

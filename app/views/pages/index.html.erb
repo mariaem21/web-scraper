@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <nav class="bg-tamuMaroon sticky-nav">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between max-h-nav">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+              <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
+              <button class="dropbtn">Tables</button>
+              <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
+                <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
+                <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+                <%= link_to "Categories", categories_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+                <%= link_to "Application-Categories", application_categories_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+                <%= link_to "Contacts", contacts_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+                <%= link_to "Contacts-Organizations", contact_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>       
+              </div>
+              </div>
+              <h1 class="navlabel3">Help Page</h1>
+              <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
+                <div class="logo-image">
+                      <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="navpadding"><\div>
+    </head>
+    <body class="helpbody">
+    <div class="help">  
+    </br>
+        <h2>Welcome to the help page for the Wade web scraping application! Below are some notes that may be helpful to you!</h2>
+
+        </br>
+
+        <h1>Filtering:</h1>
+        <p> 
+        You can type normally within most of the fields to filter out based on the text you typed. 
+        </p>
+
+        </br>
+
+        <p> 
+        We use the SQL wildcard characters. We have _ which is a wildcard for one single character. \n
+        For example: _ggies would allow anything such as Aggies,bggies, cggies... 
+        </p>
+
+        </br>
+
+        <p> 
+        We also use the % operator which lets any number of characters occur. \n
+        For example: %ggies would result in bubmblebeeggies, applesauceggies, wadeggies... 
+        </p>
+
+        </br>
+
+        <p> 
+        For the range searches, the first field is for the start of the range, and the second field is for the end of the range. \n
+        For example, with the number of applications if you type 1 and 3, you will get everything between and including those ranges. 
+        You can also only specify one of them.
+        </p>
+
+        </br>
+
+        <p>
+        Another thing to note is that for the year/date you must type in the full date, partial dates are not allowed.
+        Example: 2023-04-01 is a good date.
+        </p>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+
+        </div>
+    </body>
+</html>

@@ -11,22 +11,22 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :application_category_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :application_category_id, class: "label" %>
     <%= form.number_field :application_category_id %>
   </div>
 
-  <div>
-    <%= form.label :application_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :application_id, class: "label" %>
     <%= form.number_field :application_id %>
   </div>
 
-  <div>
-    <%= form.label :category_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :category_id, class: "label" %>
     <%= form.number_field :category_id %>
   </div>
 
-  <div>
+  <div class="formsubmit">
     <%= form.submit %>
   </div>
 <% end %>
