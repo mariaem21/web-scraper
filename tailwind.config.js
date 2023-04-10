@@ -1,9 +1,5 @@
 module.exports = {
   content: [
-    './app/views/**/*.html.erb',
-    './app/helpers/**/*.rb',
-    './app/assets/stylesheets/**/*.css',
-    './app/javascript/**/*.js'
   ],  
   theme: {
     colors: {
@@ -18,10 +14,5 @@ module.exports = {
       'bubble-gum': '#ff77e9',
       'bermuda': '#78dcca',
     },
-  },  safelist: [
-    {
-      pattern: /./,
-      variants: ['sm', 'md', 'lg', 'xl', '2xl'],
-    },
-    ],
+  },
 }
