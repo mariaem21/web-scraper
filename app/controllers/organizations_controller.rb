@@ -52,9 +52,13 @@ class OrganizationsController < ApplicationController
           'Content-Disposition'
           ] = "attachment; filename=excel_file.xlsx"
       }
+      
       if params[:commit] == "Save exclude orgs?"
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
+      elsif params[:commit] == "Include all orgs"
+        save_exclude_cookie([])
+        format.html{ redirect_to organizations_path, notice: 'All organizations have been reincluded!'}
       else
         params[:organizations_ids] = cookies[:organizations_ids]
         format.html { render :index }
@@ -88,6 +92,8 @@ end
 
     cookies.permanent[:organizations_ids] = []
 
+    save_exclude_cookie("")
+
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
       format.json { head :no_content }
@@ -95,7 +101,7 @@ end
   end
 
   # GET /organizations/1 or /organizations/1.json
-  def show; end
+  def show;  end
 
   # GET /organizations/new
   def new
@@ -327,7 +333,6 @@ end
   # POST /organizations or /organizations.json
   def create
     @organization = Organization.new(organization_params)
-
     respond_to do |format|
       if @organization.save
         format.html { redirect_to(organization_url(@organization), notice: 'Organization was successfully created.') }
@@ -386,27 +391,6 @@ end
       cookies.permanent[:organizations_ids] = []
     else
       cookies.permanent[:organizations_ids] = new_params
-    end
-  end
-
-  def check_param(id)
-    if params.has_key?(:organizations_ids) and params[:organizations_ids] != nil
-      if params[:organizations_ids].include?(id.to_s)
-        return true
-      else
-        return false
-      end
-    else
-      return false
-    end
-  end
-  helper_method :check_param
-
-  def check_for_confirmation
-    if params.has_key?(:confirmation)
-      return true
-    else
-      return false
     end
   end
 end

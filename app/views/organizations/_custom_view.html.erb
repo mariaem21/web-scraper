@@ -195,6 +195,7 @@
   <p>No columns selected.</p>
 <% else %>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
+        <%= submit_tag "Include all orgs" %>
         <div id="save-exclude" style="display:none">
             <%= submit_tag "Save exclude orgs?" %>
         </div>
