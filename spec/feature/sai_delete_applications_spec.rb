@@ -12,6 +12,13 @@ RSpec.describe "CancelDeleteRecords", type: :system do
   before(:all) {Application.delete_all}
   before(:all) {Category.delete_all}
   before(:all) {ApplicationCategory.delete_all}
+  before(:all) {OmniAuth.config.test_mode = true
+    OmniAuth.config.add_mock(:google_oauth2, {
+      :info =>{
+        :email => 'test@tamu.edu'
+      }
+  })
+    visit admin_google_oauth2_omniauth_authorize_path}
   
 
   it 'click cancel on delete organization row successfully, then click confirm' do
@@ -20,11 +27,8 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     contact = Contact.create(contact_id: 1, year: '2023-02-02', name: "RANDOM", email: "New@tamu.edu", officer_position: "None", description: "None")
 
     visit organizations_path
-    row = find("tr", text: "A Battery")
-
-    within row do
-      click_button "Delete"
-    end
+    # row = find(":table_row, ['A Battery']")
+    row = find(:xpath, "//tr[contains(.,'A Battery')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Cancel"
@@ -33,23 +37,19 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     expect(Contact.exists?(contact.contact_id)).to eq(true)
 
     visit organizations_path
-    row = find("tr", text: "New app")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'A Battery')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Confirm"
 
-    expect(page).to have_content('Organization was successfully destroyed.')
+    expect(page).to have_content('Row deleted successfully.')
     
     # Check that the record was deleted
     expect(Organization.exists?(org.organization_id)).to eq(false)
     expect(ContactOrganization.exists?(contact_org.contact_organization_id)).to eq(false)
     expect(Contact.exists?(contact.contact_id)).to eq(false)
 
-    expect(page).to have_content('Organization was successfully destroyed.') 
+    # expect(page).to have_content('Organization was successfully destroyed.') 
   end
 
   it 'click cancel on delete application row successfully, then click confirm' do
@@ -59,11 +59,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     category = Category.create(category_id: 1, name: "This", description: "This")
 
     visit applications_path
-    row = find("tr", text: "New app")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'New app')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Cancel"
@@ -73,11 +69,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     expect(Category.exists?(category.category_id)).to eq(true)
 
     visit applications_path
-    row = find("tr", text: "New app")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'New app')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Confirm"
@@ -104,11 +96,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     con_count = Contact.all.count
 
     visit organizations_path
-    row = find("tr", text: "A Battery")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'A Battery')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Cancel"
@@ -143,11 +131,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
     con_count = Contact.all.count
 
     visit organizations_path
-    row = find("tr", text: "A Battery")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'A Battery')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Confirm"
@@ -183,11 +167,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
 
     visit applications_path
-    row = find("tr", text: "New app")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'New app')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Cancel"
@@ -227,11 +207,7 @@ RSpec.describe "CancelDeleteRecords", type: :system do
 
 
     visit applications_path
-    row = find("tr", text: "New app")
-
-    within row do
-      click_button "Delete"
-    end
+    row = find(:xpath, "//tr[contains(.,'New app')]/td/a", :text => 'Delete').click
 
     expect(page).to have_content('Are you sure?')
     click_on "Confirm"

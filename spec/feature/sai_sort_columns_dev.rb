@@ -3,6 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe 'Sort one column', type: :feature do
+    before(:all) {Organization.delete_all}
+    before(:all) {ContactOrganization.delete_all}
+    before(:all) {Contact.delete_all}
+    before(:all) {Application.delete_all}
+    before(:all) {Category.delete_all}
+    before(:all) {ApplicationCategory.delete_all}
+    before(:all) {OmniAuth.config.test_mode = true
+        OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+            :email => 'test@tamu.edu'
+        }
+    })
+        visit admin_google_oauth2_omniauth_authorize_path}
+
     scenario 'Sort student organizations' do
         visit organizations_path
 

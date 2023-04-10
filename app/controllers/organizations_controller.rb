@@ -153,6 +153,10 @@ end
     "
     ActiveRecord::Base.connection.execute(query)
 
+    respond_to do |format|
+      format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }
+    end
+
     # query = " SELECT 
     #     contact_organizations.contact_organization_id,
     #     organizations.name AS org_name,
