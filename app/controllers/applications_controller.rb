@@ -262,6 +262,7 @@ class ApplicationsController < ApplicationController
       app_count = 1
       contact_count = 1
       con_org_count = 1
+      cat_count = 1
       app = {}
       contact = {}
       con_org = {}
@@ -275,6 +276,9 @@ class ApplicationsController < ApplicationController
       while Application.where(application_id: app_count).exists? do
           app_count = app_count + 1
       end
+      while Category.where(category_id: cat_count).exists? do
+          cat_count = cat_count + 1
+      end
 
       query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
       contacts = ActiveRecord::Base.connection.execute(query)
@@ -283,6 +287,9 @@ class ApplicationsController < ApplicationController
       contacts = ActiveRecord::Base.connection.execute(query)
 
       query = "INSERT INTO applications (application_id, contact_organization_id, name, date_built, github_link, description, created_at, updated_at) VALUES ('#{app_count}', '#{con_org_count}', '#{app_name}', '#{date_built}', '#{github_link}', 'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO categories (category_id, name, description, created_at, updated_at) VALUES ('#{cat_count}', '#{category}', 'None', '#{Date.today}', '#{Date.today}');"
       contacts = ActiveRecord::Base.connection.execute(query)
       # Autofill in organization: organization_id, organization_description
       # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
