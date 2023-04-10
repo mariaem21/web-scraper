@@ -203,7 +203,7 @@ overflow:hidden;
 margin-top: -42px;
 right: 2px;
 display: inline-block;
-position: fixed;
+position: absolute;
 }
 .forminputbox input{
 margin-left: 17px;
