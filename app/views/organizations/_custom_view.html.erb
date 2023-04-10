@@ -197,7 +197,7 @@
   <p>No columns selected.</p>
 <% else %>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
-        <%= submit_tag "Include all orgs" %>
+        <%= submit_tag " " %>
         <div id="save-exclude" style="display:none">
             <%= submit_tag "Save exclude orgs?" %>
         </div>
@@ -299,6 +299,7 @@
                         <% end %>
                     <% end %>
                 </tbody>
+
             </table>
             <table class="min-w-full">
                 <tbody class="text-gray-700">
