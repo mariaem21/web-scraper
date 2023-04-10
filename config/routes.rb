@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :contact_organizations
   resources :applications do
     collection do
+      get :delete_row
+      post :edit_row
       post :add_table_entry
       post :display_columns
       get 'list'
