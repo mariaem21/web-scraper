@@ -52,6 +52,7 @@ class OrganizationsController < ApplicationController
           'Content-Disposition'
           ] = "attachment; filename=excel_file.xlsx"
       }
+      
       if params[:commit] == "Save exclude orgs?"
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
@@ -390,27 +391,6 @@ end
       cookies.permanent[:organizations_ids] = []
     else
       cookies.permanent[:organizations_ids] = new_params
-    end
-  end
-
-  def check_param(id)
-    if params.has_key?(:organizations_ids) and params[:organizations_ids] != nil
-      if params[:organizations_ids].include?(id.to_s)
-        return true
-      else
-        return false
-      end
-    else
-      return false
-    end
-  end
-  helper_method :check_param
-
-  def check_for_confirmation
-    if params.has_key?(:confirmation)
-      return true
-    else
-      return false
     end
   end
 end
