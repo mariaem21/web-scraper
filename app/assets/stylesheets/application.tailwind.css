@@ -88,6 +88,7 @@ top:40px;
 }
 body{
   background-color: rgb(80,0,0);
+  overflow: hidden;
 }
 body p{
   color:white;
