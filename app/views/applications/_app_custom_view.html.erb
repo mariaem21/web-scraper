@@ -56,7 +56,7 @@
     <tbody>
         <tr>
             <td class="text-left py-3 px-6">
-                Include All
+                <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
             </td>
             <% if @displayed_columns.include?("Application Developed") then %>
                 <td>
@@ -232,144 +232,252 @@
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
 
-</br>
-
 <% if flash[:error] %>
   <div class="alert alert-danger"><%= flash[:error] %></div>
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
+    <button class="btn btn-dark btn-lg" onclick="swapTable()">Change exclude view</button>
     <%= form_tag applications_path, method: :get, id: "application-form" do %>
-        <%= submit_tag " " %>
-        <div id="save-exclude" style="display:none">
-            <%= submit_tag "Save exclude apps?" %>
-        </div>
-    <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
-        <table class="min-w-full">
-            <thead class="bg-gray-800 text-white">
-            <tr>
-                <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                    Exclude
-                </th>
+        <%= submit_tag "Save exclude apps?" %>
+        <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+            <table class="min-w-full" id="non-exclude-items" style="display:block">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Exclude
+                        </th>
 
-                <% if @displayed_columns.include?("Application Developed") then %>
-                    <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "applications.name" %>
-                        <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
-                    </th>
-                <% end %>
-
-                <% if @displayed_columns.include?("Contact Name") then %>
-                    <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "contacts.name" %>
-                        <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
-                    </th>
-                <% end %>
-        
-                <% if @displayed_columns.include?("Contact Email") then %>
-                    <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "contacts.email" %>
-                        <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
-                    </th>
-                <% end %>
-
-                <% if @displayed_columns.include?("Officer Position") then %>
-                    <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "contacts.officer_position" %>
-                        <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
-                    </th>
-                <% end %>
-
-                <% if @displayed_columns.include?("Github Link") then %>
-                    <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
-                        <%= sort_indicator if params[:column] == "contacts.github_link" %>
-                        <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
-                    </th>
-                <% end %>
-                
-                <% if @displayed_columns.include?("Year Developed") then %>
-                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "contacts.year" %>
-                        <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
-                    </th>
-                <% end %>
-
-                <% if @displayed_columns.include?("Notes") then %>
-                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "applications.description" %>
-                        <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
-                    </th>
-                <% end %>
-
-                <% if @displayed_columns.include?("Category") then %>
-                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                        <%= sort_indicator if params[:column] == "cat_name" %>
-                        <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
-                    </th>
-                <% end %>
-                <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                    Delete
-                </th>
-                <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                    Edit
-                </th>
-            </tr>
-            </thead>
-
-            <tbody class="text-gray-700">
-            <% if apps.ntuples == 0 %>
-            <% end %>
-                <% apps.each do |app| %>
-                    <% if !check_param(app['application_id']) %>
-                        <% if $app_not_filtered_out and !$app_not_filtered_out.include?(app['application_id']) %>
-                            <% $app_not_filtered_out.delete(app['application_id']) %>
+                        <% if @displayed_columns.include?("Application Developed") then %>
+                            <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications.name" %>
+                                <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
+                            </th>
                         <% end %>
-                        <tr>
-                            <td class="text-left py-3 px-6"><%= check_box_tag "applications_ids[]", app['application_id'], check_param(app['application_id']), class: "exclude-checkbox" %></td>
-                                <% @displayed_columns.each do |column| %>
-                                    <% case column %>
-                                    <% when "Application Developed" %>
-                                        <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
-                                    <% when "Contact Name" %>
-                                        <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
-                                    <% when "Contact Email" %>
-                                        <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
-                                    <% when "Officer Position" %>
-                                        <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
-                                    <% when "Github Link" %>
-                                        <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
-                                    <% when "Year Developed" %>
-                                        <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
-                                    <% when "Notes" %>
-                                        <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
-                                    <% when "Category" %>
-                                        <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
+
+                        <% if @displayed_columns.include?("Contact Name") then %>
+                            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.name" %>
+                                <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                
+                        <% if @displayed_columns.include?("Contact Email") then %>
+                            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.email" %>
+                                <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Officer Position") then %>
+                            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                                <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Github Link") then %>
+                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
+                                <%= sort_indicator if params[:column] == "contacts.github_link" %>
+                                <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                        
+                        <% if @displayed_columns.include?("Year Developed") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.year" %>
+                                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Notes") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications.description" %>
+                                <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Category") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "cat_name" %>
+                                <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                        <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Delete
+                        </th>
+                        <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-gray-700">
+                    <% apps.each do |app| %>
+                        <% if !check_app_param(app['application_id']) %>
+                            <% if $app_not_filtered_out and !$app_not_filtered_out.include?(app['application_id']) %>
+                                <% $app_not_filtered_out.delete(app['application_id']) %>
+                            <% end %>
+                            <tr>
+                                <td class="text-left py-3 px-6"><%= check_box_tag "applications_ids[]", app['application_id'], check_app_param(app['application_id']), class: "exclude-checkbox" %></td>
+                                    <% @displayed_columns.each do |column| %>
+                                        <% case column %>
+                                        <% when "Application Developed" %>
+                                            <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
+                                        <% when "Contact Name" %>
+                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
+                                        <% when "Contact Email" %>
+                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
+                                        <% when "Officer Position" %>
+                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
+                                        <% when "Github Link" %>
+                                            <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
+                                        <% when "Year Developed" %>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
+                                        <% when "Notes" %>
+                                            <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
+                                        <% when "Category" %>
+                                            <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
+                                        <% end %>
                                     <% end %>
-                                    <!-- ... -->
-                                <% end %>
-                                <td class="text-left py-3 px-6">
-                                    <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
-                                </td>
-                                <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
-                                </td>
-                        </tr>
+                                    <td class="text-left py-3 px-6">
+                                        <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
+                                    </td>
+                                    <td class="text-left py-3 px-6">
+                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
+                                    </td>
+                            </tr>
+                        <% end %>
                     <% end %>
-                <% end %>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+
+            <table class="min-w-full" id="exclude-items" style="display:none">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Exclude
+                        </th>
+
+                        <% if @displayed_columns.include?("Application Developed") then %>
+                            <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications.name" %>
+                                <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Contact Name") then %>
+                            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.name" %>
+                                <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                
+                        <% if @displayed_columns.include?("Contact Email") then %>
+                            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.email" %>
+                                <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Officer Position") then %>
+                            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                                <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Github Link") then %>
+                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
+                                <%= sort_indicator if params[:column] == "contacts.github_link" %>
+                                <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                        
+                        <% if @displayed_columns.include?("Year Developed") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.year" %>
+                                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Notes") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications.description" %>
+                                <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
+                            </th>
+                        <% end %>
+
+                        <% if @displayed_columns.include?("Category") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "cat_name" %>
+                                <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
+                            </th>
+                        <% end %>
+                        <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Delete
+                        </th>
+                        <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-gray-700">
+                    <% apps.each do |app| %>
+                        <% if check_app_param(app['application_id']) %>
+                            <% if $app_not_filtered_out and $app_not_filtered_out.include?(app['application_id']) %>
+                                <% $app_not_filtered_out.delete(app['application_id']) %>
+                            <% end %>
+                            <tr>
+                                <td class="text-left py-3 px-6"><%= check_box_tag "applications_ids[]", app['application_id'], check_app_param(app['application_id']), class: "exclude-checkbox" %></td>
+                                    <% @displayed_columns.each do |column| %>
+                                        <% case column %>
+                                        <% when "Application Developed" %>
+                                            <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
+                                        <% when "Contact Name" %>
+                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
+                                        <% when "Contact Email" %>
+                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
+                                        <% when "Officer Position" %>
+                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
+                                        <% when "Github Link" %>
+                                            <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
+                                        <% when "Year Developed" %>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
+                                        <% when "Notes" %>
+                                            <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
+                                        <% when "Category" %>
+                                            <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
+                                        <% end %>
+                                    <% end %>
+                                    <td class="text-left py-3 px-6">
+                                        <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
+                                    </td>
+                                    <td class="text-left py-3 px-6">
+                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
+                                    </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
         <% end %>
     <% end %>
 <% end %>
 
 <script>
-    var checkboxes = document.querySelectorAll('.exclude-checkbox');
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('click', () => {
-            var e = document.getElementById("save-exclude");
-            e.style.display = 'block';
-        })
-    })
+    function swapTable() {
+        var tableNonExclude = document.getElementById("non-exclude-items")
+        var tableExclude = document.getElementById("exclude-items")
+        if (tableNonExclude.style.display === "block") {
+            tableNonExclude.style.display = "none";
+            tableExclude.style.display = "block";
+        } else {
+            tableNonExclude.style.display = "block";
+            tableExclude.style.display = "none";
+        }
+    }
 
     function printSingleRow(application_id, category_id, contact_id) {
 
