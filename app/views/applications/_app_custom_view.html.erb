@@ -359,48 +359,6 @@
                 <% end %>
             </tbody>
         </table>
-
-        <table class="min-w-full">
-                <tbody class="text-gray-700">
-                    <% apps.each do |app| %>
-                        <% if check_param(app['application_id']) %>
-                            <% if $app_not_filtered_out and $app_not_filtered_out.include?(app['application_id']) %>
-                                <% $app_not_filtered_out.delete(app['application_id']) %>
-                            <% end %>
-                            <tr>
-                                <td class="text-left py-3 px-6"><%= check_box_tag "applications_ids[]", app['application_id'], check_param(app['application_id']), class: "exclude-checkbox" %></td>
-                                    <% @displayed_columns.each do |column| %>
-                                        <% case column %>
-                                        <% when "Application Developed" %>
-                                            <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
-                                        <% when "Contact Name" %>
-                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
-                                        <% when "Contact Email" %>
-                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
-                                        <% when "Officer Position" %>
-                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
-                                        <% when "Github Link" %>
-                                            <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
-                                        <% when "Year Developed" %>
-                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
-                                        <% when "Notes" %>
-                                            <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
-                                        <% when "Category" %>
-                                            <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
-                                        <% end %>
-                                        <!-- ... -->
-                                    <% end %>
-                                    <td class="text-left py-3 px-6">
-                                        <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
-                                    </td>
-                                    <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
-                                    </td>
-                            </tr>
-                        <% end %>
-                    <% end %>
-                </tbody>
-            </table>
         <% end %>
     <% end %>
 <% end %>

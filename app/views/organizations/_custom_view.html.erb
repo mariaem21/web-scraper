@@ -292,7 +292,7 @@
                                         <%= link_to "Delete", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Print Single Row</button>
+                                        <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Edit</button>
                                     </td>
                                 </tr>
                             <% end %>
