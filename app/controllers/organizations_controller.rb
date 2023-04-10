@@ -5,11 +5,14 @@ class OrganizationsController < ApplicationController
   
   # GET /organizations or /organizations.json
   def index
+    $edited_rows = {}
     @orgs = ActiveRecord::Base.connection.execute("
         SELECT 
+          contact_organizations.contact_organization_id,
           organizations.name AS org_name,
           organizations.organization_id,
           contacts.name AS contact_name,
+          contacts.contact_id,
           contacts.email,
           contacts.officer_position,
           contacts.year,
@@ -100,6 +103,99 @@ end
     end
   end
 
+  def edit_row
+    org_id = params[:organization_id] 
+    org_name = params[:organization_name]
+    contact_id = params[:contact_id]
+    contact_name = params[:contact_name]
+    contact_email = params[:contact_email]
+    officer_position = params[:officer_position]
+
+    query = "
+      UPDATE organizations
+      SET name = '#{org_name}'
+      WHERE organization_id = #{org_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      UPDATE contacts
+      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
+      WHERE contact_id = #{contact_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    # Return a success response
+    respond_to do |format|
+      format.html { redirect_to(organizations_url, notice: 'Row was edited.') }
+      format.json { head :no_content }
+    end
+  end
+
+  def delete_row 
+    org_id = params[:organization_id] 
+    contact_id = params[:contact_id]
+    contact_org_id = params[:contact_organization_id]
+    
+    query = "
+      DELETE FROM organizations 
+      WHERE organizations.organization_id = #{org_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contact_organizations 
+      WHERE contact_organizations.contact_organization_id = #{contact_org_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contacts 
+      WHERE contacts.contact_id = #{contact_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    # query = " SELECT 
+    #     contact_organizations.contact_organization_id,
+    #     organizations.name AS org_name,
+    #     organizations.organization_id,
+    #     contacts.name AS contact_name,
+    #     contacts.contact_id,
+    #     contacts.email,
+    #     contacts.officer_position,
+    #     contacts.year,
+    #     app_counter.app_count
+    #   FROM 
+    #     contact_organizations
+    #   INNER JOIN 
+    #     organizations
+    #   ON 
+    #     contact_organizations.organization_id = organizations.organization_id
+    #   INNER JOIN 
+    #     contacts
+    #   ON 
+    #     contact_organizations.contact_id = contacts.contact_id    
+    #   LEFT JOIN (
+    #       SELECT
+    #           organizations.name AS name,
+    #           COUNT(applications.application_id) AS app_count
+    #       FROM
+    #           contact_organizations
+    #       INNER JOIN 
+    #           organizations
+    #       ON 
+    #           contact_organizations.organization_id = organizations.organization_id
+    #       LEFT JOIN
+    #           applications
+    #       ON
+    #           contact_organizations.contact_organization_id = applications.contact_organization_id
+    #       GROUP BY organizations.name
+    # ) AS app_counter
+    #   ON organizations.name = app_counter.name
+    # "
+    # orgs = ActiveRecord::Base.connection.execute(query)
+  end
+
   # GET /organizations/1 or /organizations/1.json
   def show;  end
 
@@ -112,7 +208,18 @@ end
   def edit; end
 
   def list
-    $exluded_rows = []
+
+    if ($edited_rows)
+      $edited_rows.each do |update_row|
+        puts "Edited Rows: #{$edited_rows}"
+        update_org_table = "UPDATE organizations SET name: '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
+        update_con_table = "UPDATE contacts SET name: '#{update_row.contact_name}', email: '#{update_row.contact_email}', officer_position: '#{update_row.officer_position}', year: '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
+        
+        ActiveRecord::Base.connection.execute(update_org_table)
+        ActiveRecord::Base.connection.execute(update_con_table)
+      end
+    end
+
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @displayed_columns = session[:displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
@@ -164,9 +271,11 @@ end
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
     
     query = " SELECT 
+                contact_organizations.contact_organization_id,
                 organizations.name AS org_name,
                 organizations.organization_id,
                 contacts.name AS contact_name,
+                contacts.contact_id,
                 contacts.email,
                 contacts.officer_position,
                 contacts.year,
@@ -261,41 +370,6 @@ end
   end
 
   def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
-      org_name = params[:org_name] 
-      contact_name = params[:contact_name]
-      contact_email = params[:contact_email]
-      officer_position = params[:officer_position]
-
-      org_count = 0
-      contact_count = 0
-      con_org_count = 0
-      org = {}
-      contact = {}
-      con_org = {}
-      while Organization.where(organization_id: org_count).exists? do
-          org_count = org_count + 1
-      end
-      while Contact.where(contact_id: contact_count).exists? do
-          contact_count = contact_count + 1
-      end
-      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-          con_org_count = con_org_count + 1
-      end
-
-      query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
-      orgs = ActiveRecord::Base.connection.execute(query)
-
-      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
-
-      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
-      # Autofill in organization: organization_id, organization_description
-      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
-      # Autofill in contact: contact_id, year, description
-  end
-
-  def delete_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
       org_name = params[:org_name] 
       contact_name = params[:contact_name]
       contact_email = params[:contact_email]
