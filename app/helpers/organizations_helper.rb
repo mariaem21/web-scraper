@@ -18,6 +18,18 @@ module OrganizationsHelper
         tag.span(class: "sort sort-#{params[:direction]}")
     end
 
+    def check_param(id)
+        if params.has_key?(:organizations_ids) and params[:organizations_ids] != nil
+            if params[:organizations_ids].include?(id.to_s)
+                return true
+            else
+                return false
+            end
+        else
+            return false
+        end
+    end
+
     # def add_table_entry(org_name:, contact_name:, contact_email:, officer_position:)
     #     org_name = params[:org_name] 
     #     contact_name = params[:contact_name]
