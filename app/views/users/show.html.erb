@@ -21,6 +21,7 @@
               <%= link_to "Contacts-Organizations", contact_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             </div>
             </div>
+            <h1 class="navlabel">Users</h1>
             <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
               <div class="logo-image">
                     <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
@@ -39,7 +40,8 @@
 
 <%= render @user %>
 
-<div>
+</br>
+<div class="showviewlinks">
   <%= link_to "Edit this user", edit_user_path(@user) %> |
   <%= link_to "Back to users", users_path %>
 

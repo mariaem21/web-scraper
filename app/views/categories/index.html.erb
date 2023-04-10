@@ -7,8 +7,8 @@
             <%= button_to "Update Site", scrape_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= button_to "Delete All", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            <%= link_to "Create New Entry", new_organization_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            <%= link_to "Help", "/helpme",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Create New Entry", new_category_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
             <button class="dropbtn">Additional Tables</button>
@@ -21,6 +21,7 @@
               <%= link_to "Contacts-Organizations", contact_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             </div>
             </div>
+            <h1 class="navlabel">Catagories</h1>
             <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
               <div class="logo-image">
                     <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
@@ -37,15 +38,16 @@
 
 <p class="notice"><%= notice %></p>
 
-<h1>Categories</h1>
+
 
 <div id="categories">
   <% @categories.each do |category| %>
+    <div class="tableunit">
     <%= render category %>
-    <p>
+    <p class="showbutton">
       <%= link_to "Show this category", category %>
     </p>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New category", new_category_path %>

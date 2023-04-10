@@ -8,7 +8,7 @@
             <%= button_to "Delete All", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= link_to "Create New Entry", new_organization_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            <%= link_to "Help", "/helpme",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
             <button class="dropbtn">Additional Tables</button>
@@ -21,6 +21,8 @@
               <%= link_to "Contacts-Organizations", contact_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
             </div>
             </div>
+            <h1 class="navlabel">Contacts-Organizations</h1>
+
             <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
               <div class="logo-image">
                     <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
@@ -39,7 +41,8 @@
 
 <%= render @contact_organization %>
 
-<div>
+</br>
+<div class="showviewlinks">
   <%= link_to "Edit this contact organization", edit_contact_organization_path(@contact_organization) %> |
   <%= link_to "Back to contact organizations", contact_organizations_path %>
 
