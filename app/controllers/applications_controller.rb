@@ -10,6 +10,7 @@ class ApplicationsController < ApplicationController
     @applications = Application.all
     query = "
         SELECT 
+        applications.application_id AS app_id,
         applications.name AS app_name, 
         contacts.name AS contact_name,
         contacts.email,
@@ -46,6 +47,16 @@ class ApplicationsController < ApplicationController
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
+    if params[:commit] == "Save exclude apps?"
+      save_exclude_cookie_app(params[:applications_ids])
+      redirect_to applications_path, notice: 'Changes saved!'
+    elsif params[:commit] == "Include All"
+      save_exclude_cookie_app([])
+      redirect_to applications_path, notice: 'All applications have been reincluded!'
+    else
+      params[:applications_ids] = cookies[:applications_ids]
+      render :index
+    end
   end
 
 
@@ -130,6 +141,7 @@ class ApplicationsController < ApplicationController
 
     query = "
         SELECT 
+        applications.application_id AS app_id,
         applications.name AS app_name, 
         contacts.name AS contact_name,
         contacts.email,
@@ -220,8 +232,8 @@ class ApplicationsController < ApplicationController
 
 
     apps = ActiveRecord::Base.connection.execute(query)
-    render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
 
+    render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
 
   end
 
@@ -274,5 +286,13 @@ class ApplicationsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def application_params
     params.require(:application).permit(:application_id, :contact_organization_id, :name, :date_built, :github_link, :description)
+  end
+
+  def save_exclude_cookie_app(new_params)
+    if new_params == [] || new_params == nil
+      cookies.permanent[:applications_ids] = []
+    else
+      cookies.permanent[:applications_ids] = new_params
+    end
   end
 end

@@ -50,7 +50,7 @@
     <tbody>
         <tr>
             <td class="text-left py-3 px-6">
-                Include All
+                <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
             </td>
             <% if @displayed_columns.include?("Organization Name") then %>
                 <td class="text-left py-3 px-6">
@@ -195,7 +195,6 @@
   <p>No columns selected.</p>
 <% else %>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
-        <%= submit_tag "Include all orgs" %>
         <div id="save-exclude" style="display:none">
             <%= submit_tag "Save exclude orgs?" %>
         </div>

@@ -56,7 +56,7 @@ class OrganizationsController < ApplicationController
       if params[:commit] == "Save exclude orgs?"
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
-      elsif params[:commit] == "Include all orgs"
+      elsif params[:commit] == "Include All"
         save_exclude_cookie([])
         format.html{ redirect_to organizations_path, notice: 'All organizations have been reincluded!'}
       else
@@ -90,9 +90,7 @@ end
     Contact.delete_all
     ContactOrganization.delete_all
 
-    cookies.permanent[:organizations_ids] = []
-
-    save_exclude_cookie("")
+    save_exclude_cookie([])
 
     respond_to do |format|
       format.html { redirect_to organizations_url, notice: 'All organizations and contacts were successfully destroyed.' }
@@ -257,7 +255,6 @@ end
     end
 
     render(partial: 'custom_view', locals: { orgs: orgs })
-    
   end
 
   def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")

@@ -19,8 +19,8 @@ module OrganizationsHelper
     end
 
     def check_param(id)
-        if params.has_key?(:organizations_ids) and params[:organizations_ids] != nil
-            if params[:organizations_ids].include?(id.to_s)
+        if cookies[:organizations_ids] != nil
+            if cookies[:organizations_ids].include?(id.to_s)
                 return true
             else
                 return false
