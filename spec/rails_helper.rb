@@ -9,24 +9,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'omniauth'
-require 'omniauth-google-oauth2'
 
-OmniAuth.config.test_mode = true
-
-OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
-  provider: 'google_oauth2',
-  uid: '123456789',
-  info: {
-    name: 'Sana Marediya',
-    email: 'sanamarediya@tamu.edu'
-  },
-  credentials: {
-    token: 'token',
-    refresh_token: 'refresh_token',
-    expires_at: Time.now + 1.week
-  }
-})
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

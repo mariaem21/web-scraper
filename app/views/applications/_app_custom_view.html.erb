@@ -1,5 +1,4 @@
 
-
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
@@ -233,12 +232,6 @@
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
 
-</br>
-</br>
-</br>
-</br>
-</br>
-
 <% if flash[:error] %>
   <div class="alert alert-danger"><%= flash[:error] %></div>
 <% elsif @displayed_columns.empty? %>
@@ -351,7 +344,7 @@
                                         <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
+                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
                                     </td>
                             </tr>
                         <% end %>
@@ -462,7 +455,7 @@
                                         <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
+                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
                                     </td>
                             </tr>
                         <% end %>
