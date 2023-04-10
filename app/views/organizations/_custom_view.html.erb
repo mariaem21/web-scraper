@@ -238,7 +238,7 @@
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
         <div class="showbutton">
-        <%= submit_tag, "Save exclude orgs?" %>
+        <%= submit_tag "Save exclude orgs?" %>
           </div>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
