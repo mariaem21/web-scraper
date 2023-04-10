@@ -55,6 +55,9 @@ class OrganizationsController < ApplicationController
       if params[:commit] == "Save exclude orgs?"
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
+      elsif params[:commit] == "Include all orgs"
+        save_exclude_cookie([])
+        format.html{ redirect_to organizations_path, notice: 'All organizations have been reincluded!'}
       else
         params[:organizations_ids] = cookies[:organizations_ids]
         format.html { render :index }
