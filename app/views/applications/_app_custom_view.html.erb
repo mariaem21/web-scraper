@@ -1,35 +1,3 @@
-<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-<nav class="bg-tamuMaroon sticky-nav">
-  <div class="mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between max-h-nav">
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <%= button_to "Update Site", scrape_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            <%= button_to "Delete All", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
-            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
-            <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
-            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
-            <button class="dropbtn">Additional Tables</button>
-            <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
-              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
-              <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            </div>
-            </div>
-            <h1 class="navlabelorg">Applications</h1>
-            <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
-              <div class="logo-image">
-                    <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
-<div class="navpadding"><\div>
 
 
 <table>
@@ -352,37 +320,46 @@
             <tbody class="text-gray-700">
             <% if apps.ntuples == 0 %>
             <% end %>
-            <% apps.each do |app| %>
-                <tr>
-                <td class="text-left py-3 px-6"><%= "checkbox" %></td>
-                <% @displayed_columns.each do |column| %>
-                    <% case column %>
-                    <% when "Application Developed" %>
-                        <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
-                    <% when "Contact Name" %>
-                        <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
-                    <% when "Contact Email" %>
-                        <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
-                    <% when "Officer Position" %>
-                        <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
-                    <% when "Github Link" %>
-                        <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
-                    <% when "Year Developed" %>
-                        <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
-                    <% when "Notes" %>
-                        <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
-                    <% when "Category" %>
-                        <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
+                <% apps.each do |app| %>
+                    <% if check_param(app['application_id']) %>
+                        <% if $app_not_filtered_out and $app_not_filtered_out.include?(org['application_id']) %>
+                            <% $app_not_filtered_out.delete(app['application_id']) %>
+                        <% end %>
+                        <tr>
+                                <td class="text-left py-3 px-6"><%= "checkbox" %></td>
+                                <% @displayed_columns.each do |column| %>
+                                    <% case column %>
+                                    <% when "Application Developed" %>
+                                        <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
+                                    <% when "Contact Name" %>
+                                        <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
+                                    <% when "Contact Email" %>
+                                        <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
+                                    <% when "Officer Position" %>
+                                        <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
+                                    <% when "Github Link" %>
+                                        <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
+                                    <% when "Year Developed" %>
+                                        <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
+                                    <% when "Notes" %>
+                                        <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
+                                    <% when "Category" %>
+                                        <td id="category<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['cat_name'] %></td>
+                                    <% end %>
+                                    <!-- ... -->
+                                <% end %>
+                                <td class="text-left py-3 px-6">
+                                    <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
+                                </td>
+                                <td class="text-left py-3 px-6">
+                                    <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
+                                </td>
+                        </tr>
                     <% end %>
-                    <!-- ... -->
                 <% end %>
-                <td class="text-left py-3 px-6">
-                    <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Print Single Row</button>
-                </td>
-                </tr>
-            <% end %>
             </tbody>
         </table>
+    <% end %>
     <% end %>
 <% end %>
 

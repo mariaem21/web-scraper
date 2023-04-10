@@ -278,8 +278,12 @@ class ApplicationsController < ApplicationController
           "
     end
 
-
+    $not_filtered_out = []
     apps = ActiveRecord::Base.connection.execute(query)
+    apps.each do |row|
+      $not_filtered_out.push(row['application_id'])
+    end
+
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
 
 
@@ -300,13 +304,14 @@ class ApplicationsController < ApplicationController
   end
 
   def delete_row 
-    org_id = params[:organization_id] 
+    app_id = params[:app_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
+    category_id = params[:category_id]
     
     query = "
-      DELETE FROM organizations 
-      WHERE organizations.organization_id = #{org_id}
+      DELETE FROM applications 
+      WHERE applications.application_id = #{app_id}
     "
     ActiveRecord::Base.connection.execute(query)
 
@@ -319,6 +324,12 @@ class ApplicationsController < ApplicationController
     query = "
       DELETE FROM contacts 
       WHERE contacts.contact_id = #{contact_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM categories 
+      WHERE categories.category_id = #{category_id}
     "
     ActiveRecord::Base.connection.execute(query)
 
