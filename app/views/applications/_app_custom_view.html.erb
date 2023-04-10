@@ -1,3 +1,40 @@
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<nav class="bg-tamuMaroon nonstickynav">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between max-h-nav">
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            <%= button_to "Update Site", scrape_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= button_to "Delete All", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
+            <button class="dropbtn">Additional Tables</button>
+            <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
+              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
+              <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            </div>
+            </div>
+            <h1 class="navlabelorg">Applications</h1>
+            <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
+              <div class="logo-image3">
+                    <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="navpadding"></br></div>
+</br>
+</br>
+
+<p class="notice"><%= notice %></p>
+
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
@@ -228,9 +265,11 @@
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
-    <button class="btn btn-dark btn-lg" onclick="swapTable()">Change exclude view</button>
+    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag applications_path, method: :get, id: "application-form" do %>
+        <div class="showbutton">
         <%= submit_tag "Save exclude apps?" %>
+            </div>
         <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
             <table class="min-w-full" id="non-exclude-items" style="display:block">
                 <thead class="bg-gray-800 text-white">
