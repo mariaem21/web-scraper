@@ -1,5 +1,6 @@
 // app/javascript/controllers/search_form_controller.js
 import { Controller } from "@hotwired/stimulus"
+import "../controllers"
 
 export default class extends Controller {
   static targets = [ "form" ]
