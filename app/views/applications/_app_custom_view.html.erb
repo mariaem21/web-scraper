@@ -240,13 +240,17 @@
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
+    <%= form_tag applications_path, method: :get, id: "application-form" do %>
+        <%= submit_tag " " %>
+        <div id="save-exclude" style="display:none">
+            <%= submit_tag "Save exclude apps?" %>
+        </div>
     <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
         <table class="min-w-full">
             <thead class="bg-gray-800 text-white">
             <tr>
                 <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                <%= sort_link_app(column: "applications.name", label: "Exclude", org_id: org_id) %>
-
+                    Exclude
                 </th>
 
                 <% if @displayed_columns.include?("Application Developed") then %>
@@ -304,15 +308,16 @@
                         <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
                     </th>
                 <% end %>
+                <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                    Delete
+                </th>
+                <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                    Edit
+                </th>
             </tr>
             </thead>
 
             <tbody class="text-gray-700">
-            <tr>
-                <td class="text-left py-3 px-6">
-                    Include All
-                </td>
-            </tr>
             <% if apps.ntuples == 0 %>
             <% end %>
             <% apps.each do |app| %>
