@@ -59,7 +59,6 @@ wb = xlsx_package.workbook
             rownum=rownum+1
 
             if @displayed_columns.include?("Organization Name") then
-              puts "#{org.name}"
               row.add_cell org.name
             end
             if @displayed_columns.include?("Contact Name") then
