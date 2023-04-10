@@ -66,10 +66,10 @@ class ApplicationsController < ApplicationController
           ] = "attachment; filename=excel_file.xlsx"
       }
       
-      if params[:commit] == "Save exclude orgs?"
+      if params[:commit] == "Save exclude apps?" and params[:commit] != nil
         save_exclude_cookie(params[:applications_ids])
         format.html{ redirect_to applications_path, notice: 'Changes saved!' }
-      elsif params[:commit] == "Include all orgs"
+      elsif params[:commit] == "Include All" and params[:commit] != nil
         save_exclude_cookie([])
         format.html{ redirect_to applications_path, notice: 'All applications have been reincluded!'}
       else
@@ -248,7 +248,6 @@ class ApplicationsController < ApplicationController
                 application_categories
             INNER JOIN categories
             ON application_categories.category_id = categories.category_id
-
         ) AS categories
         ON categories.app_id = applications.application_id
        
@@ -322,8 +321,6 @@ class ApplicationsController < ApplicationController
     end
 
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
-
-
   end
 
   def display_columns
