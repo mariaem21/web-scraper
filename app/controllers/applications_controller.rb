@@ -9,6 +9,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications or /applications.json
   def index
+    $app_edited_rows = {}
     @applications = Application.all
     query = "
         SELECT 
@@ -22,6 +23,7 @@ class ApplicationsController < ApplicationController
         categories.cat_name,
         categories.category_id,
         contact_organizations.organization_id,
+        contact_organizations.contact_organization_id,
         contacts.contact_id,
         applications.application_id
         FROM contact_organizations
@@ -54,6 +56,25 @@ class ApplicationsController < ApplicationController
 
     $org_id = params[:org_id]
     @org_id = params[:org_id]
+
+    respond_to do |format|
+      format.xlsx  {
+          response.headers[
+          'Content-Disposition'
+          ] = "attachment; filename=excel_file.xlsx"
+      }
+      
+      if params[:commit] == "Save exclude orgs?"
+        save_exclude_cookie(params[:applications_ids])
+        format.html{ redirect_to applications_path, notice: 'Changes saved!' }
+      elsif params[:commit] == "Include all orgs"
+        save_exclude_cookie([])
+        format.html{ redirect_to applications_path, notice: 'All applications have been reincluded!'}
+      else
+        params[:applications_ids] = cookies[:applications_ids]
+        format.html { render :index }
+      end
+    end
 
   end
 
@@ -112,7 +133,18 @@ class ApplicationsController < ApplicationController
   # GET /applications/1/edit
   def edit; end
 
-  def list 
+  def list
+    
+    if ($app_edited_rows)
+      $app_edited_rows.each do |update_row|
+        puts "Edited Rows: #{$app_edited_rows}"
+        update_org_table = "UPDATE organizations SET name: '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
+        update_con_table = "UPDATE contacts SET name: '#{update_row.contact_name}', email: '#{update_row.contact_email}', officer_position: '#{update_row.officer_position}', year: '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
+        
+        ActiveRecord::Base.connection.execute(update_org_table)
+        ActiveRecord::Base.connection.execute(update_con_table)
+      end
+    end
 
     @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
     @displayed_columns = session[:displayed_columns] || @columns
@@ -194,6 +226,7 @@ class ApplicationsController < ApplicationController
         applications.description,
         categories.cat_name,
         contact_organizations.organization_id,
+        contact_organizations.contact_organization_id,
         contacts.contact_id,
         applications.application_id,
         categories.category_id
@@ -278,10 +311,10 @@ class ApplicationsController < ApplicationController
           "
     end
 
-    $not_filtered_out = []
+    $app_not_filtered_out = []
     apps = ActiveRecord::Base.connection.execute(query)
     apps.each do |row|
-      $not_filtered_out.push(row['application_id'])
+      $app_not_filtered_out.push(row['application_id'])
     end
 
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
@@ -304,7 +337,7 @@ class ApplicationsController < ApplicationController
   end
 
   def delete_row 
-    app_id = params[:app_id] 
+    app_id = params[:application_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
     category_id = params[:category_id]
@@ -332,6 +365,11 @@ class ApplicationsController < ApplicationController
       WHERE categories.category_id = #{category_id}
     "
     ActiveRecord::Base.connection.execute(query)
+
+    respond_to do |format|
+      format.html { redirect_to(applications_url, notice: 'Organization was successfully destroyed.') }
+      format.json { head(:no_content) }
+    end
 
     # query = " SELECT 
     #     contact_organizations.contact_organization_id,
@@ -478,5 +516,13 @@ class ApplicationsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def application_params
     params.require(:application).permit(:application_id, :contact_organization_id, :name, :date_built, :github_link, :description)
+  end
+
+  def save_exclude_cookie(new_params)
+    if new_params == [] || new_params == nil
+      cookies.permanent[:applications_ids] = []
+    else
+      cookies.permanent[:applications_ids] = new_params
+    end
   end
 end
