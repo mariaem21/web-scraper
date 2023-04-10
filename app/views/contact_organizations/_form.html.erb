@@ -11,22 +11,22 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :contact_organization_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :contact_organization_id, class: "label" %>
     <%= form.number_field :contact_organization_id %>
   </div>
 
-  <div>
-    <%= form.label :contact_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :contact_id, class: "label"%>
     <%= form.number_field :contact_id %>
   </div>
 
-  <div>
-    <%= form.label :organization_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :organization_id, class: "label" %>
     <%= form.number_field :organization_id %>
   </div>
 
-  <div>
+  <div class="formsubmit">
     <%= form.submit %>
   </div>
 <% end %>

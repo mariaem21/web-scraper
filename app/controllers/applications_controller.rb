@@ -34,7 +34,6 @@ class ApplicationsController < ApplicationController
                 application_categories
             INNER JOIN categories
             ON application_categories.category_id = categories.category_id
-
         ) AS categories
         ON categories.app_id = applications.application_id
     "
@@ -49,7 +48,6 @@ class ApplicationsController < ApplicationController
     @org_id = params[:org_id]
 
   end
-
 
 
   # GET /applications/1 or /applications/1.json
