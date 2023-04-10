@@ -127,6 +127,7 @@ class ApplicationsController < ApplicationController
     end
    
 
+    
 
     query = "
         SELECT 
