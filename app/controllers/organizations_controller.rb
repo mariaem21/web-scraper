@@ -102,6 +102,35 @@ end
     end
   end
 
+  def edit_row
+    org_id = params[:organization_id] 
+    org_name = params[:organization_name]
+    contact_id = params[:contact_id]
+    contact_name = params[:contact_name]
+    contact_email = params[:contact_email]
+    officer_position = params[:officer_position]
+
+    query = "
+      UPDATE organizations
+      SET name = '#{org_name}'
+      WHERE organization_id = #{org_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      UPDATE contacts
+      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
+      WHERE contact_id = #{contact_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    # Return a success response
+    respond_to do |format|
+      format.html { redirect_to(organizations_url, notice: 'Row was edited.') }
+      format.json { head :no_content }
+    end
+  end
+
   def delete_row 
     org_id = params[:organization_id] 
     contact_id = params[:contact_id]
@@ -125,50 +154,45 @@ end
     "
     ActiveRecord::Base.connection.execute(query)
 
-    query = " SELECT 
-        contact_organizations.contact_organization_id,
-        organizations.name AS org_name,
-        organizations.organization_id,
-        contacts.name AS contact_name,
-        contacts.contact_id,
-        contacts.email,
-        contacts.officer_position,
-        contacts.year,
-        app_counter.app_count
-      FROM 
-        contact_organizations
-      INNER JOIN 
-        organizations
-      ON 
-        contact_organizations.organization_id = organizations.organization_id
-      INNER JOIN 
-        contacts
-      ON 
-        contact_organizations.contact_id = contacts.contact_id    
-      LEFT JOIN (
-          SELECT
-              organizations.name AS name,
-              COUNT(applications.application_id) AS app_count
-          FROM
-              contact_organizations
-          INNER JOIN 
-              organizations
-          ON 
-              contact_organizations.organization_id = organizations.organization_id
-          LEFT JOIN
-              applications
-          ON
-              contact_organizations.contact_organization_id = applications.contact_organization_id
-          GROUP BY organizations.name
-    ) AS app_counter
-      ON organizations.name = app_counter.name
-    "
-    orgs = ActiveRecord::Base.connection.execute(query)
-
-    respond_to do |format|
-      format.html { redirect_to(organizations_url, notice: 'Row was deleted.') }
-      format.json { head :no_content }
-    end
+    # query = " SELECT 
+    #     contact_organizations.contact_organization_id,
+    #     organizations.name AS org_name,
+    #     organizations.organization_id,
+    #     contacts.name AS contact_name,
+    #     contacts.contact_id,
+    #     contacts.email,
+    #     contacts.officer_position,
+    #     contacts.year,
+    #     app_counter.app_count
+    #   FROM 
+    #     contact_organizations
+    #   INNER JOIN 
+    #     organizations
+    #   ON 
+    #     contact_organizations.organization_id = organizations.organization_id
+    #   INNER JOIN 
+    #     contacts
+    #   ON 
+    #     contact_organizations.contact_id = contacts.contact_id    
+    #   LEFT JOIN (
+    #       SELECT
+    #           organizations.name AS name,
+    #           COUNT(applications.application_id) AS app_count
+    #       FROM
+    #           contact_organizations
+    #       INNER JOIN 
+    #           organizations
+    #       ON 
+    #           contact_organizations.organization_id = organizations.organization_id
+    #       LEFT JOIN
+    #           applications
+    #       ON
+    #           contact_organizations.contact_organization_id = applications.contact_organization_id
+    #       GROUP BY organizations.name
+    # ) AS app_counter
+    #   ON organizations.name = app_counter.name
+    # "
+    # orgs = ActiveRecord::Base.connection.execute(query)
   end
 
   # GET /organizations/1 or /organizations/1.json
@@ -377,27 +401,6 @@ end
       # Autofill in organization: organization_id, organization_description
       # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
       # Autofill in contact: contact_id, year, description
-  end
-
-  def edit_row
-    # Parse the edited rows sent by the client
-    edited_rows = params[:edited_rows]
-
-    # Iterate through the edited rows and update the corresponding records in the database
-    edited_rows.each do |row|
-      puts "Row to be edited: #{row[:id]}"
-      # organization = Organization.find(row[:id])
-      # organization.update(organization_id: row[:id], name: row[:name], description: row[:description])
-
-      # organization = Organization.find(row[:id])
-      # organization.update(organization_id: row[:id], name: row[:name], description: row[:description])
-
-      # organization = Organization.find(row[:id])
-      # organization.update(organization_id: row[:id], name: row[:name], description: row[:description])
-    end
-
-    # Return a success response
-    render json: { success: true }
   end
 
   # POST /organizations or /organizations.json
