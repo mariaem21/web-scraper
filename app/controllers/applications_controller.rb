@@ -47,6 +47,28 @@ class ApplicationsController < ApplicationController
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
+<<<<<<< HEAD
+=======
+    respond_to do |format|
+      format.xlsx  {
+          response.headers[
+          'Content-Disposition'
+          ] = "attachment; filename=excel_file.xlsx"
+      }
+      
+      if params[:commit] == "Save exclude apps?" and params[:commit] != nil
+        save_exclude_cookie(params[:applications_ids])
+        format.html{ redirect_to applications_path, notice: 'Changes saved!' }
+      elsif params[:commit] == "Include All" and params[:commit] != nil
+        save_exclude_cookie([])
+        format.html{ redirect_to applications_path, notice: 'All applications have been reincluded!'}
+      else
+        params[:applications_ids] = cookies[:applications_ids]
+        format.html { render :index }
+      end
+    end
+
+>>>>>>> 9a956c54bc11da15faecf1dd258d0ccb9973fd72
   end
 
 
@@ -221,8 +243,6 @@ class ApplicationsController < ApplicationController
 
     apps = ActiveRecord::Base.connection.execute(query)
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
-
-
   end
 
 
