@@ -1,6 +1,6 @@
-@import "base";
-@import "components";
-@import "utilities";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 .bg-tamuMaroon{--tw-bg-opacity:1;background-color:rgb(80 00 00/var(--tw-bg-opacity))}
 .bg-tamuButton{cursor:pointer;--tw-bg-opacity:1;background-color:rgb(55 0 0/var(--tw-bg-opacity))}
