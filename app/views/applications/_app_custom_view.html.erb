@@ -151,10 +151,11 @@
     </tbody>
 </table>
 
+<button class="btn btn-dark btn-lg" onclick="swapTable()">Change exclude view</button>
 <%= form_tag applications_path, method: :get, id: "application-form" do %>
     <%= submit_tag "Save excluded apps?" %>
     <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
-        <table class="min-w-full bg-white">
+        <table class="min-w-full bg-white" id="non-exclude-items" style="display:block">
             <thead class="bg-gray-800 text-white">
                 <tr>
                     <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
@@ -222,8 +223,51 @@
             </tbody>
         </table>
 
-        <table class="min-w-full bg-white">
-            <tbody class="text-gray-700">
+        <table class="min-w-full bg-white" id="exclude-items" style="display:none">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                    <%= sort_link_app(column: "applications.name", label: "Exclude", org_id: org_id) %>
+                    </th>
+
+                    <th id="application-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "applications.name" %>
+                        <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
+                    </th>
+
+                    <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.name" %>
+                        <%= sort_link_app(column: "contacts.name", label: "Contact Name", org_id: org_id) %>
+                    </th>
+            
+                    <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.email" %>
+                        <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
+                    </th>
+
+                    <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                        <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
+                    </th>
+
+                    <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
+                        <%= sort_indicator if params[:column] == "contacts.github_link" %>
+                        <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: org_id) %>
+                    </th>
+                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "contacts.year" %>
+                        <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
+                    </th>
+                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "applications.description" %>
+                        <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
+                    </th>
+                    <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                        <%= sort_indicator if params[:column] == "cat_name" %>
+                        <%= sort_link_app(column: "cat_name", label: "Category", org_id: org_id) %>
+                    </th>
+                </tr>
+            </thead>
             <% if apps.ntuples == 0 %>
                 There are no applications for this organization
             <% end %>
@@ -248,11 +292,25 @@
 <% end %>
 
 <script>
-    var app_checkboxes = document.querySelectorAll('.exclude-app-checkbox');
-    app_checkboxes.forEach((checkboxs) => {
-        checkboxs.addEventListener('click', () => {
-            var f = document.getElementById("save-exclude-app");
-            f.style.display = 'block';
-        })
-    })
+    function setTable(val) {
+        if (val === 0) {
+            tableNonExclude.style.display = "block";
+            tableExclude.style.display = "none";
+        } else {
+            tableNonExclude.style.display = "none";
+            tableExclude.style.display = "block";
+        }
+    }
+
+    function swapTable() {
+        var tableNonExclude = document.getElementById("non-exclude-items")
+        var tableExclude = document.getElementById("exclude-items")
+        if (tableNonExclude.style.display === "block") {
+            tableNonExclude.style.display = "none";
+            tableExclude.style.display = "block";
+        } else {
+            tableNonExclude.style.display = "block";
+            tableExclude.style.display = "none";
+        }
+    }
 </script>

@@ -53,11 +53,12 @@ class OrganizationsController < ApplicationController
           ] = "attachment; filename=excel_file.xlsx"
       }
       
-      if params[:commit] == "Save exclude orgs?"
+      if params[:commit] == "Save exclude orgs?" and params[:commit] != nil
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
-      elsif params[:commit] == "Include All"
+      elsif params[:commit] == "Include All" and params[:commit] != nil
         save_exclude_cookie([])
+        params[:organizations_ids] = []
         format.html{ redirect_to organizations_path, notice: 'All organizations have been reincluded!'}
       else
         params[:organizations_ids] = cookies[:organizations_ids]
