@@ -419,6 +419,7 @@ class ApplicationsController < ApplicationController
     # orgs = ActiveRecord::Base.connection.execute(query)
   end
 
+  # Adds new table 
   def add_table_entry(organization_id: -1, app_name: "new", contact_name: "new", contact_email: "new", officer_position: "new", github_link: "new", date_built: Date.today, notes: "new", category: "new")
       organization_id = params[:organization_id]
       app_name = params[:app_name] 

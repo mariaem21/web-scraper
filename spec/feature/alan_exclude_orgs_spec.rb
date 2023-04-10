@@ -6,7 +6,13 @@ require 'rails_helper'
 
 # Exclude organizations from list of potential customers integration tests
 
-RSpec.describe 'Test', type: :feature do
+RSpec.describe 'Exclude organizations', type: :feature do
+    scenario 'Exclude the first organization' do
+        
+    end
+end
+
+RSpec.describe 'Exclude applications', type: :feature do
     scenario 'Placeholder scenario' do
         
     end
