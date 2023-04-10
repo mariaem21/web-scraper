@@ -267,13 +267,13 @@
                                     <% @displayed_columns.each do |column| %>
                                         <% case column %>
                                         <% when "Organization Name" %>
-                                            <td id="org_name", data-column="org_name", contenteditable='true', class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                                            <td id="org_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="org_name", contenteditable='true', class="text-left py-3 px-6"><%= org['org_name'] %></td>
                                         <% when "Contact Name" %>
-                                            <td id="contact_name", data-column="contact_name", contenteditable='true', class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                                            <td id="contact_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_name", contenteditable='true', class="text-left py-3 px-6"><%= org['contact_name'] %></td>
                                         <% when "Contact Email" %>
-                                            <td id="contact_email", data-column="contact_email", contenteditable='true', class="text-left py-3 px-6"><%= org['email'] %></td>
+                                            <td id="contact_email<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_email", contenteditable='true', class="text-left py-3 px-6"><%= org['email'] %></td>
                                         <% when "Officer Position" %>
-                                            <td data-column="officer_position", contenteditable='true', class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                                            <td id="officer_position<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="officer_position", contenteditable='true', class="text-left py-3 px-6"><%= org['officer_position'] %></td>
                                         <% when "Last Modified" %>
                                             <td class="text-left py-3 px-6"><%= org['year'] %></td>
                                         <% when "Applications" %>
@@ -292,14 +292,13 @@
                                         <%= link_to "Delete", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button class: "edit-row-link", onclick="printRowValues()">Edit</button>
+                                        <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Print Single Row</button>
                                     </td>
                                 </tr>
                             <% end %>
                         <% end %>
                     <% end %>
                 </tbody>
-                <button onclick="printRowValues()">Print Row Values</button>
             </table>
             <table class="min-w-full">
                 <tbody class="text-gray-700">
@@ -351,38 +350,25 @@
         })
     })
 
-    function printRowValues() {
-        var rows = document.querySelectorAll('table tbody tr');
-        rows.forEach(function(row) {
-            var org_id = row.getAttribute('org-id');
-            var con_id = row.getAttribute('con-id');
-            var con_org_id = row.getAttribute('con-org-id');
-            var org_name = row.querySelector('td:nth-child(2)').textContent;
-            var con_name = row.querySelector('td:nth-child(3)').textContent;
-            var con_email = row.querySelector('td:nth-child(4)').textContent;
-            var officer_position = row.querySelector('td:nth-child(5)').textContent;
-            console.log(org_id + ', ' + con_id + ', ' + con_org_id + ', ' + org_name + ' ' + con_name);
-            $edited_rows[org_id] = {organization_id: org_id, organization_name: org_name, contact_id: con_id, contact_name: con_name, contact_email: con_email, officer_position: officer_position};
-        });
+    function printSingleRow(organization_id, contact_organization_id, contact_id) {
+
+        var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
+        var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/organizations/edit_row?organization_id="+organization_id+"&organization_name="+org_name+"&contact_id="+contact_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle successful response here
+        } else {
+            // Handle error response here
+        }
+        };
+        xhr.send();
     }
 
-    function printRowValues() {
-        console.log("GOT HERE")
-        // Find the edited row and gather its values
-        var row = (this).closest('tr');
-        var org_id = row.getAttribute('org-id');
-        console.log("ORG ID")
-        var con_id = row.getAttribute('con-id');
-        var org_name = row.find('[data-column="org_name"]').text().trim();
-        var contact_name = row.find('[data-column="contact_name"]').text().trim();
-        var contact_email = row.find('[data-column="contact_email"]').text().trim();
-        var officer_position = row.find('[data-column="officer_position"]').text().trim();
-
-        // Send the values to the controller action using an AJAX request
-        console.log("Org id:" + org_id + " contact_name: " + contact_name)
-        new Ajax.Request('/organizations/edit_row', { 
-                  method: 'post',
-                  parameters: { organization_id: org_id, contact_id: con_id, organization_name: org_name, contact_name: con_name, contact_email: con_email, officer_position: officer_position }
-                });
-    }
 </script>
