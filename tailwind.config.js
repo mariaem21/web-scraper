@@ -2,7 +2,6 @@ module.exports = {
   content: [
     './app/views/**/*.html.erb',
     './app/helpers/**/*.rb',
-    './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js'
   ],  
   theme: {
@@ -19,4 +18,10 @@ module.exports = {
       'bermuda': '#78dcca',
     },
   },
+  safelist: [
+    {
+      pattern: /./,
+      variants: ['sm', 'md', 'lg', 'xl', '2xl'],
+    },
+    ],
 }
