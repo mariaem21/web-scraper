@@ -2,7 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.static{position:static}.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mt-12{margin-top:3rem}.block{display:block}.inline{display:inline}.flex{display:flex}.table{display:table}.hidden{display:none}.h-16{height:4rem}.min-w-full{min-width:100%}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.space-x-4>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem*var(--tw-space-x-reverse));margin-left:calc(1rem*(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.border{border-width:1px; color: black;}.border-b{border-bottom-width:1px}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246/var(--tw-border-opacity))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235/var(--tw-border-opacity))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55/var(--tw-bg-opacity))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39/var(--tw-bg-opacity))}.bg-tamuMaroon{--tw-bg-opacity:1;background-color:rgb(80 00 00/var(--tw-bg-opacity))}.bg-tamuButton{cursor:pointer;--tw-bg-opacity:1;background-color:rgb(55 0 0/var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.p-2{padding:.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.text-left{text-align:left}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.shadow{--tw-shadow:0 1px 3px 0 #0000001a,0 1px 2px -1px #0000001a;--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\:cursor-pointer:hover{cursor:pointer}@media (min-width:640px){.sm\:ml-6{margin-left:1.5rem}.sm\:block{display:block}.sm\:items-stretch{align-items:stretch}.sm\:justify-start{justify-content:flex-start}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}.logo-image{width:150px;height:150px;overflow:hidden;margin-top:-15px;right:5px;display:inline-block;position: fixed;}
+.static{position:static}.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mt-12{margin-top:3rem}.block{display:block}.inline{display:inline}.flex{display:flex}.table{display:table}.hidden{display:none}.h-16{height:4rem}.min-w-full{min-width:100%}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.space-x-4>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem*var(--tw-space-x-reverse));margin-left:calc(1rem*(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.border{border-width:1px; color: black;}.border-b{border-bottom-width:1px}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246/var(--tw-border-opacity))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235/var(--tw-border-opacity))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55/var(--tw-bg-opacity))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39/var(--tw-bg-opacity))}.bg-tamuMaroon{--tw-bg-opacity:1;background-color:rgb(80 00 00/var(--tw-bg-opacity))}
+.bg-tamuButton{cursor:pointer;--tw-bg-opacity:1;background-color:rgb(55 0 0/var(--tw-bg-opacity))}
+.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.p-2{padding:.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.text-left{text-align:left}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.shadow{--tw-shadow:0 1px 3px 0 #0000001a,0 1px 2px -1px #0000001a;--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.hover\:cursor-pointer:hover{cursor:pointer}@media (min-width:640px){.sm\:ml-6{margin-left:1.5rem}.sm\:block{display:block}.sm\:items-stretch{align-items:stretch}.sm\:justify-start{justify-content:flex-start}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}.logo-image{ width: 150px; height: 150px; overflow:hidden; margin-top: -15px; right: 5px; display: inline-block; position: fixed;}
 .dropbtn {
     border: none;
     cursor: pointer;
@@ -48,6 +50,12 @@
     border-bottom: 1px solid;
     border-color: white;
 }
+.nonstickynav{
+  width: 100%;
+  z-index: 100;
+  border-bottom: 1px solid;
+  border-color: white;
+}
 .navpadding {
     position: relative;
     top: 35px;
@@ -67,9 +75,12 @@ h3{
     margin-left: 5px;
 }
 .notice-container{
+    position: fixed;
     max-height: fit-content;
     min-width: 100%;
     background-color: rgb(252,227,0);
+    position: relative;
+    top: 100px;
 }
 body{
     background-color: rgb(80,0,0);
@@ -101,6 +112,7 @@ table{
     border: 1px solid;
 }
 .notice{
+    position: sticky;
     color: black;
     width: 100%;
     background-color: rgb(252,227,0);
@@ -148,6 +160,7 @@ table{
   color: white;
   border: 1px solid;
   border-color: white;
+  margin-bottom: 15px;
 }
 .paddiv{
   padding: 40px 40px;
