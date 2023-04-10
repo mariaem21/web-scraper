@@ -47,7 +47,7 @@ class ApplicationsController < ApplicationController
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
-    if params[:commit] == "Save exclude apps?"
+    if params[:commit] == "Save excluded apps?"
       save_exclude_cookie_app(params[:applications_ids])
       redirect_to applications_path, notice: 'Changes saved!'
     elsif params[:commit] == "Include All"
