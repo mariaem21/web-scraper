@@ -10,7 +10,7 @@ class ApplicationsController < ApplicationController
   # GET /applications or /applications.json
   def index
     @applications = Application.all
-    @apps = ActiveRecord::Base.connection.execute("
+    query = "
         SELECT 
         applications.name AS app_name, 
         contacts.name AS contact_name,
@@ -19,7 +19,8 @@ class ApplicationsController < ApplicationController
         applications.github_link,
         contacts.year,
         applications.description,
-        categories.cat_name
+        categories.cat_name,
+        contact_organizations.organization_id
         FROM contact_organizations
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -33,18 +34,20 @@ class ApplicationsController < ApplicationController
                 application_categories
             INNER JOIN categories
             ON application_categories.category_id = categories.category_id
-
         ) AS categories
         ON categories.app_id = applications.application_id
-        WHERE contact_organizations.organization_id = #{params[:org_id]}
-    ")
+    "
+        
+    if params.has_key?(:org_id) and params[:org_id] != nil
+      query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
+    end
+    @apps = ActiveRecord::Base.connection.execute(query)
 
 
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
   end
-
 
 
   # GET /applications/1 or /applications/1.json
@@ -62,8 +65,8 @@ class ApplicationsController < ApplicationController
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     
     
-    # session['filters']['org_id'] = params[:org_id] if params[:org_id] != session['filters']['org_id'] and params[:org_id] != nil
-    # session['filters']['org_id'] = $org_id if session['filters']['org_id'] == nil
+    session['filters']['org_id'] = params[:org_id] if params[:org_id] != session['filters']['org_id'] and params[:org_id] != nil
+    session['filters']['org_id'] = $org_id if session['filters']['org_id'] == nil
     # puts "global variable #{$org_id}"
     
     if params[:app_name] != session['filters']['app_name'] and params[:app_name] != nil
@@ -116,7 +119,7 @@ class ApplicationsController < ApplicationController
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
 
-    if session['filters']['column'] == "applications.name" or session['filters']['column'] == "contacts.name" or session['filters']['column'] == "contacts.email" or session['filters']['column'] == "contacts.officer_position" or session['filters']['column'] == "contacts.github_link" or session['filters']['column'] == "contacts.year" or session['filters']['column'] == "applications.description"
+    if session['filters']['column'] == "applications.name" or session['filters']['column'] == "contacts.name" or session['filters']['column'] == "contacts.email" or session['filters']['column'] == "contacts.officer_position" or session['filters']['column'] == "applications.github_link" or session['filters']['column'] == "contacts.year" or session['filters']['column'] == "applications.description" or session['filters']['column'] == "cat_name"
       puts "valid column name, continuing"
     else
       session['filters']['column'] = nil
@@ -151,11 +154,19 @@ class ApplicationsController < ApplicationController
 
         ) AS categories
         ON categories.app_id = applications.application_id
-        WHERE contact_organizations.organization_id = #{$org_id}
+       
     "
-    if session['filters']['app_name']
+
+    if params.has_key?(:org_id) and params[:org_id] != nil
+      query += "         WHERE contact_organizations.organization_id = #{$org_id}"
+    end
+    if session['filters']['app_name'] and params.has_key?(:org_id) and params[:org_id] != nil
         query += " AND LOWER(applications.name) LIKE LOWER('#{session['filters']['app_name']}%')
         "
+    else
+      query += "WHERE LOWER(applications.name) LIKE LOWER('#{session['filters']['app_name']}%')
+      "
+
     end
 
     if session['filters']['contact_name'] and session['filters']['contact_name']
@@ -180,21 +191,23 @@ class ApplicationsController < ApplicationController
       "
     end
 
-    if session['filters']['cat_name']
+    if session['filters']['cat_name'] and session['filters']['cat_name'] != ""
       query += "  AND LOWER(categories.cat_name) LIKE LOWER('#{session['filters']['cat_name']}%')
       "
     end
 
-    if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
-      query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
-      "
-    elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
-      query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
-      "
-    elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
-      query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
-      "
-    end
+    # if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
+    #   query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
+    #   "
+    # elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
+    #   query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
+    #   "
+    # elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
+    #   query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
+    #   "
+    # end
+
+    puts " #{session['filters']['column']}"
 
     if session['filters']['column'] or session['filters']['direction'] and session['filters']['column'] != "contacts.year"
         query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}
@@ -208,10 +221,6 @@ class ApplicationsController < ApplicationController
 
     apps = ActiveRecord::Base.connection.execute(query)
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
-
-
-
-
 
 
   end

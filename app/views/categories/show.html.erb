@@ -1,10 +1,48 @@
-<p style="color: green"><%= notice %></p>
+<nav class="bg-tamuMaroon sticky-nav">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between max-h-nav">
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            <%= button_to "Update Site", scrape_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= button_to "Delete All", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Create New Entry", new_organization_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
+            <button class="dropbtn">Additional Tables</button>
+            <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
+              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
+              <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+              <%= link_to "Categories", categories_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+              <%= link_to "Application-Categories", application_categories_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+              <%= link_to "Contacts", contacts_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+              <%= link_to "Contacts-Organizations", contact_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            </div>
+            </div>
+            <h1 class="navlabel">Catagories</h1>
+            <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
+              <div class="logo-image">
+                    <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<body>
+<div class="navpadding"><\div>
+
+<p class="notice"><%= notice %></p>
 
 <%= render @category %>
+</br>
+<div class="showviewlinks">
+  <%= link_to "Edit this Category", edit_category_path(@category) %> |
+  <%= link_to "Back to Categories", categories_path %>
 
-<div>
-  <%= link_to "Edit this category", edit_category_path(@category) %> |
-  <%= link_to "Back to categories", categories_path %>
-
-  <%= button_to "Destroy this category", @category, method: :delete %>
+  <%= button_to "Destroy this Category", @category, method: :delete %>
 </div>

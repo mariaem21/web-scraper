@@ -1,3 +1,5 @@
+
+
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
@@ -151,18 +153,9 @@
     </tbody>
 </table>
 
-
-
-
-
-
-
-
-
-
-
+</br>
 <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
-    <table class="min-w-full bg-white">
+    <table class="min-w-full">
         <thead class="bg-gray-800 text-white">
         <tr>
             <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
@@ -215,6 +208,8 @@
                 Include All
             </td>
         </tr>
+        <% if apps.ntuples == 0 %>
+        <% end %>
         <% apps.each do |app| %>
             <tr>
             <td class="text-left py-3 px-6"><%= "checkbox" %></td>
