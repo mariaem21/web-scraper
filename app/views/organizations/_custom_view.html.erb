@@ -1,4 +1,3 @@
-
 <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 <nav class="bg-tamuMaroon nonstickynav">
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -218,10 +217,8 @@
     <%= text_field_tag :org_name, params[:org_name] %>
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
     <%= text_field_tag :contact_name, params[:contact_name] %>
-
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
     <%= text_field_tag :contact_email, params[:contact_email] %>
-
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
     <%= text_field_tag :officer_position, params[:officer_position] %>
     <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
@@ -235,11 +232,9 @@
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
-    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
+    <button class="btn btn-dark btn-lg" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
-        <div class="showbutton">
         <%= submit_tag "Save exclude orgs?" %>
-          </div>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
             <table class="min-w-full" id="non-exclude-items" style="display:block">
@@ -449,50 +444,25 @@
         }
     }
 
-    function printRowValues() {
-        var rows = document.querySelectorAll('table tbody tr');
-        rows.forEach(function(row) {
-            var org_id = row.getAttribute('org-id');
-            var con_id = row.getAttribute('con-id');
-            var con_org_id = row.getAttribute('con-org-id');
-            var org_name = row.querySelector('td:nth-child(2)').textContent;
-            var con_name = row.querySelector('td:nth-child(3)').textContent;
-            var con_email = row.querySelector('td:nth-child(4)').textContent;
-            var officer_position = row.querySelector('td:nth-child(5)').textContent;
-            console.log(org_id + ', ' + con_id + ', ' + con_org_id + ', ' + org_name + ' ' + con_name);
-            $edited_rows[org_id] = {organization_id: org_id, organization_name: org_name, contact_id: con_id, contact_name: con_name, contact_email: con_email, officer_position: officer_position};
-        });
+    function printSingleRow(organization_id, contact_organization_id, contact_id) {
+
+        var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
+        var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/organizations/edit_row?organization_id="+organization_id+"&organization_name="+org_name+"&contact_id="+contact_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle successful response here
+        } else {
+            // Handle error response here
+        }
+        };
+        xhr.send();
     }
 
-    $(document).on('click', '.edit-row-link', function(e) {
-        e.preventDefault();
-
-        const myElement = document.getElementById('org_name'); 
-        const typedValue = myElement.innerHTML;
-
-        console.log(typedValue)
-
-        // Find the edited row and gather its values
-        var $row = $(this).closest('tr');
-        var org_id = $row.getAttribute('org-id');
-        var con_id = $row.getAttribute('con-id');
-        var org_name = $row.find('[data-column="org_name"]').text().trim();
-        var contact_name = $row.find('[data-column="contact_name"]').text().trim();
-        var contact_email = $row.find('[data-column="contact_email"]').text().trim();
-        var officer_position = $row.find('[data-column="officer_position"]').text().trim();
-
-        // Send the values to the controller action using an AJAX request
-        $.ajax({
-            url: "/organizations/" + org_id + "/edit_row",
-            method: 'POST',
-            data: {
-            organization_id: org_id,
-            organization_name: org_name,
-            contact_id: con_id,
-            contact_name: contact_name,
-            contact_email: contact_email,
-            officer_position: officer_position
-            }
-        });
-    });
 </script>

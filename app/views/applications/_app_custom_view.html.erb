@@ -1,5 +1,3 @@
-<%= link_to "Back", applications_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
-
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
@@ -7,35 +5,51 @@
             <th>
                 Exclude
             </th>
-            <th>
-                Application Name
-            </th>
-            <th>
-                Contact Name
-            </th>
-            <th>
-                Contact Email
-            </th>
-            <th>
-                Officer Position
-            </th>
-            <th>
-                Github Link
-            </th>
-            <th>
-                Notes
-            </th>
-            <th>
-                <div>
-                    Start Date
-                </div>
-                <div>
-                    End Date
-                </div>
-            </th>
-            <th>
-                Category
-            </th>
+            <% if @displayed_columns.include?("Application Developed") then %>
+                <th>
+                    Application Name
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Contact Name") then %>
+                <th>
+                    Contact Name
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Contact Email") then %>
+                <th>
+                    Contact Email
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Officer Position") then %>
+                <th>
+                    Officer Position
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Github Link") then %>
+                <th>
+                    Github Link
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Notes") then %>
+                <th>
+                    Notes
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Year Developed") then %>
+                <th>
+                    <div>
+                        Start Date
+                    </div>
+                    <div>
+                        End Date
+                    </div>
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Category") then %>
+                <th>
+                    Category
+                </th>
+            <% end %>
         </tr>
     </thead>
     <tbody>
@@ -43,140 +57,155 @@
             <td class="text-left py-3 px-6">
                 <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
             </td>
-            <td>
-                <div id="app_name_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :app_name,
-                        placeholder: "App Name",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="contact_name_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :contact_name,
-                        placeholder: "Contact Name",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="contact_email_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :contact_email,
-                        placeholder: "Email",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :officer_position,
-                        placeholder: "Officer Position",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="github_link_position_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :github_link,
-                        placeholder: "Github Link",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="contact_date_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :date_start,
-                        placeholder: "Start Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-                <div id="contact_date_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :date_end,
-                        placeholder: "End Date",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="application_note" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :description,
-                        placeholder: "Notes",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>
-            <td>
-                <div id="cat_name" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
-                        <%= form.text_field :cat_name,
-                        placeholder: "Category",
-                        class: "border border-blue-500 rounded p-2",
-                        autocomplete: "off",
-                        data: { action: "input->search-form#search" }
-                        %>
-                    <% end %>
-                </div>
-            </td>            
+            <% if @displayed_columns.include?("Application Developed") then %>
+                <td>
+                    <div id="app_name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :app_name,
+                            placeholder: "App Name",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Contact Name") then %>
+                <td>
+                    <div id="contact_name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :contact_name,
+                            placeholder: "Contact Name",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Contact Email") then %>
+                <td>
+                    <div id="contact_email_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :contact_email,
+                            placeholder: "Email",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Officer Position") then %>
+                <td>
+                    <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :officer_position,
+                            placeholder: "Officer Position",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Github Link") then %>
+                <td>
+                    <div id="github_link_position_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :github_link,
+                            placeholder: "Github Link",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Year Developed") then %>
+                <td>
+                    <div id="contact_date_start" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :date_start,
+                            placeholder: "Start Date",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                    <div id="contact_date_end" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :date_end,
+                            placeholder: "End Date",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Notes") then %>
+                <td>
+                    <div id="application_note" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :description,
+                            placeholder: "Notes",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @displayed_columns.include?("Category") then %>
+                <td>
+                    <div id="cat_name" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                            <%= form.text_field :cat_name,
+                            placeholder: "Category",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" }
+                            %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %> 
+            <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                Delete
+            </th>
+            <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                Edit
+            </th>           
         </tr>
     </tbody>
 </table>
 
 <div class="create-new">
 <%= form_tag add_table_entry_applications_path(organization_id: org_id), method: :post do %>
-
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
     <%= text_field_tag :app_name, params[:app_name] %>
     
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
     <%= text_field_tag :contact_name, params[:contact_name] %>
-
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
     <%= text_field_tag :contact_email, params[:contact_email] %>
-
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
     <%= text_field_tag :officer_position, params[:officer_position] %>
-
     <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
     <%= text_field_tag :github_link, params[:github_link] %>
-
     <%= label_tag :date_built, "Enter Date Built:" ,class: "create-new-item" %>
     <%= date_field_tag :date_built, params[:date_built] %>
-
     <%= label_tag :notes, "Enter Notes:" ,class: "create-new-item" %>
     <%= text_field_tag :notes, params[:notes] %>
-
     <%= label_tag :category, "Enter Category:" ,class: "create-new-item" %>
     <%= text_field_tag :category, params[:category] %>
     
@@ -194,7 +223,6 @@
     <% end %>
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
-
 <% if flash[:error] %>
   <div class="alert alert-danger"><%= flash[:error] %></div>
 <% elsif @displayed_columns.empty? %>
@@ -217,7 +245,6 @@
                                 <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Contact Name") then %>
                             <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "contacts.name" %>
@@ -231,14 +258,12 @@
                                 <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Officer Position") then %>
                             <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "contacts.officer_position" %>
                                 <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Github Link") then %>
                             <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
                                 <%= sort_indicator if params[:column] == "contacts.github_link" %>
@@ -252,14 +277,12 @@
                                 <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Notes") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "applications.description" %>
                                 <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Category") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "cat_name" %>
@@ -328,7 +351,6 @@
                                 <%= sort_link_app(column: "applications.name", label: "Application Developed", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Contact Name") then %>
                             <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "contacts.name" %>
@@ -342,14 +364,12 @@
                                 <%= sort_link_app(column: "contacts.email", label: "Contact Email", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Officer Position") then %>
                             <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "contacts.officer_position" %>
                                 <%= sort_link_app(column: "contacts.officer_position", label: "Officer Position", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Github Link") then %>
                             <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
                                 <%= sort_indicator if params[:column] == "contacts.github_link" %>
@@ -363,14 +383,12 @@
                                 <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Notes") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "applications.description" %>
                                 <%= sort_link_app(column: "applications.description", label: "Notes", org_id: org_id) %>
                             </th>
                         <% end %>
-
                         <% if @displayed_columns.include?("Category") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                                 <%= sort_indicator if params[:column] == "cat_name" %>
