@@ -45,7 +45,7 @@
             </td>
             <td>
                 <div id="app_name_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :app_name,
                         placeholder: "App Name",
                         class: "border border-blue-500 rounded p-2",
@@ -57,7 +57,7 @@
             </td>
             <td>
                 <div id="contact_name_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :contact_name,
                         placeholder: "Contact Name",
                         class: "border border-blue-500 rounded p-2",
@@ -69,7 +69,7 @@
             </td>
             <td>
                 <div id="contact_email_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :contact_email,
                         placeholder: "Email",
                         class: "border border-blue-500 rounded p-2",
@@ -81,7 +81,7 @@
             </td>
             <td>
                 <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :officer_position,
                         placeholder: "Officer Position",
                         class: "border border-blue-500 rounded p-2",
@@ -93,7 +93,7 @@
             </td>
             <td>
                 <div id="github_link_position_search" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :github_link,
                         placeholder: "Github Link",
                         class: "border border-blue-500 rounded p-2",
@@ -105,7 +105,7 @@
             </td>
             <td>
                 <div id="contact_date_start" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :date_start,
                         placeholder: "Start Date",
                         class: "border border-blue-500 rounded p-2",
@@ -115,7 +115,7 @@
                     <% end %>
                 </div>
                 <div id="contact_date_end" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :date_end,
                         placeholder: "End Date",
                         class: "border border-blue-500 rounded p-2",
@@ -127,7 +127,7 @@
             </td>
             <td>
                 <div id="application_note" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :description,
                         placeholder: "Notes",
                         class: "border border-blue-500 rounded p-2",
@@ -139,7 +139,7 @@
             </td>
             <td>
                 <div id="cat_name" class="flex justify-end mb-1">
-                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "applications" } do |form| %>
+                    <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                         <%= form.text_field :cat_name,
                         placeholder: "Category",
                         class: "border border-blue-500 rounded p-2",
@@ -152,6 +152,33 @@
         </tr>
     </tbody>
 </table>
+
+<div class="create-new">
+<%= form_tag add_table_entry_applications_path, method: :post do %>
+    <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
+    <%= text_field_tag :app_name, params[:app_name] %>
+    
+    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_name, params[:contact_name] %>
+
+    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_email, params[:contact_email] %>
+
+    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
+    <%= text_field_tag :officer_position, params[:officer_position] %>
+
+    <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
+    <%= text_field_tag :github_link, params[:github_link] %>
+
+    <%= label_tag :notes, "Enter Notes:" ,class: "create-new-item" %>
+    <%= text_field_tag :notes, params[:notes] %>
+
+    <%= label_tag :category, "Enter Category:" ,class: "create-new-item" %>
+    <%= text_field_tag :category, params[:category] %>
+    
+    <%= submit_tag "Add New Org", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+<% end %>
+</div>
 
 </br>
 <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>

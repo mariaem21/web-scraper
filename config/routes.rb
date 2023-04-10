@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :contact_organizations
   resources :applications do
     collection do
+      post :add_table_entry
       get 'list'
     end
   end
