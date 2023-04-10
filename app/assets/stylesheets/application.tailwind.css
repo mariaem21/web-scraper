@@ -87,6 +87,7 @@ top:40px;
   background-color: rgb(252,227,0);
 }
 body{
+  overflow-x: hidden;
   background-color: rgb(80,0,0);
 }
 body p{
