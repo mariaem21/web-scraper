@@ -325,7 +325,17 @@
                                     <% end %>
                                 <% end %>
                                 <td class="text-left py-3 px-6">
-                                    <%= link_to "Delete", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                    <a href="javascript:showhide('confirmation')">
+                                        Delete
+                                    </a>
+                                    <div id="confirmation" style="display:none;">
+                                        <p> Are you sure? </p>
+                                    <br/> 
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                        <a href="javascript:showhide('confirmation')">
+                                            Cancel
+                                        </a>
+                                    </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
                                     <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Edit</button>
@@ -420,8 +430,18 @@
                                     <% end %>
                                 <% end %>
                                 <td class="text-left py-3 px-6">
-                                    <%= link_to "Delete", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
-                                </td>
+                                    <a href="javascript:showhide('confirmation')">
+                                    Delete
+                                </a>
+                                <div id="confirmation" style="display:none;">
+                                    <p> Are you sure? </p>
+                                <br/> 
+                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                    <a href="javascript:showhide('confirmation')">
+                                        Cancel
+                                    </a>
+                                </div>
+                                                            </td>
                                 <td class="text-left py-3 px-6">
                                     <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Print Single Row</button>
                                 </td>
@@ -466,6 +486,12 @@
         }
         };
         xhr.send();
+
     }
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+
 
 </script>
