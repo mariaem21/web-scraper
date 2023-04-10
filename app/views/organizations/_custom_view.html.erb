@@ -235,9 +235,11 @@
 <% elsif @displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
-    <button class="btn btn-dark btn-lg" onclick="swapTable()">Change exclude view</button>
+    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
-        <%= submit_tag "Save exclude orgs?" %>
+        <div class="showbutton">
+        <%= submit_tag, "Save exclude orgs?" %>
+          </div>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
             <table class="min-w-full" id="non-exclude-items" style="display:block">
