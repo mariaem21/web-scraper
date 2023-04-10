@@ -25,7 +25,8 @@ class ApplicationsController < ApplicationController
         contact_organizations.organization_id,
         contact_organizations.contact_organization_id,
         contacts.contact_id,
-        applications.application_id
+        applications.application_id,
+        categories.app_cat_id
         FROM contact_organizations
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -35,6 +36,7 @@ class ApplicationsController < ApplicationController
             SELECT
                 categories.name AS cat_name,
                 application_categories.application_id AS app_id,
+                application_categories.application_category_id AS app_cat_id,
                 categories.category_id
             FROM 
                 application_categories
@@ -229,7 +231,8 @@ class ApplicationsController < ApplicationController
         contact_organizations.contact_organization_id,
         contacts.contact_id,
         applications.application_id,
-        categories.category_id
+        categories.category_id,
+        categories.app_cat_id
         FROM contact_organizations
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -239,6 +242,7 @@ class ApplicationsController < ApplicationController
             SELECT
                 categories.name AS cat_name,
                 application_categories.application_id AS app_id,
+                application_categories.application_category_id AS app_cat_id,
                 categories.category_id
             FROM 
                 application_categories
@@ -340,7 +344,7 @@ class ApplicationsController < ApplicationController
     app_id = params[:application_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
-    category_id = params[:category_id]
+    application_category_id = params[:application_category_id]
     
     query = "
       DELETE FROM applications 
@@ -360,11 +364,14 @@ class ApplicationsController < ApplicationController
     "
     ActiveRecord::Base.connection.execute(query)
 
-    query = "
-      DELETE FROM categories 
-      WHERE categories.category_id = #{category_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    if application_category_id and application_category_id != ""
+      query = "
+        DELETE FROM application_categories 
+        WHERE application_categories.application_category_id = #{application_category_id}
+      "    
+      ActiveRecord::Base.connection.execute(query)
+
+    end
 
     respond_to do |format|
       format.html { redirect_to(applications_url, notice: 'Organization was successfully destroyed.') }
