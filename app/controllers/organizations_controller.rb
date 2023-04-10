@@ -375,9 +375,9 @@ end
       contact_email = params[:contact_email]
       officer_position = params[:officer_position]
 
-      org_count = 1
-      contact_count = 1
-      con_org_count = 1
+      org_count = 0
+      contact_count = 0
+      con_org_count = 0
       org = {}
       contact = {}
       con_org = {}

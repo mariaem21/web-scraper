@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     match 'exclude', to: 'organizations#exclude', via: :get, on: :collection
     collection do
       get :delete_row
-      post :edit_row
+      get :edit_row
       post :add_table_entry
       post :display_columns
       get 'list'
@@ -18,8 +18,6 @@ Rails.application.routes.draw do
   resources :contact_organizations
   resources :applications do
     collection do
-      post :add_table_entry
-      post :display_columns
       get 'list'
     end
   end
