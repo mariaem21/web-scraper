@@ -1,0 +1,48 @@
+
+== Brakeman Report ==
+
+Application Path: /csce431/web-scraper
+Rails Version: 7.0.4.2
+Brakeman Version: 5.4.1
+Scan Date: 2023-04-06 15:33:06 +0000
+Duration: 176.238843754 seconds
+Checks Run: BasicAuth, BasicAuthTimingAttack, CSRFTokenForgeryCVE, ContentTag, CookieSerialization, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, DynamicFinders, EOLRails, EOLRuby, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONEncoding, JSONEntityEscape, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, MimeTypeDoS, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NestedAttributesBypass, NumberToCurrency, PageCachingCVE, Pathname, PermitAttributes, QuoteTableName, Redirect, RegexDoS, Render, RenderDoS, RenderInline, ResponseSplitting, RouteDoS, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeConfigCve, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionManipulation, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, SprocketsPathTraversal, StripTags, SymbolDoSCVE, TemplateInjection, TranslateBug, UnsafeReflection, UnsafeReflectionMethods, ValidationRegex, VerbConfusion, WeakRSAKey, WithoutProtection, XMLDoS, YAMLParsing
+
+== Overview ==
+
+Controllers: 10
+Models: 9
+Templates: 53
+Errors: 0
+Security Warnings: 3
+
+== Warning Types ==
+
+SQL Injection: 3
+
+== Warnings ==
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: ActiveRecord::Base.connection.execute("\r\n      SELECT \r\n        applications.name AS app_name, \r\n        contacts.name AS contact_name,\r\n        contacts.email,\r\n        contacts.officer_position,\r\n        applications.github_link,\r\n        contacts.year,\r\n        applications.description\r\n      FROM contact_organizations\r\n      INNER JOIN contacts\r\n      ON contact_organizations.contact_id = contacts.contact_id    \r\n      INNER JOIN applications\r\n      ON contact_organizations.contact_organization_id = applications.contact_organization_id\r\n      WHERE contact_organizations.organization_id = #{params[:org_id]}\r\n    ")
+File: app/controllers/applications_controller.rb
+Line: 25
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: ActiveRecord::Base.connection.execute(((((((((((("\r\n      SELECT \r\n        applications.name AS app_name, \r\n        contacts.name AS contact_name,\r\n        contacts.email,\r\n        contacts.officer_position,\r\n        applications.github_link,\r\n        contacts.year,\r\n        applications.description\r\n      FROM contact_organizations\r\n      INNER JOIN contacts\r\n      ON contact_organizations.contact_id = contacts.contact_id    \r\n      INNER JOIN applications\r\n      ON contact_organizations.contact_organization_id = applications.contact_organization_id\r\n      WHERE contact_organizations.organization_id = #{params[:org_id]}\r\n    " + " AND LOWER(applications.name) LIKE LOWER('#{params[:app_name]}%')\r\n        ") + "  AND LOWER(contacts.name) LIKE LOWER('#{params[:contact_name]}%')\r\n      ") + "  AND LOWER(contacts.email) LIKE LOWER('#{params[:contact_email]}%')\r\n      ") + "  AND LOWER(contacts.officer_position) LIKE LOWER('#{params[:officer_position]}%')\r\n      ") + "  AND LOWER(applications.github_link) LIKE LOWER('#{params[:github_link]}%')\r\n      ") + "  AND LOWER(applications.description) LIKE LOWER('#{params[:description]}%')\r\n      ") + "  AND DATE(contacts.year) BETWEEN '#{params[:date_start]}' AND '#{params[:date_end]}'\r\n      ") + "  AND DATE(contacts.year) >= '#{params[:date_start]}' \r\n      ") + "  AND DATE(contacts.year) <= '#{params[:date_end]}' \r\n      ") + "  ORDER BY LOWER(#{params[:column]}) #{params[:direction]}\r\n        ") + "  ORDER BY DATE(#{params[:column]}) #{params[:direction]}\r\n          "))
+File: app/controllers/applications_controller.rb
+Line: 123
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: ActiveRecord::Base.connection.execute((((((((((((((" SELECT \r\n                organizations.name AS org_name,\r\n                organizations.organization_id,\r\n                contacts.name AS contact_name,\r\n                contacts.email,\r\n                contacts.officer_position,\r\n                contacts.year,\r\n                app_counter.app_count\r\n              FROM \r\n                contact_organizations\r\n              INNER JOIN \r\n                organizations\r\n              ON \r\n                contact_organizations.organization_id = organizations.organization_id\r\n              INNER JOIN \r\n                contacts\r\n              ON \r\n                contact_organizations.contact_id = contacts.contact_id    \r\n              LEFT JOIN (\r\n                  SELECT\r\n                      organizations.name AS name,\r\n                      COUNT(applications.application_id) AS app_count\r\n                  FROM\r\n                      contact_organizations\r\n                  INNER JOIN \r\n                      organizations\r\n                  ON \r\n                      contact_organizations.organization_id = organizations.organization_id\r\n                  LEFT JOIN\r\n                      applications\r\n                  ON\r\n                      contact_organizations.contact_organization_id = applications.contact_organization_id\r\n                  GROUP BY organizations.name\r\n            ) AS app_counter\r\n              ON organizations.name = app_counter.name\r\n            " + "  WHERE LOWER(organizations.name) LIKE LOWER('#{params[:name]}%')\r\n        ") + "  AND LOWER(contacts.name) LIKE LOWER('#{params[:contact_name]}%')\r\n      ") + "  AND LOWER(contacts.email) LIKE LOWER('#{params[:contact_email]}%')\r\n      ") + "  AND LOWER(contacts.officer_position) LIKE LOWER('#{params[:officer_position]}%')\r\n      ") + "  AND DATE(contacts.year) BETWEEN '#{params[:date_start]}' AND '#{params[:date_end]}'\r\n      ") + "  AND DATE(contacts.year) >= '#{params[:date_start]}' \r\n      ") + "  AND DATE(contacts.year) <= '#{params[:date_end]}' \r\n      ") + "  AND app_counter.app_count BETWEEN '#{params[:count_start]}' AND '#{params[:count_end]}'\r\n      ") + "  AND app_counter.app_count >= '#{params[:count_start]}' \r\n      ") + "  AND app_counter.app_count <= '#{params[:count_end]}' \r\n      ") + "  ORDER BY LOWER(#{params[:column]}) #{params[:direction]}\r\n        ") + "  ORDER BY DATE(#{params[:column]}) #{params[:direction]}\r\n          ") + "  ORDER BY app_counter.app_count #{params[:direction]}\r\n      "))
+File: app/controllers/organizations_controller.rb
+Line: 216
+

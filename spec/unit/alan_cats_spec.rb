@@ -7,7 +7,7 @@ require 'rails_helper'
 
 RSpec.describe Category, type: :model do
     it 'is not valid if category ID is not unique' do
-        app1 = Application.create(application_id: 1, organization_id: 1, name: 'App A', date_built: 20_210_621,
+        app1 = Application.create(application_id: 1, contact_organization_id: 1, name: 'App A', date_built: 20_210_621,
             github_link: 'github.com', description: 'Unique description')
         appCat1 = ApplicationCategory.create(application_category_id: 1, application_id: 1, category_id: 1)
         cat1 = Category.create(category_id: 1, name: 'Technology', description: 'Category primarily for tech based student organizations.')
