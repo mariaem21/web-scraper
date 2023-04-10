@@ -20,7 +20,7 @@
             </div>
             <h1 class="navlabelorg">Organizations</h1>
             <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
-              <div class="logo-image">
+              <div class="logo-image3">
                     <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
               </div>
             </a>
@@ -30,6 +30,9 @@
     </div>
   </div>
 </nav>
+<div class="navpadding"></br></div>
+</br>
+</br>
 
 <p class="notice"><%= notice %></p>
 
@@ -196,21 +199,6 @@
     </tbody>
 </table>
 
-<div class="create-new">
-<%= form_tag add_table_entry_organizations_path, method: :post do %>
-    <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field" %>
-    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field" %>
-
-    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field" %>
-
-    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field" %>
-    <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium", id:"submit"%>
-<% end %>
-</div>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
@@ -223,6 +211,22 @@
     <% end %>
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
+<div class="paddiv"></div>
+<div class="create-new">
+<%= form_tag add_table_entry_organizations_path, method: :post do %>
+    <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
+    <%= text_field_tag :org_name, params[:org_name] %>
+    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_name, params[:contact_name] %>
+
+    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_email, params[:contact_email] %>
+
+    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
+    <%= text_field_tag :officer_position, params[:officer_position] %>
+    <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+<% end %>
+</div>
 
 <div class="paddiv"></div>
 
