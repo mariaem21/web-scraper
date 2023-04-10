@@ -155,8 +155,6 @@ margin-left: 50px;
 }
 .create-new{
 display: inline block;
-position: absolute;
-top: 575px;
 left: 10px;
 border: 1px solid;
 border-color: white;
@@ -165,8 +163,6 @@ margin-left: 20px;
 }
 .create-new2{
 display: inline block;
-position: absolute;
-top: 505px;
 left: 10px;
 border: 1px solid;
 border-color: white;
