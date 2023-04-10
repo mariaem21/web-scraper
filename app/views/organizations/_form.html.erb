@@ -12,21 +12,21 @@
   <% end %>
 
   <div>
-    <%= form.label :organization_id, style: "display: block" %>
+    <%= form.label :organization_id, class: "label" %>
     <%= form.number_field :organization_id %>
   </div>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
+    <%= form.label :name, class: "label" %>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
+    <%= form.label :description, class: "label"%>
     <%= form.text_field :description %>
   </div>
 
-  <div>
+  <div class="formsubmit">
     <%= form.submit %>
   </div>
 <% end %>

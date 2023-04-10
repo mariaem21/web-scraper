@@ -11,37 +11,37 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :contact_id, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :contact_id, class: "label" %>
     <%= form.number_field :contact_id %>
   </div>
 
-  <div>
-    <%= form.label :year, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :year, class: "label" %>
     <%= form.date_field :year %>
   </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :name, class: "label" %>
     <%= form.text_field :name %>
-  </div>
+  </div class="forminputbox">
 
-  <div>
-    <%= form.label :email, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :email, class: "label" %>
     <%= form.text_field :email %>
   </div>
 
-  <div>
-    <%= form.label :officer_position, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :officer_position, class: "label" %>
     <%= form.text_field :officer_position %>
-  </div>
+  </div class="forminputbox">
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
+  <div class="forminputbox">
+    <%= form.label :description, class: "label" %>
     <%= form.text_field :description %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="formsubmit">
+    <%= form.submit%>
   </div>
 <% end %>

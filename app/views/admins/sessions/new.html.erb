@@ -1,2 +1,26 @@
-<h2>You're Logged out! Log back in to continue using the Web Scraper!</h2>
-<%= link_to "Sign in with Google", admin_google_oauth2_omniauth_authorize_path %>
+<link href="application.css" rel="stylesheet">
+
+<nav class="bg-tamuMaroon sticky-nav">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between max-h-nav">
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+          <h1 class="navlabel">You are not currently logged in!</h1>
+            <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
+              <div class="logo-image2">
+                    <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<body>
+<div class="navpadding"><\div>
+
+
+<h2 class="notice">You're Logged out! Log back in to continue using the Web Scraper!</h2>
+<%= link_to "Sign in with Google", admin_google_oauth2_omniauth_authorize_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium signin" %>

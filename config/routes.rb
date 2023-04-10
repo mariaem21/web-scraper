@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/index'
   resources :organizations do
     match '/scrape', to: 'organizations#scrape', via: :post, on: :collection
     match '/download', to: 'organizations#download', via: :post, on: :collection
@@ -6,8 +7,9 @@ Rails.application.routes.draw do
     match '/exclude', to: 'organizations#exclude', via: :post, on: :collection
     match 'exclude', to: 'organizations#exclude', via: :get, on: :collection
     collection do
+      get :delete_row
+      get :edit_row
       post :add_table_entry
-      post :delete_table_entry
       post :display_columns
       get 'list'
     end
@@ -31,4 +33,7 @@ Rails.application.routes.draw do
     get 'admins/sign_in', to: 'admins/sessions#new', as: :new_admin_session
     get 'admins/sign_out', to: 'admins/sessions#destroy', as: :destroy_admin_session
   end
+
+  # resources :pages
+  match '/help', to: 'pages#index', via: :get
 end
