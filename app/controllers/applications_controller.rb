@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-
-
 $org_id = 0
 
 class ApplicationsController < ApplicationController
