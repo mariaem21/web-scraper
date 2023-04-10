@@ -47,8 +47,7 @@ class ApplicationsController < ApplicationController
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
-<<<<<<< HEAD
-=======
+
     respond_to do |format|
       format.xlsx  {
           response.headers[
@@ -67,8 +66,6 @@ class ApplicationsController < ApplicationController
         format.html { render :index }
       end
     end
-
->>>>>>> 9a956c54bc11da15faecf1dd258d0ccb9973fd72
   end
 
 
