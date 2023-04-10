@@ -9,6 +9,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications or /applications.json
   def index
+    $app_edited_rows = {}
     @applications = Application.all
     query = "
         SELECT 
@@ -20,7 +21,12 @@ class ApplicationsController < ApplicationController
         contacts.year,
         applications.description,
         categories.cat_name,
-        contact_organizations.organization_id
+        categories.category_id,
+        contact_organizations.organization_id,
+        contact_organizations.contact_organization_id,
+        contacts.contact_id,
+        applications.application_id,
+        categories.app_cat_id
         FROM contact_organizations
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -29,7 +35,9 @@ class ApplicationsController < ApplicationController
         LEFT JOIN (
             SELECT
                 categories.name AS cat_name,
-                application_categories.application_id AS app_id
+                application_categories.application_id AS app_id,
+                application_categories.application_category_id AS app_cat_id,
+                categories.category_id
             FROM 
                 application_categories
             INNER JOIN categories
@@ -37,6 +45,10 @@ class ApplicationsController < ApplicationController
         ) AS categories
         ON categories.app_id = applications.application_id
     "
+
+    @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
+    @displayed_columns = session[:displayed_columns] || @columns
+    @records = Organization.all
         
     if params.has_key?(:org_id) and params[:org_id] != nil
       query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
@@ -46,7 +58,6 @@ class ApplicationsController < ApplicationController
 
     $org_id = params[:org_id]
     @org_id = params[:org_id]
-
 
     respond_to do |format|
       format.xlsx  {
@@ -66,11 +77,55 @@ class ApplicationsController < ApplicationController
         format.html { render :index }
       end
     end
+
   end
 
 
   # GET /applications/1 or /applications/1.json
   def show; end
+
+  def edit_row
+    application_id = params[:app_id] 
+    contact_id = params[:contact_id] 
+    category_id = params[:category_id] 
+
+    app_name = params[:app_name]
+    github_link = params[:github_link]
+    description = params[:description]
+
+    contact_name = params[:contact_name]
+    contact_email = params[:contact_email]
+    officer_position = params[:officer_position]
+
+    category_name = params[:category_name]
+
+    query = "
+      UPDATE applications
+      SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
+      WHERE application_id = #{application_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      UPDATE contacts
+      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
+      WHERE contact_id = #{contact_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      UPDATE categories
+      SET name = '#{category_name}'
+      WHERE category_id = #{category_id};
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    # Return a success response
+    respond_to do |format|
+      format.html { redirect_to(organizations_url, notice: 'Row was edited.') }
+      format.json { head :no_content }
+    end
+  end
 
   # GET /applications/new
   def new
@@ -80,7 +135,22 @@ class ApplicationsController < ApplicationController
   # GET /applications/1/edit
   def edit; end
 
-  def list 
+  def list
+    
+    if ($app_edited_rows)
+      $app_edited_rows.each do |update_row|
+        puts "Edited Rows: #{$app_edited_rows}"
+        update_org_table = "UPDATE organizations SET name: '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
+        update_con_table = "UPDATE contacts SET name: '#{update_row.contact_name}', email: '#{update_row.contact_email}', officer_position: '#{update_row.officer_position}', year: '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
+        
+        ActiveRecord::Base.connection.execute(update_org_table)
+        ActiveRecord::Base.connection.execute(update_con_table)
+      end
+    end
+
+    @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
+    @displayed_columns = session[:displayed_columns] || @columns
+
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     
     
@@ -156,7 +226,13 @@ class ApplicationsController < ApplicationController
         applications.github_link,
         contacts.year,
         applications.description,
-        categories.cat_name
+        categories.cat_name,
+        contact_organizations.organization_id,
+        contact_organizations.contact_organization_id,
+        contacts.contact_id,
+        applications.application_id,
+        categories.category_id,
+        categories.app_cat_id
         FROM contact_organizations
         INNER JOIN contacts
         ON contact_organizations.contact_id = contacts.contact_id    
@@ -165,12 +241,13 @@ class ApplicationsController < ApplicationController
         LEFT JOIN (
             SELECT
                 categories.name AS cat_name,
-                application_categories.application_id AS app_id
+                application_categories.application_id AS app_id,
+                application_categories.application_category_id AS app_cat_id,
+                categories.category_id
             FROM 
                 application_categories
             INNER JOIN categories
             ON application_categories.category_id = categories.category_id
-
         ) AS categories
         ON categories.app_id = applications.application_id
        
@@ -237,9 +314,161 @@ class ApplicationsController < ApplicationController
           "
     end
 
-
+    $app_not_filtered_out = []
     apps = ActiveRecord::Base.connection.execute(query)
+    apps.each do |row|
+      $app_not_filtered_out.push(row['application_id'])
+    end
+
     render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
+  end
+
+  def display_columns
+      # session[:displayed_columns] = params[:columns] || @columns
+      # if (@displayed_columns.empty?) then
+      #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
+      # end
+      selected_columns = params[:columns] || @columns
+      if selected_columns == @columns || selected_columns.blank?
+        flash[:error] = "You must display at least one column."
+      else
+        session[:displayed_columns] = selected_columns
+      end
+      redirect_to action: :index
+  end
+
+  def delete_row 
+    app_id = params[:application_id] 
+    contact_id = params[:contact_id]
+    contact_org_id = params[:contact_organization_id]
+    application_category_id = params[:application_category_id]
+    
+    query = "
+      DELETE FROM applications 
+      WHERE applications.application_id = #{app_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contact_organizations 
+      WHERE contact_organizations.contact_organization_id = #{contact_org_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    query = "
+      DELETE FROM contacts 
+      WHERE contacts.contact_id = #{contact_id}
+    "
+    ActiveRecord::Base.connection.execute(query)
+
+    if application_category_id and application_category_id != ""
+      query = "
+        DELETE FROM application_categories 
+        WHERE application_categories.application_category_id = #{application_category_id}
+      "    
+      ActiveRecord::Base.connection.execute(query)
+
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(applications_url, notice: 'Organization was successfully destroyed.') }
+      format.json { head(:no_content) }
+    end
+
+    # query = " SELECT 
+    #     contact_organizations.contact_organization_id,
+    #     organizations.name AS org_name,
+    #     organizations.organization_id,
+    #     contacts.name AS contact_name,
+    #     contacts.contact_id,
+    #     contacts.email,
+    #     contacts.officer_position,
+    #     contacts.year,
+    #     app_counter.app_count
+    #   FROM 
+    #     contact_organizations
+    #   INNER JOIN 
+    #     organizations
+    #   ON 
+    #     contact_organizations.organization_id = organizations.organization_id
+    #   INNER JOIN 
+    #     contacts
+    #   ON 
+    #     contact_organizations.contact_id = contacts.contact_id    
+    #   LEFT JOIN (
+    #       SELECT
+    #           organizations.name AS name,
+    #           COUNT(applications.application_id) AS app_count
+    #       FROM
+    #           contact_organizations
+    #       INNER JOIN 
+    #           organizations
+    #       ON 
+    #           contact_organizations.organization_id = organizations.organization_id
+    #       LEFT JOIN
+    #           applications
+    #       ON
+    #           contact_organizations.contact_organization_id = applications.contact_organization_id
+    #       GROUP BY organizations.name
+    # ) AS app_counter
+    #   ON organizations.name = app_counter.name
+    # "
+    # orgs = ActiveRecord::Base.connection.execute(query)
+  end
+
+  def add_table_entry(organization_id: -1, app_name: "new", contact_name: "new", contact_email: "new", officer_position: "new", github_link: "new", date_built: Date.today, notes: "new", category: "new")
+      organization_id = params[:organization_id]
+      app_name = params[:app_name] 
+      contact_name = params[:contact_name]
+      contact_email = params[:contact_email]
+      officer_position = params[:officer_position]
+      github_link = params[:github_link]
+      date_built = params[:date_built]
+      notes = params[:notes]
+      category = params[:category]
+
+      app_count = 1
+      contact_count = 1
+      con_org_count = 1
+      cat_count = 1
+      app_cat_count = 1
+      app = {}
+      contact = {}
+      con_org = {}
+
+      while Contact.where(contact_id: contact_count).exists? do
+          contact_count = contact_count + 1
+      end
+      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+          con_org_count = con_org_count + 1
+      end
+      while Application.where(application_id: app_count).exists? do
+          app_count = app_count + 1
+      end
+      while Category.where(category_id: cat_count).exists? do
+          cat_count = cat_count + 1
+      end
+      while ApplicationCategory.where(application_category_id: app_cat_count).exists? do
+          app_cat_count = app_cat_count + 1
+      end
+
+      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{organization_id}', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO applications (application_id, contact_organization_id, name, date_built, github_link, description, created_at, updated_at) VALUES ('#{app_count}', '#{con_org_count}', '#{app_name}', '#{date_built}', '#{github_link}', 'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO categories (category_id, name, description, created_at, updated_at) VALUES ('#{cat_count}', '#{category}', 'None', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+
+      query = "INSERT INTO application_categories (application_category_id, application_id, category_id, created_at, updated_at) VALUES ('#{app_cat_count}', '#{app_count}', '#{cat_count}', '#{Date.today}', '#{Date.today}');"
+      contacts = ActiveRecord::Base.connection.execute(query)
+      # Autofill in organization: organization_id, organization_description
+      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
+      # Autofill in contact: contact_id, year, description
   end
 
 
@@ -291,5 +520,13 @@ class ApplicationsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def application_params
     params.require(:application).permit(:application_id, :contact_organization_id, :name, :date_built, :github_link, :description)
+  end
+
+  def save_exclude_cookie(new_params)
+    if new_params == [] || new_params == nil
+      cookies.permanent[:applications_ids] = []
+    else
+      cookies.permanent[:applications_ids] = new_params
+    end
   end
 end
