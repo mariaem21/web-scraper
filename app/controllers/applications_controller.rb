@@ -99,6 +99,10 @@ class ApplicationsController < ApplicationController
 
     category_name = params[:category_name]
 
+
+    puts "updating applications"
+
+
     query = "
       UPDATE applications
       SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
@@ -122,7 +126,7 @@ class ApplicationsController < ApplicationController
 
     # Return a success response
     respond_to do |format|
-      format.html { redirect_to(organizations_url, notice: 'Row was edited.') }
+      format.html { redirect_to(applications_url(org_id:organization_id), notice: 'Row was edited.') }
       format.json { head :no_content }
     end
   end
