@@ -105,17 +105,17 @@ class ApplicationsController < ApplicationController
 
     query = "
       UPDATE applications
-      SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
-      WHERE application_id = #{application_id};
+      SET name = ?, github_link = ?, description = ?
+      WHERE application_id = ?
     "
-    ActiveRecord::Base.connection.execute(query)
+    ActiveRecord::Base.connection.execute(query, app_name, github_link, description, application_id)
 
     query = "
       UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
+      SET name = ?, email = ?, officer_position = ?, year = ?
+      WHERE contact_id = ?
     "
-    ActiveRecord::Base.connection.execute(query)
+    ActiveRecord::Base.connection.execute(query, contact_name, contact_email, officer_position, Date.today, contact_id)
 
     query = "
       UPDATE categories
