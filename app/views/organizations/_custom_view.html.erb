@@ -228,6 +228,9 @@
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
     <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field" %>
     <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+    <% if flash[:notice] %>
+        <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
 <% end %>
 </div>
 

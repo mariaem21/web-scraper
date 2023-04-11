@@ -377,34 +377,38 @@ end
       contact_email = params[:contact_email]
       officer_position = params[:officer_position]
 
-      org_count = 0
-      contact_count = 0
-      con_org_count = 0
-      org = {}
-      contact = {}
-      con_org = {}
-      while Organization.where(organization_id: org_count).exists? do
-          org_count = org_count + 1
-      end
-      while Contact.where(contact_id: contact_count).exists? do
-          contact_count = contact_count + 1
-      end
-      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-          con_org_count = con_org_count + 1
-      end
+      if org_name != "" and contact_name != "" and contact_email != "" and officer_position != ""
+        
+        org_count = 0
+        contact_count = 0
+        con_org_count = 0
+        org = {}
+        contact = {}
+        con_org = {}
+        while Organization.where(organization_id: org_count).exists? do
+            org_count = org_count + 1
+        end
+        while Contact.where(contact_id: contact_count).exists? do
+            contact_count = contact_count + 1
+        end
+        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+            con_org_count = con_org_count + 1
+        end
 
-      org = Organization.create(organization_id: org_count, name: org_name, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
-      contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
-      contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: org_count, created_at: "#{Date.today}", updated_at: "#{Date.today}")
+        org = Organization.create(organization_id: org_count, name: org_name, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
+        contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
+        contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: org_count, created_at: "#{Date.today}", updated_at: "#{Date.today}")
       
-      respond_to do |format|
-        format.html { redirect_to(organizations_url, notice: 'Organization was successfully created.') }
-        format.json { head(:no_content) }
-      end
+        respond_to do |format|
+          format.html { redirect_to(organizations_url, notice: 'Organization was successfully created.') }
+          format.json { head(:no_content) }
+        end 
 
-      # Autofill in organization: organization_id, organization_description
-      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
-      # Autofill in contact: contact_id, year, description
+      else
+
+        flash[:notice] = "Not all params were inputted"
+        redirect_to organizations_path
+      end
   end
 
   # POST /organizations or /organizations.json

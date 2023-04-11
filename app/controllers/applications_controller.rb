@@ -428,30 +428,32 @@ class ApplicationsController < ApplicationController
       notes = params[:notes]
       category = params[:category]
 
-      app_count = 1
-      contact_count = 1
-      con_org_count = 1
-      cat_count = 1
-      app_cat_count = 1
-      app = {}
-      contact = {}
-      con_org = {}
+      if organization_id != -1 and app_name != "" and contact_name != "" and contact_email != "" and officer_position != "" and github_link != "" and date_built != "" and notes != "" and category != ""
+        
+        app_count = 1
+        contact_count = 1
+        con_org_count = 1
+        cat_count = 1
+        app_cat_count = 1
+        app = {}
+        contact = {}
+        con_org = {}
 
-      while Contact.where(contact_id: contact_count).exists? do
-          contact_count = contact_count + 1
-      end
-      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-          con_org_count = con_org_count + 1
-      end
-      while Application.where(application_id: app_count).exists? do
-          app_count = app_count + 1
-      end
-      while Category.where(category_id: cat_count).exists? do
-          cat_count = cat_count + 1
-      end
-      while ApplicationCategory.where(application_category_id: app_cat_count).exists? do
-          app_cat_count = app_cat_count + 1
-      end
+        while Contact.where(contact_id: contact_count).exists? do
+            contact_count = contact_count + 1
+        end
+        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+            con_org_count = con_org_count + 1
+        end
+        while Application.where(application_id: app_count).exists? do
+            app_count = app_count + 1
+        end
+        while Category.where(category_id: cat_count).exists? do
+            cat_count = cat_count + 1
+        end
+        while ApplicationCategory.where(application_category_id: app_cat_count).exists? do
+            app_cat_count = app_cat_count + 1
+        end
 
       contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at:Date.today, updated_at: Date.today)
       contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
@@ -459,13 +461,19 @@ class ApplicationsController < ApplicationController
       cat = Category.create(category_id: cat_count, name: category, description: 'None', created_at: Date.today, updated_at: Date.today)
       app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
 
-      respond_to do |format|
-        format.html { redirect_to(applications_url, notice: 'Application was added.') }
-        format.json { head(:no_content) }
+        respond_to do |format|
+          format.html { redirect_to(applications_url, notice: 'Application was added.') }
+          format.json { head(:no_content) }
+        end
+        # Autofill in organization: organization_id, organization_description
+        # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
+        # Autofill in contact: contact_id, year, description
+
+      else
+        puts "second if"
+        flash[:notice] = "Not all params were inputted"
+        redirect_to applications_path(org_id:organization_id)
       end
-      # Autofill in organization: organization_id, organization_description
-      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
-      # Autofill in contact: contact_id, year, description
   end
 
 
