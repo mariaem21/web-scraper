@@ -371,7 +371,7 @@ class ApplicationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(applications_url, notice: 'Organization was successfully destroyed.') }
+      format.html { redirect_to(applications_url, notice: 'Application was successfully destroyed.') }
       format.json { head(:no_content) }
     end
 
@@ -467,6 +467,11 @@ class ApplicationsController < ApplicationController
 
       query = "INSERT INTO application_categories (application_category_id, application_id, category_id, created_at, updated_at) VALUES ('#{app_cat_count}', '#{app_count}', '#{cat_count}', '#{Date.today}', '#{Date.today}');"
       contacts = ActiveRecord::Base.connection.execute(query)
+
+      respond_to do |format|
+        format.html { redirect_to(applications_url, notice: 'Application was added.') }
+        format.json { head(:no_content) }
+      end
       # Autofill in organization: organization_id, organization_description
       # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
       # Autofill in contact: contact_id, year, description

@@ -364,7 +364,17 @@
                                         <% end %>
                                     <% end %>
                                     <td class="text-left py-3 px-6">
-                                        <%= link_to "Delete", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], category_id: app['category_id']) %>
+                                        <a href="javascript:showhide('confirmation')">
+                                        Delete
+                                        </a>
+                                        <div id="confirmation" style="display:none;">
+                                        <p> Are you sure? </p>
+                                        <br/> 
+                                        <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
+                                        <a href="javascript:showhide('confirmation')">
+                                        Cancel
+                                        </a>
+                                        </div>
                                     </td>
                                     <td class="text-left py-3 px-6">
                                         <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
@@ -485,6 +495,11 @@
 <% end %>
 
 <script>
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+
     function swapTable() {
         var tableNonExclude = document.getElementById("non-exclude-items")
         var tableExclude = document.getElementById("exclude-items")
