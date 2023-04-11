@@ -325,14 +325,14 @@
                                     <% end %>
                                 <% end %>
                                 <td class="text-left py-3 px-6">
-                                    <a href="javascript:showhide('confirmation')">
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                         Delete
                                     </a>
-                                    <div id="confirmation" style="display:none;">
+                                    <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
                                         <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
-                                        <a href="javascript:showhide('confirmation')">
+                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                             Cancel
                                         </a>
                                     </div>
@@ -430,31 +430,18 @@
                                     <% end %>
                                 <% end %>
                                 <td class="text-left py-3 px-6">
-                                    <a href="javascript:showhide('confirmation')">
-<<<<<<< HEAD
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                         Delete
                                     </a>
-                                    <div id="confirmation" style="display:none;">
+                                    <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-=======
-                                    Delete
-                                </a>
-                                <div id="confirmation" style="display:none;">
-                                    <p> Are you sure? </p>
-                                <br/> 
->>>>>>> 57361a7399249803c2f565905903c7e492e56b0e
                                     <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
-                                    <a href="javascript:showhide('confirmation')">
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                         Cancel
                                     </a>
-<<<<<<< HEAD
                                     </div>
                                 </td>
-=======
-                                </div>
-                                                            </td>
->>>>>>> 57361a7399249803c2f565905903c7e492e56b0e
                                 <td class="text-left py-3 px-6">
                                     <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Print Single Row</button>
                                 </td>

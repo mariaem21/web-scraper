@@ -364,18 +364,18 @@
                                         <% end %>
                                     <% end %>
                                     <td class="text-left py-3 px-6">
-                                    <a href="javascript:showhide('confirmation')">
-                                        Delete
+                                        <a href="javascript:showhide('confirmation<%=app['application_id']%>')">
+                                            Delete
                                         </a>
-                                        <div id="confirmation" style="display:none;">
-                                        <p> Are you sure? </p>
-                                        <br/> 
-                                        <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
-                                        <a href="javascript:showhide('confirmation')">
-                                        Cancel
-                                        </a>
+                                        <div id="confirmation<%=app['application_id']%>" style="display:none;">
+                                            <p> Are you sure? </p>
+                                            <br/> 
+                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
+                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')">
+                                                Cancel
+                                            </a>
                                         </div>
-                                        </td>
+                                    </td>
                                     <td class="text-left py-3 px-6">
                                         <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
                                     </td>
@@ -480,17 +480,17 @@
                                         <% end %>
                                     <% end %>
                                     <td class="text-left py-3 px-6">
-                                    <a href="javascript:showhide('confirmation')">
-                                    Delete
-                                    </a>
-                                    <div id="confirmation" style="display:none;">
-                                    <p> Are you sure? </p>
-                                    <br/> 
-                                    <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
-                                    <a href="javascript:showhide('confirmation')">
-                                    Cancel
-                                    </a>
-                                    </div>
+                                        <a href="javascript:showhide('confirmation<%=app['application_id']%>')">
+                                            Delete
+                                        </a>
+                                        <div id="confirmation<%=app['application_id']%>" style="display:none;">
+                                            <p> Are you sure? </p>
+                                            <br/> 
+                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
+                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')">
+                                                Cancel
+                                            </a>
+                                        </div>
                                     </td>                                    
                                     <td class="text-left py-3 px-6">
                                         <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
