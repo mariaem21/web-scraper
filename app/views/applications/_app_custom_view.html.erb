@@ -70,11 +70,6 @@
                     Github Link
                 </th>
             <% end %>
-            <% if @displayed_columns.include?("Notes") then %>
-                <th>
-                    Notes
-                </th>
-            <% end %>
             <% if @displayed_columns.include?("Year Developed") then %>
                 <th>
                     <div>
@@ -83,6 +78,11 @@
                     <div>
                         End Date
                     </div>
+                </th>
+            <% end %>
+            <% if @displayed_columns.include?("Notes") then %>
+                <th>
+                    Notes
                 </th>
             <% end %>
             <% if @displayed_columns.include?("Category") then %>
@@ -543,7 +543,7 @@
         var contact_name = document.getElementById("con_name"+application_id).innerHTML;
         var contact_email = document.getElementById("con_email"+application_id).innerHTML;
         var officer_position = document.getElementById("officer_position"+application_id).innerHTML;
-        
+
         console.log('' + application_id + ' ' + category_id + " " + contact_id)
 
         
