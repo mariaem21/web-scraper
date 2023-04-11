@@ -111,18 +111,17 @@ end
 
     query = "
       UPDATE organizations
-      SET name = ?
-      WHERE organization_id = ?
+      SET name = '#{org_name}'
+      WHERE organization_id = #{org_id};
     "
-    ActiveRecord::Base.connection.execute(query, org_name, org_id)
+    ActiveRecord::Base.connection.execute(query)
 
     query = "
       UPDATE contacts
-      SET name = ?, email = ?, officer_position = ?, year = ?
-      WHERE contact_id = ?
+      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
+      WHERE contact_id = #{contact_id};
     "
-    ActiveRecord::Base.connection.execute(query, contact_name, contact_email, officer_position, Date.today. contact_id)
-
+    ActiveRecord::Base.connection.execute(query)
 
     # Return a success response
     respond_to do |format|
