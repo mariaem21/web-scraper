@@ -137,21 +137,21 @@ end
     
     query = "
       DELETE FROM organizations 
-      WHERE organizations.organization_id = #{org_id}
+      WHERE organizations.organization_id = ?
     "
-    ActiveRecord::Base.connection.execute(query)
+    ActiveRecord::Base.connection.execute(query, org_id)
 
     query = "
       DELETE FROM contact_organizations 
-      WHERE contact_organizations.contact_organization_id = #{contact_org_id}
+      WHERE contact_organizations.contact_organization_id = ?
     "
-    ActiveRecord::Base.connection.execute(query)
+    ActiveRecord::Base.connection.execute(query, contact_org_id)
 
     query = "
       DELETE FROM contacts 
-      WHERE contacts.contact_id = #{contact_id}
+      WHERE contacts.contact_id = ?
     "
-    ActiveRecord::Base.connection.execute(query)
+    ActiveRecord::Base.connection.execute(query, contact_id)
 
     respond_to do |format|
       format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }
