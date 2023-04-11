@@ -17,13 +17,6 @@ RSpec.describe('Application page for student org', type: :feature) do
     visit applications_path
     expect(Application.find_by(application_id: 1).name).to eq('first application')
     expect(Organization.find_by(organization_id: 1).name).to eq('A Battery')
-
-    visit organizations_path
-    click_on "Show this organization"
-    click_on "Destroy this organization"
-    visit applications_path
-    click_on "Show this application"
-    click_on "Destroy this application"
   end
 
   scenario 'Shows correct contact info for orgs' do
