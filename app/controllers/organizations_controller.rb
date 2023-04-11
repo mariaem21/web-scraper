@@ -376,34 +376,43 @@ end
       contact_name = params[:contact_name]
       contact_email = params[:contact_email]
       officer_position = params[:officer_position]
+      puts "in here"
+      if org_name != "" and contact_name != "" and contact_email != "" and officer_position != ""
+        
+        puts "first if"
+        org_count = 0
+        contact_count = 0
+        con_org_count = 0
+        org = {}
+        contact = {}
+        con_org = {}
+        while Organization.where(organization_id: org_count).exists? do
+            org_count = org_count + 1
+        end
+        while Contact.where(contact_id: contact_count).exists? do
+            contact_count = contact_count + 1
+        end
+        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+            con_org_count = con_org_count + 1
+        end
 
-      org_count = 0
-      contact_count = 0
-      con_org_count = 0
-      org = {}
-      contact = {}
-      con_org = {}
-      while Organization.where(organization_id: org_count).exists? do
-          org_count = org_count + 1
+        query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
+        orgs = ActiveRecord::Base.connection.execute(query)
+
+        query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
+        contacts = ActiveRecord::Base.connection.execute(query)
+
+        query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
+        contacts = ActiveRecord::Base.connection.execute(query)
+        # Autofill in organization: organization_id, organization_description
+        # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
+        # Autofill in contact: contact_id, year, description
+      else
+        puts "second if"
+        flash[:notice] = "Not all params were inputted"
+        redirect_to organizations_path
       end
-      while Contact.where(contact_id: contact_count).exists? do
-          contact_count = contact_count + 1
-      end
-      while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-          con_org_count = con_org_count + 1
-      end
 
-      query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
-      orgs = ActiveRecord::Base.connection.execute(query)
-
-      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
-
-      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
-      # Autofill in organization: organization_id, organization_description
-      # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
-      # Autofill in contact: contact_id, year, description
   end
 
   # POST /organizations or /organizations.json

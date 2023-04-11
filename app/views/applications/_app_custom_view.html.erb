@@ -259,6 +259,10 @@
     <%= text_field_tag :category, params[:category] %>
     
     <%= submit_tag "Add New App", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+
+    <% if flash[:notice] %>
+        <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
 <% end %>
 </div>
 <div class="paddiv"></div>
