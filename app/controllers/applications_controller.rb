@@ -459,20 +459,11 @@ class ApplicationsController < ApplicationController
             app_cat_count = app_cat_count + 1
         end
 
-        query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
-        contacts = ActiveRecord::Base.connection.execute(query)
-
-        query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{organization_id}', '#{Date.today}', '#{Date.today}');"
-        contacts = ActiveRecord::Base.connection.execute(query)
-
-        query = "INSERT INTO applications (application_id, contact_organization_id, name, date_built, github_link, description, created_at, updated_at) VALUES ('#{app_count}', '#{con_org_count}', '#{app_name}', '#{date_built}', '#{github_link}', 'None', '#{Date.today}', '#{Date.today}');"
-        contacts = ActiveRecord::Base.connection.execute(query)
-
-        query = "INSERT INTO categories (category_id, name, description, created_at, updated_at) VALUES ('#{cat_count}', '#{category}', 'None', '#{Date.today}', '#{Date.today}');"
-        contacts = ActiveRecord::Base.connection.execute(query)
-
-        query = "INSERT INTO application_categories (application_category_id, application_id, category_id, created_at, updated_at) VALUES ('#{app_cat_count}', '#{app_count}', '#{cat_count}', '#{Date.today}', '#{Date.today}');"
-        contacts = ActiveRecord::Base.connection.execute(query)
+      contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at:Date.today, updated_at: Date.today)
+      contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
+      app = Application.create(application_id: app_count, contact_organization_id: con_org_count, name: app_name, date_built: date_built, github_link: github_link, description: "None", created_at: Date.today, updated_at: Date.today)
+      cat = Category.create(category_id: cat_count, name: category, description: 'None', created_at: Date.today, updated_at: Date.today)
+      app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
 
         respond_to do |format|
           format.html { redirect_to(applications_url, notice: 'Application was added.') }
