@@ -393,14 +393,15 @@ end
           con_org_count = con_org_count + 1
       end
 
-      query = "INSERT INTO organizations (organization_id, name, description, created_at, updated_at) VALUES ('#{org_count}', '#{org_name}', 'None', '#{Date.today}', '#{Date.today}');"
-      orgs = ActiveRecord::Base.connection.execute(query)
+      org = Organization.create(organization_id: org_count, name: org_name, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
+      contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
+      contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: org_count, created_at: "#{Date.today}", updated_at: "#{Date.today}")
+      
+      respond_to do |format|
+        format.html { redirect_to(organizations_url, notice: 'Organization was successfully created.') }
+        format.json { head(:no_content) }
+      end
 
-      query = "INSERT INTO contacts (contact_id, year, name, email, officer_position, description, created_at, updated_at) VALUES ('#{contact_count}', '#{Date.today}', '#{contact_name}', '#{contact_email}', '#{officer_position}',  'None', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
-
-      query = "INSERT INTO contact_organizations (contact_organization_id, contact_id, organization_id, created_at, updated_at) VALUES ('#{con_org_count}', '#{contact_count}', '#{org_count}', '#{Date.today}', '#{Date.today}');"
-      contacts = ActiveRecord::Base.connection.execute(query)
       # Autofill in organization: organization_id, organization_description
       # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
       # Autofill in contact: contact_id, year, description
