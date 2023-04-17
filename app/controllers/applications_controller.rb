@@ -434,11 +434,11 @@ class ApplicationsController < ApplicationController
 
       if organization_id != -1 and app_name != "" and contact_name != "" and contact_email != "" and officer_position != "" and github_link != "" and date_built != "" and notes != "" and category != ""
         
-        app_count = 1
-        contact_count = 1
-        con_org_count = 1
-        cat_count = 1
-        app_cat_count = 1
+        app_count = Application.count
+        contact_count = Contact.count
+        con_org_count = ContactOrganization.count
+        cat_count = Category.count
+        app_cat_count = ApplicationCategory.count
         app = {}
         contact = {}
         con_org = {}

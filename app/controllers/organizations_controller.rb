@@ -379,9 +379,9 @@ end
 
       if org_name != "" and contact_name != "" and contact_email != "" and officer_position != ""
         
-        org_count = 0
-        contact_count = 0
-        con_org_count = 0
+        org_count = Organization.count
+        contact_count = Contact.count
+        con_org_count = ContactOrganization.count
         org = {}
         contact = {}
         con_org = {}
