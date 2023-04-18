@@ -137,65 +137,25 @@ end
     
     query = "
       DELETE FROM organizations 
-      WHERE organizations.organization_id = ?
+      WHERE organization_id = #{org_id}
     "
     ActiveRecord::Base.connection.execute(query, org_id)
 
     query = "
       DELETE FROM contact_organizations 
-      WHERE contact_organizations.contact_organization_id = ?
+      WHERE contact_organization_id = #{contact_org_id}
     "
     ActiveRecord::Base.connection.execute(query, contact_org_id)
 
     query = "
       DELETE FROM contacts 
-      WHERE contacts.contact_id = ?
+      WHERE contact_id = #{contact_id}
     "
     ActiveRecord::Base.connection.execute(query, contact_id)
 
     respond_to do |format|
       format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }
     end
-
-    # query = " SELECT 
-    #     contact_organizations.contact_organization_id,
-    #     organizations.name AS org_name,
-    #     organizations.organization_id,
-    #     contacts.name AS contact_name,
-    #     contacts.contact_id,
-    #     contacts.email,
-    #     contacts.officer_position,
-    #     contacts.year,
-    #     app_counter.app_count
-    #   FROM 
-    #     contact_organizations
-    #   INNER JOIN 
-    #     organizations
-    #   ON 
-    #     contact_organizations.organization_id = organizations.organization_id
-    #   INNER JOIN 
-    #     contacts
-    #   ON 
-    #     contact_organizations.contact_id = contacts.contact_id    
-    #   LEFT JOIN (
-    #       SELECT
-    #           organizations.name AS name,
-    #           COUNT(applications.application_id) AS app_count
-    #       FROM
-    #           contact_organizations
-    #       INNER JOIN 
-    #           organizations
-    #       ON 
-    #           contact_organizations.organization_id = organizations.organization_id
-    #       LEFT JOIN
-    #           applications
-    #       ON
-    #           contact_organizations.contact_organization_id = applications.contact_organization_id
-    #       GROUP BY organizations.name
-    # ) AS app_counter
-    #   ON organizations.name = app_counter.name
-    # "
-    # orgs = ActiveRecord::Base.connection.execute(query)
   end
 
   # GET /organizations/1 or /organizations/1.json
@@ -214,8 +174,8 @@ end
     if ($edited_rows)
       $edited_rows.each do |update_row|
         puts "Edited Rows: #{$edited_rows}"
-        update_org_table = "UPDATE organizations SET name: '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
-        update_con_table = "UPDATE contacts SET name: '#{update_row.contact_name}', email: '#{update_row.contact_email}', officer_position: '#{update_row.officer_position}', year: '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
+        update_org_table = "UPDATE organizations SET name = '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
+        update_con_table = "UPDATE contacts SET name = '#{update_row.contact_name}', email = '#{update_row.contact_email}', officer_position = '#{update_row.officer_position}', year = '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
         
         ActiveRecord::Base.connection.execute(update_org_table)
         ActiveRecord::Base.connection.execute(update_con_table)
