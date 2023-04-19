@@ -54,7 +54,7 @@ class OrganizationsController < ApplicationController
     ScrapeJob.perform_later(letters)
   end
 
-  def download_excel
+  def download
     Organization.download_function()
   end
 
