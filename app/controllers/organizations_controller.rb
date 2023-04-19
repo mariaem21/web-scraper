@@ -5,41 +5,11 @@ class OrganizationsController < ApplicationController
   
   # GET /organizations or /organizations.json
   def index
-    $edited_rows = {}
-    @orgs = ActiveRecord::Base.connection.execute("
-        SELECT 
-          contact_organizations.contact_organization_id,
-          organizations.name AS org_name,
-          organizations.organization_id,
-          contacts.name AS contact_name,
-          contacts.contact_id,
-          contacts.email,
-          contacts.officer_position,
-          contacts.year,
-          app_counter.app_count
-        FROM contact_organizations
-        RIGHT JOIN organizations
-        ON contact_organizations.organization_id = organizations.organization_id
-        INNER JOIN contacts
-        ON contact_organizations.contact_id = contacts.contact_id    
-        LEFT JOIN (
-              SELECT
-                  organizations.name AS name,
-                  COUNT(applications.application_id) AS app_count
-              FROM
-                  contact_organizations
-              INNER JOIN 
-                  organizations
-              ON 
-                  contact_organizations.organization_id = organizations.organization_id
-              LEFT JOIN
-                  applications
-              ON
-                  contact_organizations.contact_organization_id = applications.contact_organization_id
-              GROUP BY organizations.name
-        ) AS app_counter
-        ON organizations.name = app_counter.name
-    ")
+    # $edited_rows = {}
+    # orgs_query = Organization.organizations_query()
+    # @orgs = ActiveRecord::Base.connection.execute(orgs_query)
+
+    @orgs = Organization.organizations_query()
 
     puts "Column names: #{@orgs.fields.join(', ')}"
 
@@ -70,10 +40,6 @@ class OrganizationsController < ApplicationController
   end
 
   def display_columns
-    # session[:displayed_columns] = params[:columns] || @columns
-    # if (@displayed_columns.empty?) then
-    #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
-    # end
     selected_columns = params[:columns] || @columns
     if selected_columns == @columns || selected_columns.blank?
       flash[:error] = "You must display at least one column."
@@ -81,11 +47,15 @@ class OrganizationsController < ApplicationController
       session[:displayed_columns] = selected_columns
     end
     redirect_to action: :index
-end
+  end
 
   def scrape
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     ScrapeJob.perform_later(letters)
+  end
+
+  def download_excel
+    Organization.download_function()
   end
 
   def delete
@@ -109,19 +79,11 @@ end
     contact_email = params[:contact_email]
     officer_position = params[:officer_position]
 
-    query = "
-      UPDATE organizations
-      SET name = '#{org_name}'
-      WHERE organization_id = #{org_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    org = Organization.find_by(organization_id: org_id)
+    org.update(name: org_name)
 
-    query = "
-      UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    contact = Contact.find_by(contact_id: contact_id)
+    contact.update(name: contact_name, email: contact_email, officer_position: officer_position, year: Date.today)
 
     # Return a success response
     respond_to do |format|
@@ -134,24 +96,8 @@ end
     org_id = params[:organization_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
-    
-    query = "
-      DELETE FROM organizations 
-      WHERE organization_id = #{org_id}
-    "
-    ActiveRecord::Base.connection.execute(query, org_id)
 
-    query = "
-      DELETE FROM contact_organizations 
-      WHERE contact_organization_id = #{contact_org_id}
-    "
-    ActiveRecord::Base.connection.execute(query, contact_org_id)
-
-    query = "
-      DELETE FROM contacts 
-      WHERE contact_id = #{contact_id}
-    "
-    ActiveRecord::Base.connection.execute(query, contact_id)
+    Organization.delete_orgs_row_function(org_id, contact_id, contact_org_id)
 
     respond_to do |format|
       format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }
@@ -170,17 +116,6 @@ end
   def edit; end
 
   def list
-
-    if ($edited_rows)
-      $edited_rows.each do |update_row|
-        puts "Edited Rows: #{$edited_rows}"
-        update_org_table = "UPDATE organizations SET name = '#{update_row.organization_name}' WHERE organization_id='#{update_row.organization_id}';"
-        update_con_table = "UPDATE contacts SET name = '#{update_row.contact_name}', email = '#{update_row.contact_email}', officer_position = '#{update_row.officer_position}', year = '#{Date.today}' WHERE contact_id='#{update_row.contact_id}';"
-        
-        ActiveRecord::Base.connection.execute(update_org_table)
-        ActiveRecord::Base.connection.execute(update_con_table)
-      end
-    end
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @displayed_columns = session[:displayed_columns] || @columns
@@ -228,48 +163,41 @@ end
       session['filters']['count_end'] = ""
     end
     
-    
     session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
     session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
     
-    query = " SELECT 
-                contact_organizations.contact_organization_id,
-                organizations.name AS org_name,
-                organizations.organization_id,
-                contacts.name AS contact_name,
-                contacts.contact_id,
-                contacts.email,
-                contacts.officer_position,
-                contacts.year,
-                app_counter.app_count
-              FROM 
+    query = "SELECT 
+        contact_organizations.contact_organization_id,
+        organizations.name AS org_name,
+        organizations.organization_id,
+        contacts.name AS contact_name,
+        contacts.contact_id,
+        contacts.email,
+        contacts.officer_position,
+        contacts.year,
+        app_counter.app_count
+    FROM contact_organizations
+    RIGHT JOIN organizations
+    ON contact_organizations.organization_id = organizations.organization_id
+    INNER JOIN contacts
+    ON contact_organizations.contact_id = contacts.contact_id    
+    LEFT JOIN (
+            SELECT
+                organizations.name AS name,
+                COUNT(applications.application_id) AS app_count
+            FROM
                 contact_organizations
-              RIGHT JOIN 
+            INNER JOIN 
                 organizations
-              ON 
+            ON 
                 contact_organizations.organization_id = organizations.organization_id
-              INNER JOIN 
-                contacts
-              ON 
-                contact_organizations.contact_id = contacts.contact_id    
-              LEFT JOIN (
-                  SELECT
-                      organizations.name AS name,
-                      COUNT(applications.application_id) AS app_count
-                  FROM
-                      contact_organizations
-                  INNER JOIN 
-                      organizations
-                  ON 
-                      contact_organizations.organization_id = organizations.organization_id
-                  LEFT JOIN
-                      applications
-                  ON
-                      contact_organizations.contact_organization_id = applications.contact_organization_id
-                  GROUP BY organizations.name
-            ) AS app_counter
-              ON organizations.name = app_counter.name
-            "
+            LEFT JOIN
+                applications
+            ON
+                contact_organizations.contact_organization_id = applications.contact_organization_id
+            GROUP BY organizations.name
+        ) AS app_counter
+        ON organizations.name = app_counter.name"
 
     if session['filters']['name']
         query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['name']}%')
@@ -338,26 +266,8 @@ end
       officer_position = params[:officer_position]
 
       if org_name != "" and contact_name != "" and contact_email != "" and officer_position != ""
-        
-        org_count = Organization.count
-        contact_count = Contact.count
-        con_org_count = ContactOrganization.count
-        org = {}
-        contact = {}
-        con_org = {}
-        while Organization.where(organization_id: org_count).exists? do
-            org_count = org_count + 1
-        end
-        while Contact.where(contact_id: contact_count).exists? do
-            contact_count = contact_count + 1
-        end
-        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-            con_org_count = con_org_count + 1
-        end
 
-        org = Organization.create(organization_id: org_count, name: org_name, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
-        contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at: "#{Date.today}", updated_at: "#{Date.today}")
-        contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: org_count, created_at: "#{Date.today}", updated_at: "#{Date.today}")
+        Organization.add_table_entry_function(org_name, contact_name, contact_email, officer_position)
       
         respond_to do |format|
           format.html { redirect_to(organizations_url, notice: 'Organization was successfully created.') }
@@ -402,8 +312,12 @@ end
   def destroy
     new_params = cookies[:organizations_ids]
     new_params = new_params.delete(params[:id])
+    
+    # Print for debugging
     puts params[:id]
     puts params[:organizations_ids]
+    
+    # DONT delete id[0] -> this holds the update status
     save_exclude_cookie(new_params)
     if (@organization.organization_id != 0)
       @organization.destroy!

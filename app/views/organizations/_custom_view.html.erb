@@ -13,7 +13,7 @@
                 <%= button_to "Confirm", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
                 </div>
             </div>
-            <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Download Page", download_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
@@ -409,8 +409,8 @@
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
-                            <% if $not_filtered_out and !$not_filtered_out.include?(org['organization_id'])  %>
-                                <% $not_filtered_out.push(org['organization_id']) %>
+                            <% if $not_filtered_out and $not_filtered_out.include?(org['organization_id'])  %>
+                                <% $not_filtered_out.delete(org['organization_id']) %>
                             <% end %>
                             <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
                                 <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
