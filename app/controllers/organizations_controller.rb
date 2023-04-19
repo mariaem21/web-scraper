@@ -56,6 +56,10 @@ class OrganizationsController < ApplicationController
 
   def download
     Organization.download_function()
+    respond_to do |format|
+      format.html { redirect_to organizations_url, notice: 'Downloaded successfully.' }
+      format.json { head :no_content }
+    end
   end
 
   def delete
