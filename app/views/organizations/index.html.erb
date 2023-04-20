@@ -14,7 +14,7 @@
                 <%= button_to "Confirm", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
               </div>
             </div>
-            <%= link_to "Download Page", download_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Download Page", download_organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">

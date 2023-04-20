@@ -1,0 +1,77 @@
+# Create new excel workbook
+    workbook = xlsx_package.workbook
+
+    worksheet = workbook.add_worksheet(name: 'Organizations')
+
+    worksheet.add_row []
+    row=worksheet.rows[0]
+    rownum=1
+    if @download_columns.include?("Organization Name") then
+        row.add_cell "Organization Name"
+    end
+    if @download_columns.include?("Contact Name") then
+        row.add_cell "Contact Name"
+    end
+    if @download_columns.include?("Contact Email") then 
+        row.add_cell "Contact Email"
+    end
+    if @download_columns.include?("Officer Position") then
+        row.add_cell "Officer Position"
+    end
+    if @download_columns.include?("Last Modified") then
+        row.add_cell "Last Modified Date"
+    end
+    if @download_columns.include?("Applications") then
+        row.add_cell "# Apps Per Organization"
+    end
+
+    @download_rows.each do |org_id|
+        
+        # default values
+        contactName = "Not provided on STUACT website"
+        contactEmail = "Not provided on STUACT website"
+        officerPosition = "Not provided on STUACT website"
+        updateYear = "Contact information was never entered"
+        numApps = 0
+
+        orgName = Organization.find_by(organization_id: org_id).name
+
+        if ContactOrganization.where(organization_id: org_id).exists? then
+            possible_contact_ids = ContactOrganization.select{|x| x[:organization_id] == org_id}.map{|y| y[:contact_id]}
+
+            # Find number of applications with the contact_organization_id
+            contact_org_ids = ContactOrganization.select{|x| x[:organization_id] == org_id}.map{|y| y[:contact_organization_id]}
+            numApps = contact_org_ids.count
+
+            possible_contact_ids.each do |n|
+                found_contact = Contact.find_by(contact_id: n)
+                contactName = found_contact.name
+                contactEmail = found_contact.email
+                officerPosition = found_contact.officer_position
+                updateYear = found_contact.year
+    
+                worksheet.add_row []
+                row=worksheet.rows[rownum]
+                rownum=rownum+1
+    
+                if @download_columns.include?("Organization Name") then
+                    row.add_cell orgName
+                end
+                if @download_columns.include?("Contact Name") then
+                    row.add_cell contactName
+                end
+                if @download_columns.include?("Contact Email") then
+                    row.add_cell contactEmail
+                end
+                if @download_columns.include?("Officer Position") then
+                    row.add_cell officerPosition
+                end
+                if @download_columns.include?("Last Modified") then
+                    row.add_cell updateYear
+                end
+                if @download_columns.include?("Applications") then
+                    row.add_cell numApps
+                end
+            end
+        end
+    end
