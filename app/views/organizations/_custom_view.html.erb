@@ -81,10 +81,10 @@
             <% if @displayed_columns.include?("Applications") then %>
                 <th>
                     <div>
-                        App Count <=
+                        App Count >=
                     </div>
                     <div>
-                        App Count >=
+                        App Count <=
                     </div>
                 </th>
             <% end %>
@@ -244,7 +244,7 @@
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
         <div class="showbutton">
-        <%= submit_tag "Save exclude orgs?" %>
+        <%= submit_tag "Exclude Selected Org(s)" %>
           </div>
           </br>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
@@ -340,14 +340,14 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                         <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                             Cancel
                                         </a>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Edit</button>
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
                                 </td>
                             </tr>
                         <% end %>
