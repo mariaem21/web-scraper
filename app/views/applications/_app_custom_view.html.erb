@@ -41,7 +41,7 @@
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
-            
+            <h1> Filter and Search </h1>
             <th>
                 Exclude
             </th>
@@ -237,6 +237,7 @@
 <% end %>
 <div class="paddiv"></div>
 <div class="create-new">
+<h1> Add Application </h1>
 <%= form_tag add_table_entry_applications_path(organization_id: org_id), method: :post do %>
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
     <%= text_field_tag :app_name, params[:app_name] %>
