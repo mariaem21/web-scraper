@@ -44,7 +44,7 @@
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
-            
+            <h1> Filter and Search </h1>
             <th>
                 Exclude
             </th>
@@ -218,6 +218,7 @@
 <% end %>
 <div class="paddiv"></div>
 <div class="create-new2">
+<h1> Add Organization </h1>
 <%= form_tag add_table_entry_organizations_path, method: :post do %>
     <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
     <%= text_field_tag :org_name, params[:org_name], id:"org_name_field" %>
