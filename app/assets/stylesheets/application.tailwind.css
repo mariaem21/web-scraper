@@ -301,7 +301,7 @@ width: 100vw;
 /* The sticky class is added to the header with JS when it reaches its scroll position */
 .sticky2 {
   position: sticky;
-  top: 0;
+  top: 75px;
   width: 100%;
   align-self: flex-start;
 }
