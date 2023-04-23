@@ -251,7 +251,7 @@
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
             <table class="min-w-full" id="non-exclude-items" style="display:block">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -507,6 +507,25 @@
         var e = document.getElementById(id);
         e.style.display = (e.style.display == 'block') ? 'none' : 'block';
     }
+  
+        // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick()};
+
+    // Get the header
+    var header = document.getElementById("myHeader");
+
+    // Get the offset position of the navbar
+    var sticky = header.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
+
 
 
 </script>
