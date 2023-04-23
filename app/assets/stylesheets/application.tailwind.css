@@ -310,3 +310,6 @@ width: 100vw;
 .sticky2 + .content {
   padding-top: 102px;
 }
+.confbtn{
+  margin-right: 3px;
+}
