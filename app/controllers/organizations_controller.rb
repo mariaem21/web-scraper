@@ -86,6 +86,7 @@ end
   def scrape
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     ScrapeJob.perform_later(letters)
+    redirect_to organizations_url, notice: 'Scraping has begun, refresh to see new organizations.' 
   end
 
   def delete
