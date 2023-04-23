@@ -381,10 +381,10 @@
                                         <div id="confirmation<%=app['application_id']%>" style="display:none;">
                                             <p> Are you sure? </p>
                                             <br/> 
-                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn">
+                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                                 Cancel
                                             </a>
-                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']), class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn" %>
+                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']), class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn" %>
                                         </div>
                                     </td>
                                     <td class="text-left py-3 px-6">
@@ -497,8 +497,8 @@
                                         <div id="confirmation<%=app['application_id']%>" style="display:none;">
                                             <p> Are you sure? </p>
                                             <br/> 
-                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']), class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn" %>
-                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn">
+                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']), class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn" %>
+                                            <a href="javascript:showhide('confirmation<%=app['application_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                                 Cancel
                                             </a>
                                         </div>
