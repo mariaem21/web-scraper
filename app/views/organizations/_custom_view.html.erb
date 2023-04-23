@@ -356,7 +356,7 @@
                 </tbody>
             </table>
             <table class="min-w-full" id="exclude-items" style="display:none">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader2">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -520,6 +520,24 @@
     // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
     function tableStick() {
       if (window.pageYOffset > sticky) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
+  
+            // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick2()};
+
+    // Get the header
+    var header2 = document.getElementById("myHeader2");
+
+    // Get the offset position of the navbar
+    var sticky2 = header2.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick2() {
+      if (window.pageYOffset > sticky2) {
         header.classList.add("sticky2");
       } else {
         header.classList.remove("sticky2");
