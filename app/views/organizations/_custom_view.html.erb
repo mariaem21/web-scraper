@@ -341,10 +341,10 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn">
+                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                             Cancel
                                         </a>
-                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']), class:"btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn" %>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']), class:"btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn" %>
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
@@ -446,8 +446,8 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) , class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn"%>
-                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-4 confbtn">
+                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) , class: "btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn"%>
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                         Cancel
                                     </a>
                                     </div>
