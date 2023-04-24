@@ -81,7 +81,7 @@ h3{
 .notice-container{
 z-index: 200;
 position: sticky;
-margin: 5%;
+margin-top: 3%;
 top:70px;
   max-height: fit-content;
   min-width: 100%;
