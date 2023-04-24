@@ -87,8 +87,9 @@
             <% end %>
             <% if @app_displayed_columns.include?("Category") then %>
                 <th>
-                    Category
+                    Exclude
                 </th>
+
             <% end %>
         </tr>
     </thead>
@@ -105,7 +106,8 @@
                             placeholder: "App Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['app_name']
                             %>
                         <% end %>
                     </div>
@@ -119,8 +121,10 @@
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_name']
                             %>
+
                         <% end %>
                     </div>
                 </td>
@@ -133,8 +137,10 @@
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_email']
                             %>
+
                         <% end %>
                     </div>
                 </td>
@@ -147,7 +153,8 @@
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['officer_position']
                             %>
                         <% end %>
                     </div>
@@ -161,7 +168,8 @@
                             placeholder: "Github Link",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['github_link']
                             %>
                         <% end %>
                     </div>
@@ -175,17 +183,17 @@
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_start']
                             %>
-                        <% end %>
-                    </div>
-                    <div id="contact_date_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
                             <%= form.text_field :date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_end']
                             %>
                         <% end %>
                     </div>
@@ -199,7 +207,8 @@
                             placeholder: "Notes",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['description']
                             %>
                         <% end %>
                     </div>
@@ -213,16 +222,16 @@
                             placeholder: "Category",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['cat_name']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>        
-        </tr>
-    </tbody>
-</table>
-
+                        </div>
+                    </td>
+                <% end %>        
+            </tr>
+        </tbody>
+    </table>
+<% end %>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>

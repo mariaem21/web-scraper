@@ -50,7 +50,7 @@
             </th>
             <% if @org_displayed_columns.include?("Organization Name") then %>
                 <th>
-                    Organization Name
+                    Exclude
                 </th>
             <% end %>
             <% if @org_displayed_columns.include?("Contact Name") then %>
@@ -97,13 +97,17 @@
             </td>
             <% if @org_displayed_columns.include?("Organization Name") then %>
                 <td class="text-left py-3 px-6">
-                    <div id="name_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                    <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
+                </td>
+                <% if @displayed_columns.include?("Organization Name") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="name_search" class="flex justify-end mb-1">
                             <%= form.text_field :name,
                             placeholder: "Organization",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['name']
                             %>
                         <% end %>
                     </div>
@@ -117,7 +121,8 @@
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_name']
                             %>
                         <% end %>
                     </div>
@@ -131,7 +136,8 @@
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_email']
                             %>
                         <% end %>
                     </div>
@@ -145,7 +151,8 @@
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['officer_position']
                             %>
                         <% end %>
                     </div>
@@ -159,17 +166,17 @@
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_start']
                             %>
-                        <% end %>
-                    </div>
-                    <div id="contact_date_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
                             <%= form.text_field :date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_end']
                             %>
                         <% end %>
                     </div>
@@ -183,26 +190,25 @@
                             placeholder: "App Count >=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['count_start']
                             %>
-                        <% end %>
-                    </div>
-                    <div id="app_count_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="app_count_end" class="flex justify-end mb-1">
                             <%= form.text_field :count_end,
                             placeholder: "App Count <=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['count_end']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-
-        </tr>
-    </tbody>
-</table>
+                        </div>
+                    </td>
+                <% end %>
+            </tr>
+        </tbody>
+    </table>
+<% end %>
 
 
 
