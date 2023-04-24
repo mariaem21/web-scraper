@@ -5,7 +5,7 @@ class Organization < ApplicationRecord
     has_many :contacts, through: :contact_organizations
 
     validates :organization_id, presence: true, uniqueness: true
-    validates :name, presence: true, uniqueness: true
+    validates :name, presence: true
     validates :description, presence: true
 
     def self.only_ids
@@ -81,6 +81,7 @@ class Organization < ApplicationRecord
         org = {}
         contact = {}
         con_org = {}
+
         while Organization.where(organization_id: org_count).exists? do
             org_count = org_count + 1
         end
@@ -96,7 +97,7 @@ class Organization < ApplicationRecord
         contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: org_count, created_at: "#{Date.today}", updated_at: "#{Date.today}")
     end
 
-    def self.download_function(displayed_columns, not_filtered_out)
+    def self.download_function()
 
         # Create new excel workbook
         package = Axlsx::Package.new
@@ -109,26 +110,26 @@ class Organization < ApplicationRecord
         worksheet.add_row []
         row=worksheet.rows[0]
         rownum=1
-        if displayed_columns.include?("Organization Name") then
+        if @download_columns.include?("Organization Name") then
             row.add_cell "Organization Name"
         end
-        if displayed_columns.include?("Contact Name") then
+        if @download_columns.include?("Contact Name") then
             row.add_cell "Contact Name"
         end
-        if displayed_columns.include?("Contact Email") then 
+        if @download_columns.include?("Contact Email") then 
             row.add_cell "Contact Email"
         end
-        if displayed_columns.include?("Officer Position") then
+        if @download_columns.include?("Officer Position") then
             row.add_cell "Officer Position"
         end
-        if displayed_columns.include?("Last Modified") then
+        if @download_columns.include?("Last Modified") then
             row.add_cell "Last Modified Date"
         end
-        if displayed_columns.include?("Applications") then
+        if @download_columns.include?("Applications") then
             row.add_cell "# Apps Per Organization"
         end
 
-        not_filtered_out.each do |org_id|
+        @download_rows.each do |org_id|
             
             # default values
             contactName = "Not provided on STUACT website"
@@ -157,22 +158,22 @@ class Organization < ApplicationRecord
                     row=worksheet.rows[rownum]
                     rownum=rownum+1
         
-                    if displayed_columns.include?("Organization Name") then
+                    if @download_columns.include?("Organization Name") then
                         row.add_cell orgName
                     end
-                    if displayed_columns.include?("Contact Name") then
+                    if @download_columns.include?("Contact Name") then
                         row.add_cell contactName
                     end
-                    if displayed_columns.include?("Contact Email") then
+                    if @download_columns.include?("Contact Email") then
                         row.add_cell contactEmail
                     end
-                    if displayed_columns.include?("Officer Position") then
+                    if @download_columns.include?("Officer Position") then
                         row.add_cell officerPosition
                     end
-                    if displayed_columns.include?("Last Modified") then
+                    if @download_columns.include?("Last Modified") then
                         row.add_cell updateYear
                     end
-                    if displayed_columns.include?("Applications") then
+                    if @download_columns.include?("Applications") then
                         row.add_cell numApps
                     end
                 end

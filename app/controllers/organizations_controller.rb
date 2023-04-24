@@ -54,30 +54,28 @@ class OrganizationsController < ApplicationController
     ScrapeJob.perform_later(letters)
   end
 
-  def download
-    columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-    selected_columns = session[:displayed_columns] || columns
-    @download_columns = selected_columns
+  # def download
+  #   columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
+  #   selected_columns = session[:displayed_columns] || columns
+  #   @download_columns = selected_columns
 
-    # puts "ONLY IDS: #{Organization.only_ids()}"
+  #   included = session[:not_filtered_out] || Organization.only_ids()
+  #   @download_rows = included
 
-    included = session[:not_filtered_out] || Organization.only_ids()
-    @download_rows = included
+  #   # Organization.download_function()
+  #   # respond_to do |format|
+  #   #   format.html { redirect_to organizations_url, notice: 'Download finished.' }
+  #   #   format.json { head :no_content }
+  #   # end
 
-    # Organization.download_function(selected_columns, included)
-    # respond_to do |format|
-    #   format.html { redirect_to organizations_url, notice: 'Download finished.' }
-    #   format.json { head :no_content }
-    # end
-
-    respond_to do |format|
-      format.xlsx  {
-          response.headers[
-          'Content-Disposition'
-          ] = "attachment; filename=included_stuff.xlsx"
-      }
-    end
-  end
+  #   respond_to do |format|
+  #     format.xlsx  {
+  #         response.headers[
+  #         'Content-Disposition'
+  #         ] = "attachment; filename=included_stuff.xlsx"
+  #     }
+  #   end
+  # end
 
   def delete
     Organization.delete_all

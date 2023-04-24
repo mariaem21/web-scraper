@@ -9,8 +9,8 @@ class ApplicationsController < ApplicationController
 
   # GET /applications or /applications.json
   def index
-    $app_edited_rows = {}
-    @applications = Application.all
+    # $app_edited_rows = {}
+    # @applications = Application.all
     query = "
         SELECT 
         applications.name AS app_name, 
@@ -51,7 +51,7 @@ class ApplicationsController < ApplicationController
     @records = Organization.all
         
     if params.has_key?(:org_id) and params[:org_id] != nil
-      query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
+      query += " WHERE contact_organizations.organization_id = #{params[:org_id]}"
     end
     @apps = ActiveRecord::Base.connection.execute(query)
 
@@ -60,11 +60,11 @@ class ApplicationsController < ApplicationController
     @org_id = params[:org_id]
 
     respond_to do |format|
-      format.xlsx  {
-          response.headers[
-          'Content-Disposition'
-          ] = "attachment; filename=excel_file.xlsx"
-      }
+      # format.xlsx  {
+      #     response.headers[
+      #     'Content-Disposition'
+      #     ] = "attachment; filename=excel_file.xlsx"
+      # }
       
       if params[:commit] == "Save exclude apps?" and params[:commit] != nil
         save_exclude_cookie(params[:applications_ids])
@@ -102,27 +102,36 @@ class ApplicationsController < ApplicationController
 
     puts "updating applications"
 
+    app = Application.find_by(application_id: application_id)
+    app.update(name: app_name, github_link: github_link, description: description)
 
-    query = "
-      UPDATE applications
-      SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
-      WHERE application_id = #{application_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    contact = Contact.find_by(contact_id: contact_id)
+    contact.update(name: contact_name, email: contact_email, officer_position: officer_position, year: Date.today)
 
-    query = "
-      UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    category = Category.find_by(category_id: category_id)
+    category.update(name: category_name)
 
-    query = "
-      UPDATE categories
-      SET name = '#{category_name}'
-      WHERE category_id = #{category_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+
+    # query = "
+    #   UPDATE applications
+    #   SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
+    #   WHERE application_id = #{application_id};
+    # "
+    # ActiveRecord::Base.connection.execute(query)
+
+    # query = "
+    #   UPDATE contacts
+    #   SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
+    #   WHERE contact_id = #{contact_id};
+    # "
+    # ActiveRecord::Base.connection.execute(query)
+
+    # query = "
+    #   UPDATE categories
+    #   SET name = '#{category_name}'
+    #   WHERE category_id = #{category_id};
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
     # Return a success response
     respond_to do |format|
@@ -339,44 +348,46 @@ class ApplicationsController < ApplicationController
         session[:displayed_columns] = selected_columns
       end
       redirect_to action: :index
+      # redirect_to applications_url(org_id:organization_id)
   end
 
   def delete_row 
     app_id = params[:application_id] 
-    contact_id = params[:contact_id]
-    contact_org_id = params[:contact_organization_id]
+    # contact_id = params[:contact_id]
+    # contact_org_id = params[:contact_organization_id]
     application_category_id = params[:application_category_id]
     
-    query = "
-      DELETE FROM applications 
-      WHERE applications.application_id = #{app_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    # query = "
+    #   DELETE FROM applications 
+    #   WHERE applications.application_id = #{app_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
-    query = "
-      DELETE FROM contact_organizations 
-      WHERE contact_organizations.contact_organization_id = #{contact_org_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    # query = "
+    #   DELETE FROM contact_organizations 
+    #   WHERE contact_organizations.contact_organization_id = #{contact_org_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
-    query = "
-      DELETE FROM contacts 
-      WHERE contacts.contact_id = #{contact_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    # query = "
+    #   DELETE FROM contacts 
+    #   WHERE contacts.contact_id = #{contact_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
-    if application_category_id and application_category_id != ""
-      query = "
-        DELETE FROM application_categories 
-        WHERE application_categories.application_category_id = #{application_category_id}
-      "    
-      ActiveRecord::Base.connection.execute(query)
+    # if application_category_id and application_category_id != ""
+    #   query = "
+    #     DELETE FROM application_categories 
+    #     WHERE application_categories.application_category_id = #{application_category_id}
+    #   "    
+    #   ActiveRecord::Base.connection.execute(query)
 
-    end
+    # end
+
+    Application.delete_apps_row_function(app_id, application_category_id)
 
     respond_to do |format|
-      format.html { redirect_to(applications_url, notice: 'Application was successfully destroyed.') }
-      format.json { head(:no_content) }
+      format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }
     end
   end
 
@@ -393,42 +404,48 @@ class ApplicationsController < ApplicationController
       category = params[:category]
 
       if organization_id != -1 and app_name != "" and contact_name != "" and contact_email != "" and officer_position != "" and github_link != "" and date_built != "" and notes != "" and category != ""
+        Application.add_table_entry_function(organization_id, contact_name, contact_email, officer_position, app_name, date_built, github_link, category, notes)
         
-        app_count = Application.count
-        contact_count = Contact.count
-        con_org_count = ContactOrganization.count
-        cat_count = Category.count
-        app_cat_count = ApplicationCategory.count
-        app = {}
-        contact = {}
-        con_org = {}
-
-        while Contact.where(contact_id: contact_count).exists? do
-            contact_count = contact_count + 1
-        end
-        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-            con_org_count = con_org_count + 1
-        end
-        while Application.where(application_id: app_count).exists? do
-            app_count = app_count + 1
-        end
-        while Category.where(category_id: cat_count).exists? do
-            cat_count = cat_count + 1
-        end
-        while ApplicationCategory.where(application_category_id: app_cat_count).exists? do
-            app_cat_count = app_cat_count + 1
-        end
-
-      contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at:Date.today, updated_at: Date.today)
-      contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
-      app = Application.create(application_id: app_count, contact_organization_id: con_org_count, name: app_name, date_built: date_built, github_link: github_link, description: "None", created_at: Date.today, updated_at: Date.today)
-      cat = Category.create(category_id: cat_count, name: category, description: 'None', created_at: Date.today, updated_at: Date.today)
-      app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
-
         respond_to do |format|
-          format.html { redirect_to(applications_url, notice: 'Application was added.') }
+          format.html { redirect_to(organizations_url, notice: 'Application was successfully created.') }
           format.json { head(:no_content) }
-        end
+        end 
+        
+      #   app_count = Application.count
+      #   contact_count = Contact.count
+      #   con_org_count = ContactOrganization.count
+      #   cat_count = Category.count
+      #   app_cat_count = ApplicationCategory.count
+      #   app = {}
+      #   contact = {}
+      #   con_org = {}
+
+      #   while Contact.where(contact_id: contact_count).exists? do
+      #       contact_count = contact_count + 1
+      #   end
+      #   while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+      #       con_org_count = con_org_count + 1
+      #   end
+      #   while Application.where(application_id: app_count).exists? do
+      #       app_count = app_count + 1
+      #   end
+      #   while Category.where(category_id: cat_count).exists? do
+      #       cat_count = cat_count + 1
+      #   end
+      #   while ApplicationCategory.where(application_category_id: app_cat_count).exists? do
+      #       app_cat_count = app_cat_count + 1
+      #   end
+
+      # contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at:Date.today, updated_at: Date.today)
+      # contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
+      # app = Application.create(application_id: app_count, contact_organization_id: con_org_count, name: app_name, date_built: date_built, github_link: github_link, description: "None", created_at: Date.today, updated_at: Date.today)
+      # cat = Category.create(category_id: cat_count, name: category, description: 'None', created_at: Date.today, updated_at: Date.today)
+      # app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
+
+        # respond_to do |format|
+        #   format.html { redirect_to(applications_url, notice: 'Application was added.') }
+        #   format.json { head(:no_content) }
+        # end
         # Autofill in organization: organization_id, organization_description
         # Autofill in contact_organization: contact_organization_id, contact_id, organization_id
         # Autofill in contact: contact_id, year, description
