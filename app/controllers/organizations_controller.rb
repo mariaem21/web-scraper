@@ -194,43 +194,27 @@ end
 
     if params[:name] != session['filters']['name'] and params[:name] != nil
       session['filters']['name'] = params[:name] 
-    else
-      session['filters']['name'] = ""
     end
     if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
       session['filters']['contact_name'] = params[:contact_name] 
-    else
-      session['filters']['contact_name'] = ""
     end
     if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
       session['filters']['contact_email'] = params[:contact_email] 
-    else
-      session['filters']['contact_email'] = ""
     end
     if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
       session['filters']['officer_position'] = params[:officer_position] 
-    else
-      session['filters']['officer_position'] = ""
     end
     if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
       session['filters']['date_start'] = params[:date_start] 
-    else
-      session['filters']['date_start'] = ""
     end
     if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
       session['filters']['date_end'] = params[:date_end] 
-    else
-      session['filters']['date_end'] = ""
     end
     if params[:count_start] != session['filters'][''] and params[:count_start] != nil
       session['filters']['count_start'] = params[:count_start] 
-    else
-      session['filters']['count_start'] = ""
     end
     if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
       session['filters']['count_end'] = params[:count_end] 
-    else
-      session['filters']['count_end'] = ""
     end
     
     
@@ -375,7 +359,10 @@ end
         end 
 
       else
-
+        session[:org_name] = org_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
         flash[:notice] = "Not all params were inputted"
         redirect_to organizations_path
       end

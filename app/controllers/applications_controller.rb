@@ -66,7 +66,7 @@ class ApplicationsController < ApplicationController
           ] = "attachment; filename=excel_file.xlsx"
       }
       
-      if params[:commit] == "Save exclude apps?" and params[:commit] != nil
+      if params[:commit] == "Exclude Selected App(s)" and params[:commit] != nil
         save_exclude_cookie(params[:applications_ids])
         format.html{ redirect_to applications_path, notice: 'Changes saved!' }
       else
@@ -165,48 +165,30 @@ class ApplicationsController < ApplicationController
     
     if params[:app_name] != session['filters']['app_name'] and params[:app_name] != nil
       session['filters']['app_name'] = params[:app_name] 
-    else
-      session['filters']['app_name'] = ""
     end
     if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
       session['filters']['contact_name'] = params[:contact_name] 
-    else
-      session['filters']['contact_name'] = ""
     end
     if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
       session['filters']['contact_email'] = params[:contact_email] 
-    else
-      session['filters']['contact_email'] = ""
     end
     if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
       session['filters']['officer_position'] = params[:officer_position] 
-    else
-      session['filters']['officer_position'] = ""
     end
     if params[:github_link] != session['filters']['github_link'] and params[:github_link] != nil
       session['filters']['github_link'] = params[:github_link] 
-    else
-      session['filters']['github_link'] = ""
     end
     if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
       session['filters']['date_start'] = params[:date_start] 
-    else
-      session['filters']['date_start'] = ""
     end
     if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
       session['filters']['date_end'] = params[:date_end] 
-    else
-      session['filters']['date_end'] = ""
     end
     if params[:description] != session['filters']['description'] and params[:description] != nil
       session['filters']['description'] = params[:description] 
-    else
-      session['filters']['description'] = ""
     end
     if params[:cat_name] != session['filters']['cat_name'] and params[:cat_name] != nil
       session['filters']['cat_name'] = params[:cat_name] 
-    else
-      session['filters']['cat_name'] = ""
     end
     
     
@@ -482,6 +464,15 @@ class ApplicationsController < ApplicationController
         # Autofill in contact: contact_id, year, description
 
       else
+        session[:organization_id] = organization_id
+        session[:app_name] = app_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
+        session[:github_link] = github_link
+        session[:date_built] = date_built
+        session[:notes] = notes
+        session[:category] = category
         puts "second if"
         flash[:notice] = "Not all params were inputted"
         redirect_to applications_path(org_id:organization_id)
