@@ -38,191 +38,184 @@
 <div class="navpadding"></br></div>
 </br>
 </br>
-<table>
-    <thead class="bg-gray-800 text-white">
-        <tr>
-            <h1> Filter and Search </h1>
-            <th>
-                Exclude
-            </th>
-            <% if @displayed_columns.include?("Application Developed") then %>
+
+<%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+    <table>
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <h1> Filter and Search </h1>
                 <th>
-                    Application Name
+                    Exclude
                 </th>
-            <% end %>
-            <% if @displayed_columns.include?("Contact Name") then %>
-                <th>
-                    Contact Name
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Contact Email") then %>
-                <th>
-                    Contact Email
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Officer Position") then %>
-                <th>
-                    Officer Position
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Github Link") then %>
-                <th>
-                    Github Link
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Year Developed") then %>
-                <th>
-                    <div>
-                        Start Date
-                    </div>
-                    <div>
-                        End Date
-                    </div>
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Notes") then %>
-                <th>
-                    Notes
-                </th>
-            <% end %>
-            <% if @displayed_columns.include?("Category") then %>
-                <th>
-                    Category
-                </th>
-            <% end %>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="text-left py-3 px-6">
-                <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
-            </td>
-            <% if @displayed_columns.include?("Application Developed") then %>
-                <td>
-                    <div id="app_name_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                <% if @displayed_columns.include?("Application Developed") then %>
+                    <th>
+                        Application Name
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Contact Name") then %>
+                    <th>
+                        Contact Name
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Contact Email") then %>
+                    <th>
+                        Contact Email
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Officer Position") then %>
+                    <th>
+                        Officer Position
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Github Link") then %>
+                    <th>
+                        Github Link
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Year Developed") then %>
+                    <th>
+                        <div>
+                            Start Date
+                        </div>
+                        <div>
+                            End Date
+                        </div>
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Notes") then %>
+                    <th>
+                        Notes
+                    </th>
+                <% end %>
+                <% if @displayed_columns.include?("Category") then %>
+                    <th>
+                        Category
+                    </th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-left py-3 px-6">
+                    <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
+                </td>
+                <% if @displayed_columns.include?("Application Developed") then %>
+                    <td>
+                        <div id="app_name_search" class="flex justify-end mb-1">
                             <%= form.text_field :app_name,
                             placeholder: "App Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['app_name']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Contact Name") then %>
-                <td>
-                    <div id="contact_name_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Contact Name") then %>
+                    <td>
+                        <div id="contact_name_search" class="flex justify-end mb-1">
                             <%= form.text_field :contact_name,
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_name']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Contact Email") then %>
-                <td>
-                    <div id="contact_email_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Contact Email") then %>
+                    <td>
+                        <div id="contact_email_search" class="flex justify-end mb-1">
                             <%= form.text_field :contact_email,
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['contact_email']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Officer Position") then %>
-                <td>
-                    <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Officer Position") then %>
+                    <td>
+                        <div id="contact_officer_position_search" class="flex justify-end mb-1">
                             <%= form.text_field :officer_position,
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['officer_position']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Github Link") then %>
-                <td>
-                    <div id="github_link_position_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Github Link") then %>
+                    <td>
+                        <div id="github_link_position_search" class="flex justify-end mb-1">
                             <%= form.text_field :github_link,
                             placeholder: "Github Link",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['github_link']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Year Developed") then %>
-                <td>
-                    <div id="contact_date_start" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Year Developed") then %>
+                    <td>
+                        <div id="contact_date_start" class="flex justify-end mb-1">
                             <%= form.text_field :date_start,
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_start']
                             %>
-                        <% end %>
-                    </div>
-                    <div id="contact_date_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
                             <%= form.text_field :date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['date_end']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Notes") then %>
-                <td>
-                    <div id="application_note" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Notes") then %>
+                    <td>
+                        <div id="application_note" class="flex justify-end mb-1">
                             <%= form.text_field :description,
                             placeholder: "Notes",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['description']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @displayed_columns.include?("Category") then %>
-                <td>
-                    <div id="cat_name" class="flex justify-end mb-1">
-                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @displayed_columns.include?("Category") then %>
+                    <td>
+                        <div id="cat_name" class="flex justify-end mb-1">
                             <%= form.text_field :cat_name,
                             placeholder: "Category",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: session['filters']['cat_name']
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>        
-        </tr>
-    </tbody>
-</table>
-
+                        </div>
+                    </td>
+                <% end %>        
+            </tr>
+        </tbody>
+    </table>
+<% end %>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
