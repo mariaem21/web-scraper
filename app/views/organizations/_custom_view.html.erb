@@ -104,7 +104,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['name']
+                            value: check_org_session_exists(session['filters']['name'])
                             %>
                         </div>
                     </td>
@@ -117,7 +117,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['contact_name']
+                            value: check_org_session_exists(session['filters']['contact_name'])
                             %>
                         </div>
                     </td>
@@ -130,7 +130,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['contact_email']
+                            value: check_org_session_exists(session['filters']['contact_email'])
                             %>
                         </div>
                     </td>
@@ -143,7 +143,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['officer_position']
+                            value: check_org_session_exists(session['filters']['officer_position'])
                             %>
                         </div>
                     </td>
@@ -156,7 +156,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['date_start']
+                            value: check_org_session_exists(session['filters']['date_start'])
                             %>
                         </div>
                         <div id="contact_date_end" class="flex justify-end mb-1">
@@ -165,7 +165,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['date_end']
+                            value: check_org_session_exists(session['filters']['date_end'])
                             %>
                         </div>
                     </td>
@@ -178,7 +178,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['count_start']
+                            value: check_org_session_exists(session['filters']['count_start'])
                             %>
                         </div>
                         <div id="app_count_end" class="flex justify-end mb-1">
@@ -187,7 +187,7 @@
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: session['filters']['count_end']
+                            value: check_org_session_exists(session['filters']['count_end'])
                             %>
                         </div>
                     </td>
