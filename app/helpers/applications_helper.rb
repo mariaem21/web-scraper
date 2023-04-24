@@ -30,9 +30,9 @@ module ApplicationsHelper
         end
     end
 
-    def check_app_session_exists(value)
+    def check_app_session_exists(value, string)
         if value != nil
-            return value
+            return value[string]
         else
             return ""
         end
