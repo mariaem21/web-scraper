@@ -434,6 +434,16 @@ class ApplicationsController < ApplicationController
 
       if organization_id != -1 and app_name != "" and contact_name != "" and contact_email != "" and officer_position != "" and github_link != "" and date_built != "" and notes != "" and category != ""
         
+        session[:organization_id] = ""
+        session[:app_name] = ""
+        session[:contact_name] = ""
+        session[:contact_email] = ""
+        session[:officer_position] = ""
+        session[:github_link] = ""
+        session[:date_built] = ""
+        session[:notes] = ""
+        session[:category] = ""
+        
         app_count = Application.count
         contact_count = Contact.count
         con_org_count = ContactOrganization.count
@@ -475,6 +485,15 @@ class ApplicationsController < ApplicationController
 
       else
         puts "second if"
+        session[:organization_id] = organization_id
+        session[:app_name] = app_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
+        session[:github_link] = github_link
+        session[:date_built] = date_built
+        session[:notes] = notes
+        session[:category] = category
         flash[:notice] = "Not all params were inputted"
         redirect_to applications_path(org_id:organization_id)
       end

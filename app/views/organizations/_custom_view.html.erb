@@ -221,13 +221,13 @@
 <h1> Add Organization </h1>
 <%= form_tag add_table_entry_organizations_path, method: :post do %>
     <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field" %>
+    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field", value:session[:org_name] %>
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field" %>
+    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field", value:session[:contact_name]%>
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field" %>
+    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field", value:session[:contact_email] %>
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field" %>
+    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field", value:session[:officer_position] %>
     <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
     <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>

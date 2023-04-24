@@ -341,7 +341,10 @@ end
       officer_position = params[:officer_position]
 
       if org_name != "" and contact_name != "" and contact_email != "" and officer_position != ""
-        
+        session[:org_name] = ""
+        session[:contact_name] = ""
+        session[:contact_email] = ""
+        session[:officer_position] = ""
         org_count = Organization.count
         contact_count = Contact.count
         con_org_count = ContactOrganization.count
@@ -368,7 +371,10 @@ end
         end 
 
       else
-
+        session[:org_name] = org_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
         flash[:notice] = "Not all params were inputted"
         redirect_to organizations_path
       end
