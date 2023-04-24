@@ -324,7 +324,13 @@ class ApplicationsController < ApplicationController
       $app_not_filtered_out.push(row['application_id'])
     end
 
-    render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
+
+    
+
+    # render(partial: 'app_custom_view', locals: { apps: apps, org_id: params['org_id'] })
+    redirect_to action: :index, locals: {org_id: params[:org_id], apps: apps}
+
+
   end
 
   def display_columns

@@ -7,39 +7,40 @@ class OrganizationsController < ApplicationController
   def index
     $edited_rows = {}
     @orgs = ActiveRecord::Base.connection.execute("
-        SELECT 
-          contact_organizations.contact_organization_id,
-          organizations.name AS org_name,
-          organizations.organization_id,
-          contacts.name AS contact_name,
-          contacts.contact_id,
-          contacts.email,
-          contacts.officer_position,
-          contacts.year,
-          app_counter.app_count
-        FROM contact_organizations
-        RIGHT JOIN organizations
-        ON contact_organizations.organization_id = organizations.organization_id
-        INNER JOIN contacts
-        ON contact_organizations.contact_id = contacts.contact_id    
-        LEFT JOIN (
-              SELECT
-                  organizations.name AS name,
-                  COUNT(applications.application_id) AS app_count
-              FROM
-                  contact_organizations
-              INNER JOIN 
-                  organizations
-              ON 
-                  contact_organizations.organization_id = organizations.organization_id
-              LEFT JOIN
-                  applications
-              ON
-                  contact_organizations.contact_organization_id = applications.contact_organization_id
-              GROUP BY organizations.name
-        ) AS app_counter
-        ON organizations.name = app_counter.name
-    ")
+          SELECT 
+            contact_organizations.contact_organization_id,
+            organizations.name AS org_name,
+            organizations.organization_id,
+            contacts.name AS contact_name,
+            contacts.contact_id,
+            contacts.email,
+            contacts.officer_position,
+            contacts.year,
+            app_counter.app_count
+          FROM contact_organizations
+          RIGHT JOIN organizations
+          ON contact_organizations.organization_id = organizations.organization_id
+          INNER JOIN contacts
+          ON contact_organizations.contact_id = contacts.contact_id    
+          LEFT JOIN (
+                SELECT
+                    organizations.name AS name,
+                    COUNT(applications.application_id) AS app_count
+                FROM
+                    contact_organizations
+                INNER JOIN 
+                    organizations
+                ON 
+                    contact_organizations.organization_id = organizations.organization_id
+                LEFT JOIN
+                    applications
+                ON
+                    contact_organizations.contact_organization_id = applications.contact_organization_id
+                GROUP BY organizations.name
+          ) AS app_counter
+          ON organizations.name = app_counter.name
+      ")
+
 
     puts "Column names: #{@orgs.fields.join(', ')}"
 
@@ -220,7 +221,7 @@ end
     else
       session['filters']['date_end'] = ""
     end
-    if params[:count_start] != session['filters']['count_start'] and params[:count_start] != nil
+    if params[:count_start] != session['filters'][''] and params[:count_start] != nil
       session['filters']['count_start'] = params[:count_start] 
     else
       session['filters']['count_start'] = ""
@@ -325,13 +326,18 @@ end
     end
 
     $not_filtered_out = []
-    orgs = ActiveRecord::Base.connection.execute(query)
-    orgs.each do |row|
+    @orgs = ActiveRecord::Base.connection.execute(query)
+    @orgs.each do |row|
       $not_filtered_out.push(row['organization_id'])
     end
 
-    render(partial: 'custom_view', locals: { orgs: orgs })
-    
+    # render(partial: 'index', locals: { orgs: orgs })
+    # redirect_to organizations_url, params: { orgs: orgs }
+    # redirect_to index_path(orgs: "value")
+    @organizations = Organization.all # for scrape status
+
+    render 'index'
+
   end
 
   def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
