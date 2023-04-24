@@ -230,6 +230,7 @@
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
+<div class="create-new2">
 <%= form_tag display_columns_applications_path, method: :post do %>
     <% @columns.each do |column| %>
       <div class="form-check form-switch">
@@ -285,7 +286,7 @@
          </br>
         <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
             <table class="min-w-full" id="non-exclude-items" style="display:block">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -401,7 +402,7 @@
             </table>
             <div class="navpadding">.</div>
             <table class="min-w-full" id="exclude-items" style="display:none">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader2">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -570,6 +571,41 @@
         e.style.display = (e.style.display == 'block') ? 'none' : 'block';
     }
 
+              // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick()};
+
+    // Get the header
+    var header = document.getElementById("myHeader");
+
+    // Get the offset position of the navbar
+    var sticky = header.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
+  
+            // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick2()};
+
+    // Get the header
+    var header2 = document.getElementById("myHeader2");
+
+    // Get the offset position of the navbar
+    var sticky2 = header2.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick2() {
+      if (window.pageYOffset > sticky2) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
 
 </script>
 
