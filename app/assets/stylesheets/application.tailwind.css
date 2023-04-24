@@ -81,6 +81,7 @@ h3{
 .notice-container{
 z-index: 200;
 position: sticky;
+margin: 5%;
 top:70px;
   max-height: fit-content;
   min-width: 100%;
@@ -313,4 +314,17 @@ width: 100vw;
 .confbtn{
   margin-right: 5px;
   display: inline-block;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
 }
