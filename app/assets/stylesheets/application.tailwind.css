@@ -312,4 +312,5 @@ width: 100vw;
 }
 .confbtn{
   margin-right: 5px;
+  display: inline-block;
 }
