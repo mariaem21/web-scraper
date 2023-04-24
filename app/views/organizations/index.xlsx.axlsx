@@ -5,22 +5,22 @@ wb = xlsx_package.workbook
     sheet.add_row []
     row=sheet.rows[0]
     rownum=1
-    if @displayed_columns.include?("Organization Name") then
+    if @org_displayed_columns.include?("Organization Name") then
      row.add_cell "Organization Name"
     end
-    if @displayed_columns.include?("Contact Name") then
+    if @org_displayed_columns.include?("Contact Name") then
      row.add_cell "Contact Name"
     end
-    if @displayed_columns.include?("Contact Email") then 
+    if @org_displayed_columns.include?("Contact Email") then 
      row.add_cell "Contact Email"
     end
-    if @displayed_columns.include?("Officer Position") then
+    if @org_displayed_columns.include?("Officer Position") then
      row.add_cell "Officer Position"
     end
-    if @displayed_columns.include?("Last Modified") then
+    if @org_displayed_columns.include?("Last Modified") then
      row.add_cell "Last Modified Date"
     end
-    if @displayed_columns.include?("Applications") then
+    if @org_displayed_columns.include?("Applications") then
      row.add_cell "# Apps Per Organization"
     end
 
@@ -58,22 +58,22 @@ wb = xlsx_package.workbook
             row=sheet.rows[rownum]
             rownum=rownum+1
 
-            if @displayed_columns.include?("Organization Name") then
+            if @org_displayed_columns.include?("Organization Name") then
               row.add_cell org.name
             end
-            if @displayed_columns.include?("Contact Name") then
+            if @org_displayed_columns.include?("Contact Name") then
               row.add_cell contactName
             end
-            if @displayed_columns.include?("Contact Email") then
+            if @org_displayed_columns.include?("Contact Email") then
               row.add_cell contactEmail
             end
-            if @displayed_columns.include?("Officer Position") then
+            if @org_displayed_columns.include?("Officer Position") then
               row.add_cell officerPosition
             end
-            if @displayed_columns.include?("Last Modified") then
+            if @org_displayed_columns.include?("Last Modified") then
               row.add_cell updateYear
             end
-            if @displayed_columns.include?("Applications") then
+            if @org_displayed_columns.include?("Applications") then
               row.add_cell numApps
             end
           end
