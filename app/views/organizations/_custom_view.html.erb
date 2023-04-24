@@ -41,61 +41,60 @@
 
 <p class="notice"><%= notice %></p>
 <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
-<table>
-    <thead class="bg-gray-800 text-white">
-        <tr>
-            <h1> Filter and Search </h1>
-            <th>
-                Exclude
-            </th>
-            <% if @org_displayed_columns.include?("Organization Name") then %>
+    <table>
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <h1> Filter and Search </h1>
                 <th>
-                    Organization Name
+                    Exclude
                 </th>
-            <% end %>
-            <% if @org_displayed_columns.include?("Contact Name") then %>
-                <th>
-                    Contact Name
-                </th>
-            <% end %>
-            <% if @org_displayed_columns.include?("Contact Email") then %>
-                <th>
-                    Contact Email
-                </th>
-            <% end %>
-            <% if @org_displayed_columns.include?("Officer Position") then %>
-                <th>
-                    Officer Position
-                </th>
-            <% end %>
-            <% if @org_displayed_columns.include?("Last Modified") then %>
-                <th>
-                    <div>
-                        Start Date
-                    </div>
-                    <div>
-                        End Date
-                    </div>
-                </th>
-            <% end %>
-            <% if @org_displayed_columns.include?("Applications") then %>
-                <th>
-                    <div>
-                        App Count >=
-                    </div>
-                    <div>
-                        App Count <=
-                    </div>
-                </th>
-            <% end %>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="text-left py-3 px-6">
-                <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
-            </td>
-            <% if @org_displayed_columns.include?("Organization Name") then %>
+                <% if @org_displayed_columns.include?("Organization Name") then %>
+                    <th>
+                        Organization Name
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Name") then %>
+                    <th>
+                        Contact Name
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Email") then %>
+                    <th>
+                        Contact Email
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Officer Position") then %>
+                    <th>
+                        Officer Position
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Last Modified") then %>
+                    <th>
+                        <div>
+                            Start Date
+                        </div>
+                        <div>
+                            End Date
+                        </div>
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Applications") then %>
+                    <th>
+                        <div>
+                            App Count >=
+                        </div>
+                        <div>
+                            App Count <=
+                        </div>
+                    </th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-left py-3 px-6">
+                    <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
+                </td>
                 <% if @org_displayed_columns.include?("Organization Name") then %>
                     <td class="text-left py-3 px-6">
                         <div id="name_search" class="flex justify-end mb-1">
@@ -106,14 +105,12 @@
                             data: { action: "input->search-form#search" },
                             value: check_org_session_exists(session['filters']['name'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @org_displayed_columns.include?("Contact Name") then %>
-                <td class="text-left py-3 px-6">
-                    <div id="contact_name_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Name") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_name_search" class="flex justify-end mb-1">
                             <%= form.text_field :contact_name,
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
@@ -121,14 +118,12 @@
                             data: { action: "input->search-form#search" },
                             value: check_org_session_exists(session['filters']['contact_name'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @org_displayed_columns.include?("Contact Email") then %>
-                <td class="text-left py-3 px-6">
-                    <div id="contact_email_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Email") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_email_search" class="flex justify-end mb-1">
                             <%= form.text_field :contact_email,
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
@@ -136,14 +131,12 @@
                             data: { action: "input->search-form#search" },
                             value: check_org_session_exists(session['filters']['contact_email'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @org_displayed_columns.include?("Officer Position") then %>
-                <td class="text-left py-3 px-6">
-                    <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Officer Position") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_officer_position_search" class="flex justify-end mb-1">
                             <%= form.text_field :officer_position,
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
@@ -151,14 +144,12 @@
                             data: { action: "input->search-form#search" },
                             value: check_org_session_exists(session['filters']['officer_position'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @org_displayed_columns.include?("Last Modified") then %>
-                <td class="text-left py-3 px-6">
-                    <div id="contact_date_start" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Last Modified") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_date_start" class="flex justify-end mb-1">
                             <%= form.text_field :date_start,
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
@@ -175,14 +166,12 @@
                             data: { action: "input->search-form#search" },
                             value: check_org_session_exists(session['filters']['date_end'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-            <% if @org_displayed_columns.include?("Applications") then %>
-                <td class="text-left py-3 px-6">
-                    <div id="app_count_start" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Applications") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="app_count_start" class="flex justify-end mb-1">
                             <%= form.text_field :count_start,
                             placeholder: "App Count >=",
                             class: "border border-blue-500 rounded p-2",
@@ -205,7 +194,6 @@
             </tr>
         </tbody>
     </table>
-<% end %>
 <% end %>
 
 
