@@ -29,4 +29,12 @@ module ApplicationsHelper
             return false
         end
     end
+
+    def check_app_session_exists(value)
+        if value != nil
+            return value
+        else
+            return ""
+        end
+    end
 end
