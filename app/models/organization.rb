@@ -5,6 +5,6 @@ class Organization < ApplicationRecord
     has_many :contacts, through: :contact_organizations
 
     validates :organization_id, presence: true, uniqueness: true
-    validates :name, presence: true, uniqueness: true
+    validates :name, presence: true
     validates :description, presence: true
 end
