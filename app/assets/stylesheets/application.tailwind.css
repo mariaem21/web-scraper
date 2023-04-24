@@ -80,8 +80,8 @@ h3{
 }
 .notice-container{
 z-index: 200;
-position: absolute;
-top:40px;
+position: sticky;
+top:70px;
   max-height: fit-content;
   min-width: 100%;
   background-color: rgb(252,227,0);
