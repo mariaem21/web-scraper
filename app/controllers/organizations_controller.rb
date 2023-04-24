@@ -26,7 +26,7 @@ class OrganizationsController < ApplicationController
           ] = "attachment; filename=excel_file.xlsx"
       }
       
-      if params[:commit] == "Save exclude orgs?" and params[:commit] != nil
+      if params[:commit] == "Exclude Selected Org(s)" and params[:commit] != nil
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
       elsif params[:commit] == "Include All" and params[:commit] != nil
@@ -52,6 +52,9 @@ class OrganizationsController < ApplicationController
   def scrape
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     ScrapeJob.perform_later(letters)
+    respond_to do |format|
+      format.html { redirect_to organizations_url, notice: 'Scraping Has Begun' }
+    end
   end
 
   # def download
@@ -294,7 +297,10 @@ class OrganizationsController < ApplicationController
         end 
 
       else
-
+        session[:org_name] = org_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
         flash[:notice] = "Not all params were inputted"
         redirect_to organizations_path
       end

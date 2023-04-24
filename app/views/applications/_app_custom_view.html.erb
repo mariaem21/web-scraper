@@ -41,7 +41,7 @@
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
-            
+            <h1> Filter and Search </h1>
             <th>
                 Exclude
             </th>
@@ -237,26 +237,27 @@
 <% end %>
 <div class="paddiv"></div>
 <div class="create-new">
+<h1> Add Application </h1>
 <%= form_tag add_table_entry_applications_path(organization_id: org_id), method: :post do %>
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :app_name, params[:app_name] %>
+    <%= text_field_tag :app_name, params[:app_name], value:session[:app_name]%>
     
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name] %>
+    <%= text_field_tag :contact_name, params[:contact_name], value:session[:contact_name] %>
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email] %>
+    <%= text_field_tag :contact_email, params[:contact_email], value:session[:contact_email] %>
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position] %>
+    <%= text_field_tag :officer_position, params[:officer_position], value:session[:officer_position] %>
     </br>
     </br>
     <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
-    <%= text_field_tag :github_link, params[:github_link] %>
+    <%= text_field_tag :github_link, params[:github_link], value:session[:github_link] %>
     <%= label_tag :date_built, "Enter Date Built:" ,class: "create-new-item" %>
-    <%= date_field_tag :date_built, params[:date_built] %>
+    <%= date_field_tag :date_built, params[:date_built], value:session[:date_built] %>
     <%= label_tag :notes, "Enter Notes:" ,class: "create-new-item" %>
-    <%= text_field_tag :notes, params[:notes] %>
+    <%= text_field_tag :notes, params[:notes], value:session[:notes] %>
     <%= label_tag :category, "Enter Category:" ,class: "create-new-item" %>
-    <%= text_field_tag :category, params[:category] %>
+    <%= text_field_tag :category, params[:category], value:session[:category] %>
     
     <%= submit_tag "Add New App", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
 
@@ -275,7 +276,7 @@
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag applications_path, method: :get, id: "application-form" do %>
         <div class="showbutton">
-        <%= submit_tag "Save exclude apps?" %>
+        <%= submit_tag "Exclude Selected App(s)" %>
             </div>
          </br>
         <%= turbo_frame_tag "applications", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
@@ -380,14 +381,14 @@
                                         <div id="confirmation<%=app['application_id']%>" style="display:none;">
                                             <p> Are you sure? </p>
                                             <br/> 
-                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
                                             <a href="javascript:showhide('confirmation<%=app['application_id']%>')">
                                                 Cancel
                                             </a>
+                                            <%= link_to "Confirm", delete_row_applications_path(application_id: app['application_id'], contact_id: app['contact_id'], contact_organization_id: app['contact_organization_id'], application_category_id: app['app_cat_id']) %>
                                         </div>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
+                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Save</button>
                                     </td>
                             </tr>
                         <% end %>

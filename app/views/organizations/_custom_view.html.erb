@@ -44,7 +44,7 @@
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
-            
+            <h1> Filter and Search </h1>
             <th>
                 Exclude
             </th>
@@ -81,10 +81,10 @@
             <% if @displayed_columns.include?("Applications") then %>
                 <th>
                     <div>
-                        App Count <=
+                        App Count >=
                     </div>
                     <div>
-                        App Count >=
+                        App Count <=
                     </div>
                 </th>
             <% end %>
@@ -218,15 +218,16 @@
 <% end %>
 <div class="paddiv"></div>
 <div class="create-new2">
+<h1> Add Organization </h1>
 <%= form_tag add_table_entry_organizations_path, method: :post do %>
     <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field" %>
+    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field", value:session[:org_name] %>
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field" %>
+    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field", value:session[:contact_name]%>
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field" %>
+    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field", value:session[:contact_email] %>
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field" %>
+    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field", value:session[:officer_position] %>
     <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
     <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
@@ -244,7 +245,7 @@
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
         <div class="showbutton">
-        <%= submit_tag "Save exclude orgs?" %>
+        <%= submit_tag "Exclude Selected Org(s)" %>
           </div>
           </br>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
@@ -340,14 +341,14 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                         <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                             Cancel
                                         </a>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Edit</button>
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
                                 </td>
                             </tr>
                         <% end %>

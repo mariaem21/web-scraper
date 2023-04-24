@@ -66,7 +66,7 @@ class ApplicationsController < ApplicationController
       #     ] = "attachment; filename=excel_file.xlsx"
       # }
       
-      if params[:commit] == "Save exclude apps?" and params[:commit] != nil
+      if params[:commit] == "Exclude Selected App(s)" and params[:commit] != nil
         save_exclude_cookie(params[:applications_ids])
         format.html{ redirect_to applications_path, notice: 'Changes saved!' }
       elsif params[:commit] == "Include All" and params[:commit] != nil
@@ -452,6 +452,15 @@ class ApplicationsController < ApplicationController
 
       else
         puts "second if"
+        session[:organization_id] = organization_id
+        session[:app_name] = app_name
+        session[:contact_name] = contact_name
+        session[:contact_email] = contact_email
+        session[:officer_position] = officer_position
+        session[:github_link] = github_link
+        session[:date_built] = date_built
+        session[:notes] = notes
+        session[:category] = category
         flash[:notice] = "Not all params were inputted"
         redirect_to applications_path(org_id:organization_id)
       end

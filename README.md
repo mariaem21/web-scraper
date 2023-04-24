@@ -8,14 +8,21 @@ This is an application for scraping email addresses of student organizations fro
 
 This code has been run and tested on:
 
-- Ruby - 3.0.2p107
-- Rails - 6.1.4.1
-- Ruby Gems - Listed in `Gemfile`
-- PostgreSQL - 13.3
+Environment
+- Docker (Latest Container)
+•	Heroku v?
 - Nodejs - v16.9.1
 - Yarn - 1.22.11
-- Docker (Latest Container)
 
+Program
+- Ruby - 3.0.2p107
+- Rails - 6.1.4.1
+- PostgreSQL - 13.3
+- Ruby Gems - Listed in `Gemfile`
+
+Tools
+- Git Hub - `https://github.com/mariaem21/web-scraper`
+- Jira
 
 ## External Deps
 
@@ -23,6 +30,12 @@ This code has been run and tested on:
 - Heroku CLI - Download latest version at https://devcenter.heroku.com/articles/heroku-cli
 - Git - Downloat latest version at https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 - GitHub Desktop (Not needed, but HELPFUL) at https://desktop.github.com/
+
+## Documentation
+
+Our product and sprint backlog can be found in Jira, with project name Wade
+
+`https://teamstams.atlassian.net/jira/software/projects/STAMS/boards/2`
 
 ## Installation
 
@@ -52,8 +65,7 @@ Open second docker container to start workers for scraping function
 
 Install the app
 
-`bundle install && rails webpacker:install && rails db:create && db:migrate`
-
+`bundle install && rails webpacker:install && rails db:create && rails db:migrate`
 
 Run the app
 `rails server --binding:0.0.0.0`
