@@ -226,6 +226,7 @@
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
+<div class="create-new2">
 <%= form_tag display_columns_applications_path, method: :post do %>
     <% @columns.each do |column| %>
       <div class="form-check form-switch">
@@ -235,6 +236,7 @@
     <% end %>
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
+  </div>
 <div class="paddiv"></div>
 <div class="create-new">
 <h1> Add Application </h1>
