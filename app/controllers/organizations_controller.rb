@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
     puts "Column names: #{@orgs.fields.join(', ')}"
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @org_displayed_columns = session[:org_displayed_columns] || @columns
     @records = Organization.all
 
     @organizations = Organization.all
@@ -44,7 +44,7 @@ class OrganizationsController < ApplicationController
     if selected_columns == @columns || selected_columns.blank?
       flash[:error] = "You must display at least one column."
     else
-      session[:displayed_columns] = selected_columns
+      session[:org_displayed_columns] = selected_columns
     end
     redirect_to action: :index
   end
@@ -59,7 +59,7 @@ class OrganizationsController < ApplicationController
 
   # def download
   #   columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-  #   selected_columns = session[:displayed_columns] || columns
+  #   selected_columns = session[:org_displayed_columns] || columns
   #   @download_columns = selected_columns
 
   #   included = session[:not_filtered_out] || Organization.only_ids()
@@ -140,7 +140,7 @@ class OrganizationsController < ApplicationController
   def list
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @org_displayed_columns = session[:org_displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     # session['filters'].merge!(params)
 
