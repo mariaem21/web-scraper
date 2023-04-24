@@ -47,7 +47,7 @@ class ApplicationsController < ApplicationController
     "
 
     @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @app_displayed_columns = session[:displayed_columns] || @columns
     @records = Organization.all
         
     if params.has_key?(:org_id) and params[:org_id] != nil
@@ -153,7 +153,7 @@ class ApplicationsController < ApplicationController
     end
 
     @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @app_displayed_columns = session[:displayed_columns] || @columns
 
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     
@@ -329,7 +329,7 @@ class ApplicationsController < ApplicationController
 
   def display_columns
       # session[:displayed_columns] = params[:columns] || @columns
-      # if (@displayed_columns.empty?) then
+      # if (@app_displayed_columns.empty?) then
       #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
       # end
       selected_columns = params[:columns] || @columns

@@ -44,7 +44,7 @@ class OrganizationsController < ApplicationController
     puts "Column names: #{@orgs.fields.join(', ')}"
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @org_displayed_columns = session[:displayed_columns] || @columns
     @records = Organization.all
 
     @organizations = Organization.all
@@ -71,7 +71,7 @@ class OrganizationsController < ApplicationController
 
   def display_columns
     # session[:displayed_columns] = params[:columns] || @columns
-    # if (@displayed_columns.empty?) then
+    # if (@org_displayed_columns.empty?) then
     #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
     # end
     selected_columns = params[:columns] || @columns
@@ -223,7 +223,7 @@ end
     end
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
-    @displayed_columns = session[:displayed_columns] || @columns
+    @org_displayed_columns = session[:displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     # session['filters'].merge!(params)
 
