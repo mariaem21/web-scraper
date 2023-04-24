@@ -40,6 +40,9 @@
 </br>
 </br>
 
+<div>
+	<h1 style="font-weight: bold; font-size: xxx-large;"><%= @org_name %></h1>
+</div>
 <div class="notice-container"><p class="notice"><%= notice %>.</p></div>
 <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
 <table>
@@ -270,7 +273,7 @@
 <% elsif @app_displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
-    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
+    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Show/Hide Excluded</button>
     <%= form_tag applications_path, method: :get, id: "application-form" do %>
         <div class="showbutton">
         <%= submit_tag "Exclude Selected App(s)" %>

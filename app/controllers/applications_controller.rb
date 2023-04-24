@@ -59,6 +59,10 @@ class ApplicationsController < ApplicationController
     $org_id = params[:org_id]
     @org_id = params[:org_id]
 
+    if @org_id
+      @org_name = Organization.find(@org_id).name
+    end
+
     respond_to do |format|
       format.xlsx  {
           response.headers[
@@ -456,7 +460,7 @@ class ApplicationsController < ApplicationController
       app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
 
         respond_to do |format|
-          format.html { redirect_to(applications_url, notice: 'Application was added.') }
+          format.html { redirect_to applications_path(org_id:organization_id, notice: 'Application was added.') }
           format.json { head(:no_content) }
         end
         # Autofill in organization: organization_id, organization_description
