@@ -218,6 +218,7 @@
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
+<div class="create-new2">
 <%= form_tag display_columns_organizations_path, method: :post do %>
     <% @columns.each do |column| %>
       <div class="form-check form-switch">
@@ -227,6 +228,7 @@
     <% end %>
     <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
 <% end %>
+  </div>
 <div class="paddiv"></div>
 <div class="create-new2">
 <h1> Add Organization </h1>
@@ -262,7 +264,7 @@
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
 
             <table class="min-w-full" id="non-exclude-items" style="display:block">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -352,10 +354,10 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                             Cancel
                                         </a>
-                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) , class:"btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn"%>
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
@@ -367,7 +369,7 @@
                 </tbody>
             </table>
             <table class="min-w-full" id="exclude-items" style="display:none">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gray-800 text-white" id="myHeader2">
                     <tr>
                         <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
                             Exclude
@@ -457,8 +459,8 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
-                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) , class:"btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn"%>
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')" class="btn btn-primary bg-tamuButton text-white rounded-md px-2 py-2 confbtn">
                                         Cancel
                                     </a>
                                     </div>
@@ -519,5 +521,42 @@
         e.style.display = (e.style.display == 'block') ? 'none' : 'block';
     }
 
+          // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick()};
 
+    // Get the header
+    var header = document.getElementById("myHeader");
+
+    // Get the offset position of the navbar
+    var sticky = header.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
+  
+            // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {tableStick2()};
+
+    // Get the header
+    var header2 = document.getElementById("myHeader2");
+
+    // Get the offset position of the navbar
+    var sticky2 = header2.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function tableStick2() {
+      if (window.pageYOffset > sticky2) {
+        header.classList.add("sticky2");
+      } else {
+        header.classList.remove("sticky2");
+      }
+    } 
+
+
+  
 </script>
