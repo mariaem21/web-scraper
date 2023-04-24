@@ -11,6 +11,7 @@ class OrganizationsController < ApplicationController
 
     @orgs = Organization.organizations_query()
 
+
     puts "Column names: #{@orgs.fields.join(', ')}"
 
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
@@ -162,7 +163,7 @@ class OrganizationsController < ApplicationController
     if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
       session['filters']['date_end'] = params[:date_end] 
     end
-    if params[:count_start] != session['filters']['count_start'] and params[:count_start] != nil
+    if params[:count_start] != session['filters'][''] and params[:count_start] != nil
       session['filters']['count_start'] = params[:count_start] 
     end
     if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
@@ -256,13 +257,18 @@ class OrganizationsController < ApplicationController
     end
 
     $not_filtered_out = []
-    orgs = ActiveRecord::Base.connection.execute(query)
-    orgs.each do |row|
+    @orgs = ActiveRecord::Base.connection.execute(query)
+    @orgs.each do |row|
       $not_filtered_out.push(row['organization_id'])
     end
 
-    render(partial: 'custom_view', locals: { orgs: orgs })
-    
+    # render(partial: 'index', locals: { orgs: orgs })
+    # redirect_to organizations_url, params: { orgs: orgs }
+    # redirect_to index_path(orgs: "value")
+    @organizations = Organization.all # for scrape status
+
+    render 'index'
+
   end
 
   def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
