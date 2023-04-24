@@ -44,13 +44,13 @@
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
-            
+            <h1> Filter and Search </h1>
             <th>
                 Exclude
             </th>
             <% if @org_displayed_columns.include?("Organization Name") then %>
                 <th>
-                    Organization Name
+                    Exclude
                 </th>
             <% end %>
             <% if @org_displayed_columns.include?("Contact Name") then %>
@@ -81,10 +81,10 @@
             <% if @org_displayed_columns.include?("Applications") then %>
                 <th>
                     <div>
-                        App Count <=
+                        App Count >=
                     </div>
                     <div>
-                        App Count >=
+                        App Count <=
                     </div>
                 </th>
             <% end %>
@@ -97,13 +97,17 @@
             </td>
             <% if @org_displayed_columns.include?("Organization Name") then %>
                 <td class="text-left py-3 px-6">
-                    <div id="name_search" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                    <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
+                </td>
+                <% if @displayed_columns.include?("Organization Name") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="name_search" class="flex justify-end mb-1">
                             <%= form.text_field :name,
                             placeholder: "Organization",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['name'])
                             %>
                         <% end %>
                     </div>
@@ -117,7 +121,8 @@
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['contact_name'])
                             %>
                         <% end %>
                     </div>
@@ -131,7 +136,8 @@
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['contact_email'])
                             %>
                         <% end %>
                     </div>
@@ -145,7 +151,8 @@
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['officer_position'])
                             %>
                         <% end %>
                     </div>
@@ -159,17 +166,17 @@
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['date_start'])
                             %>
-                        <% end %>
-                    </div>
-                    <div id="contact_date_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
                             <%= form.text_field :date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['date_end'])
                             %>
                         <% end %>
                     </div>
@@ -183,26 +190,25 @@
                             placeholder: "App Count >=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['count_start'])
                             %>
-                        <% end %>
-                    </div>
-                    <div id="app_count_end" class="flex justify-end mb-1">
-                        <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+                        </div>
+                        <div id="app_count_end" class="flex justify-end mb-1">
                             <%= form.text_field :count_end,
                             placeholder: "App Count <=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
-                            data: { action: "input->search-form#search" }
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters']['count_end'])
                             %>
-                        <% end %>
-                    </div>
-                </td>
-            <% end %>
-
-        </tr>
-    </tbody>
-</table>
+                        </div>
+                    </td>
+                <% end %>
+            </tr>
+        </tbody>
+    </table>
+<% end %>
 
 
 
@@ -218,15 +224,16 @@
 <% end %>
 <div class="paddiv"></div>
 <div class="create-new2">
+<h1> Add Organization </h1>
 <%= form_tag add_table_entry_organizations_path, method: :post do %>
     <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field" %>
+    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field", value:session[:org_name] %>
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field" %>
+    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field", value:session[:contact_name]%>
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field" %>
+    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field", value:session[:contact_email] %>
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field" %>
+    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field", value:session[:officer_position] %>
     <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
     <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
@@ -244,7 +251,7 @@
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
     <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
         <div class="showbutton">
-        <%= submit_tag "Save exclude orgs?" %>
+        <%= submit_tag "Exclude Selected Org(s)" %>
           </div>
           </br>
         <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
@@ -340,14 +347,14 @@
                                     <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
                                         <p> Are you sure? </p>
                                     <br/> 
-                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                         <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
                                             Cancel
                                         </a>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Edit</button>
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
                                 </td>
                             </tr>
                         <% end %>
@@ -409,8 +416,8 @@
                 <tbody class="text-gray-700">
                     <% orgs.each do |org| %>
                         <% if check_param(org['organization_id']) %>
-                            <% if $not_filtered_out and !$not_filtered_out.include?(org['organization_id'])  %>
-                                <% $not_filtered_out.push(org['organization_id']) %>
+                            <% if $not_filtered_out and $not_filtered_out.include?(org['organization_id'])  %>
+                                <% $not_filtered_out.delete(org['organization_id']) %>
                             <% end %>
                             <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
                                 <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
@@ -464,6 +471,7 @@
 <% end %>
 
 <script>
+
     function showhide(id) {
         var e = document.getElementById(id);
         e.style.display = (e.style.display == 'block') ? 'none' : 'block';

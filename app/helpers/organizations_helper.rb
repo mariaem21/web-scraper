@@ -30,6 +30,14 @@ module OrganizationsHelper
         end
     end
 
+    def check_org_session_exists(value)
+        if value != nil
+            return value
+        else
+            return ""
+        end
+    end
+
     # def add_table_entry(org_name:, contact_name:, contact_email:, officer_position:)
     #     org_name = params[:org_name] 
     #     contact_name = params[:contact_name]
