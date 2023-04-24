@@ -40,7 +40,7 @@
 </br>
 
 <p class="notice"><%= notice %></p>
-
+<%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
 <table>
     <thead class="bg-gray-800 text-white">
         <tr>
@@ -208,6 +208,7 @@
             </tr>
         </tbody>
     </table>
+<% end %>
 <% end %>
 
 
