@@ -141,7 +141,6 @@ class ApplicationsController < ApplicationController
   def edit; end
 
   def list
-
     if params[:commit] == "Include All" and params[:commit] != nil
       save_exclude_cookie([])
     end

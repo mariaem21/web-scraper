@@ -322,7 +322,6 @@ end
     @organizations = Organization.all # for scrape status
 
     render 'index'
-
   end
 
   def add_table_entry(org_name: "new", contact_name: "new", contact_email: "new", officer_position: "new")
