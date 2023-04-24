@@ -7,6 +7,7 @@ Delayed::Worker.delay_jobs = false
 
 # User story #1 - Scraping from the STUACT website
 RSpec.describe 'Scraping from STUACT', type: :feature do
+
     before(:all) {Organization.delete_all}
     before(:all) {ContactOrganization.delete_all}
     before(:all) {Contact.delete_all}
@@ -18,7 +19,7 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     
     before(:all) {Organization.create(organization_id: 2, name: 'Aggie Anglers', description: 'Unique description')}
     before(:all) {ContactOrganization.create(contact_organization_id: 2, contact_id: 2, organization_id: 2)}
-    before(:all) {Contact.create(contact_id: 2, year: 20_210_621, name: 'Sid Wallace',
+    before(:all) {Contact.create(contact_id: 2, year: 20_210_621, name: 'Atlan Pfluger',
             email: 'outdated_email@tamu.edu', officer_position: 'President', description: 'My email should be updated')}
 
     before(:all) {Organization.create(organization_id: 3, name: 'Aggie Ballet Company', description: 'I do not have contact info yet! Please add it')}
@@ -26,6 +27,12 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     before(:all) {ScrapeJob.perform_now(["A"])}
 
   scenario 'Setting up for web-scraping tests' do
+    OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
     # Organizations created
     expect(Organization.where(organization_id: 1, name: 'A Battery', description: 'Unique description')).to exist
     expect(Organization.where(organization_id: 2, name: 'Aggie Anglers', description: 'Unique description')).to exist
@@ -38,7 +45,7 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
     # Contacts created
     expect(Contact.where(contact_id: 1, year: 20_210_621, name: 'Please do not overwrite me',
         email: 'john@tamu.edu', officer_position: 'President', description: 'I should still be here after scraping')).to exist
-    expect(Contact.where(contact_id: 2, year: 20_210_621, name: 'Sid Wallace',
+    expect(Contact.where(contact_id: 2, year: 20_210_621, name: 'Atlan Pfluger',
         email: 'outdated_email@tamu.edu', officer_position: 'President', description: 'My email should be updated')).to exist
     
     visit organizations_path
@@ -48,6 +55,14 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
   end
 
   scenario 'Sunny day: Starts scraping correct output (org & contact)' do
+    OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
+
+    sleep 5
     # Checks has right entries for student organizations
     visit organizations_path
     expect(page).to have_content('A&M Esports') # First
@@ -63,6 +78,12 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
   end
 
   scenario 'Rainy day: does not replace old contact information' do
+    OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
     expect(Contact.where(contact_id: 1, year: 20_210_621, name: 'Please do not overwrite me',
         email: 'john@tamu.edu', officer_position: 'President', description: 'I should still be here after scraping')).to exist
 
@@ -73,14 +94,26 @@ RSpec.describe 'Scraping from STUACT', type: :feature do
   end
 
   scenario 'Rainy day: updates out of date organization information when both org name and contact name match' do
-    expect(Contact.where(contact_id: 2, year: 20_210_621, name: 'Sid Wallace',
+    OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
+    expect(Contact.where(contact_id: 2, year: 20_210_621, name: 'Atlan Pfluger',
         email: 'outdated_email@tamu.edu', officer_position: 'President', description: 'My email should be updated')).not_to exist
 
-    expect(Contact.where(contact_id: 2, name: 'Sid Wallace',
-        email: 'sidwallace64371@tamu.edu', officer_position: 'President')).to exist
+    expect(Contact.where(contact_id: 2, name: 'Atlan Pfluger',
+        email: 'fishingpro@tamu.edu', officer_position: 'President')).to exist
   end
 
   scenario 'Rainy day: Creates new contact if organization exists and contact does not' do
+    OmniAuth.config.test_mode = true
+      OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+          :email => 'test@tamu.edu'
+        }
+      })
     expect(Contact.where(name: 'Maya Sela', email: 'aggieballetco@gmail.com')).to exist
   end
 end
