@@ -3,8 +3,8 @@
 class Contact < ApplicationRecord
     # has_many :organizations
     # validate :organization_id_exists
-    # has_many :contact_organizations
-    # has_many :organizations, through: :contact_organizations
+    has_many :contact_organizations
+    has_many :organizations, through: :contact_organizations
 
     validates :contact_id, presence: true, uniqueness: true
     validates :year, presence: true
