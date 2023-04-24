@@ -20,7 +20,7 @@ module ApplicationsHelper
 
     def check_app_param(id)
         if cookies[:applications_ids] != nil
-            if cookies[:applications_ids].include?(id.to_s)
+            if cookies[:applications_ids].split('&').index(id.to_s)
                 return true
             else
                 return false

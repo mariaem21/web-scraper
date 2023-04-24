@@ -69,9 +69,6 @@ class ApplicationsController < ApplicationController
       if params[:commit] == "Exclude Selected App(s)" and params[:commit] != nil
         save_exclude_cookie(params[:applications_ids])
         format.html{ redirect_to applications_path, notice: 'Changes saved!' }
-      elsif params[:commit] == "Include All" and params[:commit] != nil
-        save_exclude_cookie([])
-        format.html{ redirect_to applications_path, notice: 'All applications have been reincluded!'}
       else
         params[:applications_ids] = cookies[:applications_ids]
         format.html { render :index }
@@ -149,6 +146,10 @@ class ApplicationsController < ApplicationController
   def edit; end
 
   def list
+
+    if params[:commit] == "Include All" and params[:commit] != nil
+      save_exclude_cookie([])
+    end
     
     if ($app_edited_rows)
       $app_edited_rows.each do |update_row|

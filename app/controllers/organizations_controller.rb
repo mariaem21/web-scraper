@@ -27,13 +27,10 @@ class OrganizationsController < ApplicationController
       }
       
       if params[:commit] == "Exclude Selected Org(s)" and params[:commit] != nil
+        puts "new org params added"
         save_exclude_cookie(params[:organizations_ids])
         format.html{ redirect_to organizations_path, notice: 'Changes saved!' }
-      elsif params[:commit] == "Include All" and params[:commit] != nil
-        save_exclude_cookie([])
-        format.html{ redirect_to organizations_path, notice: 'All organizations have been reincluded!'}
       else
-        params[:organizations_ids] = cookies[:organizations_ids]
         format.html { render :index }
       end
     end
@@ -138,7 +135,10 @@ class OrganizationsController < ApplicationController
   def edit; end
 
   def list
-
+    if params[:commit] == "Include All" and params[:commit] != nil
+      save_exclude_cookie([])
+      puts "including all params"
+    end
     @columns = ["Organization Name", "Contact Name", "Contact Email", "Officer Position", "Last Modified", "Applications"]
     @org_displayed_columns = session[:org_displayed_columns] || @columns
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
@@ -352,8 +352,10 @@ class OrganizationsController < ApplicationController
 
   def save_exclude_cookie(new_params)
     if new_params == [] || new_params == nil
+      puts "emptying params"
       cookies.permanent[:organizations_ids] = []
     else
+      puts "storing new params"
       cookies.permanent[:organizations_ids] = new_params
     end
   end
