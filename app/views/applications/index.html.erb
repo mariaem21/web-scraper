@@ -41,71 +41,70 @@
 </br>
 
 <div class="notice-container"><p class="notice"><%= notice %>.</p></div>
-
 <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
-    <table>
-        <thead class="bg-gray-800 text-white">
-            <tr>
-                <h1> Filter and Search </h1>
+<table>
+    <thead class="bg-gray-800 text-white">
+        <tr>
+            <h1> Filter and Search </h1>
+            <th>
+                Exclude
+            </th>
+            <% if @app_displayed_columns.include?("Application Developed") then %>
                 <th>
-                    Exclude
+                    Application Name
                 </th>
-                <% if @app_displayed_columns.include?("Application Developed") then %>
-                    <th>
-                        Application Name
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Contact Name") then %>
-                    <th>
-                        Contact Name
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Contact Email") then %>
-                    <th>
-                        Contact Email
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Officer Position") then %>
-                    <th>
-                        Officer Position
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Github Link") then %>
-                    <th>
-                        Github Link
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Year Developed") then %>
-                    <th>
-                        <div>
-                            Start Date
-                        </div>
-                        <div>
-                            End Date
-                        </div>
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Notes") then %>
-                    <th>
-                        Notes
-                    </th>
-                <% end %>
-                <% if @app_displayed_columns.include?("Category") then %>
-                    <th>
-                        Exclude
-                    </th>
-
-                <% end %>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="text-left py-3 px-6">
-                    <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
-                </td>
-                <% if @app_displayed_columns.include?("Application Developed") then %>
-                    <td>
-                        <div id="app_name_search" class="flex justify-end mb-1">
+            <% end %>
+            <% if @app_displayed_columns.include?("Contact Name") then %>
+                <th>
+                    Contact Name
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Contact Email") then %>
+                <th>
+                    Contact Email
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Officer Position") then %>
+                <th>
+                    Officer Position
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Github Link") then %>
+                <th>
+                    Github Link
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Year Developed") then %>
+                <th>
+                    <div>
+                        Start Date
+                    </div>
+                    <div>
+                        End Date
+                    </div>
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Notes") then %>
+                <th>
+                    Notes
+                </th>
+            <% end %>
+            <% if @app_displayed_columns.include?("Category") then %>
+                <th>
+                    Category
+                </th>
+            <% end %>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-left py-3 px-6">
+                <%= button_to "Include All", applications_path, params: { :commit => "Include All" }, method: :get %>
+            </td>
+            <% if @app_displayed_columns.include?("Application Developed") then %>
+                <td>
+                    <div id="app_name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :app_name,
                             placeholder: "App Name",
                             class: "border border-blue-500 rounded p-2",
@@ -113,12 +112,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'app_name')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Contact Name") then %>
-                    <td>
-                        <div id="contact_name_search" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Contact Name") then %>
+                <td>
+                    <div id="contact_name_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :contact_name,
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
@@ -126,12 +127,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'contact_name')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Contact Email") then %>
-                    <td>
-                        <div id="contact_email_search" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Contact Email") then %>
+                <td>
+                    <div id="contact_email_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :contact_email,
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
@@ -139,12 +142,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'contact_email')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Officer Position") then %>
-                    <td>
-                        <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Officer Position") then %>
+                <td>
+                    <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :officer_position,
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
@@ -152,12 +157,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'officer_position')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Github Link") then %>
-                    <td>
-                        <div id="github_link_position_search" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Github Link") then %>
+                <td>
+                    <div id="github_link_position_search" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :github_link,
                             placeholder: "Github Link",
                             class: "border border-blue-500 rounded p-2",
@@ -165,12 +172,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'github_link')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Year Developed") then %>
-                    <td>
-                        <div id="contact_date_start" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Year Developed") then %>
+                <td>
+                    <div id="contact_date_start" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :date_start,
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
@@ -178,8 +187,10 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'date_start')
                             %>
-                        </div>
-                        <div id="contact_date_end" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                    <div id="contact_date_end" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
@@ -187,12 +198,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'date_end')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Notes") then %>
-                    <td>
-                        <div id="application_note" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Notes") then %>
+                <td>
+                    <div id="application_note" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :description,
                             placeholder: "Notes",
                             class: "border border-blue-500 rounded p-2",
@@ -200,12 +213,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'description')
                             %>
-                        </div>
-                    </td>
-                <% end %>
-                <% if @app_displayed_columns.include?("Category") then %>
-                    <td>
-                        <div id="cat_name" class="flex justify-end mb-1">
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>
+            <% if @app_displayed_columns.include?("Category") then %>
+                <td>
+                    <div id="cat_name" class="flex justify-end mb-1">
+                        <%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
                             <%= form.text_field :cat_name,
                             placeholder: "Category",
                             class: "border border-blue-500 rounded p-2",
@@ -213,13 +228,14 @@
                             data: { action: "input->search-form#search" },
                             value: check_app_session_exists(session['filters'], 'cat_name')
                             %>
-                        </div>
-                    </td>
-                <% end %>        
-            </tr>
-        </tbody>
-    </table>
-<% end %>
+                        <% end %>
+                    </div>
+                </td>
+            <% end %>        
+        </tr>
+    </tbody>
+</table>
+<% end %>>
 
 
 <h1>Check which columns to include. All columns are included by default.</h1>
@@ -239,24 +255,24 @@
 <h1> Add Application </h1>
 <%= form_tag add_table_entry_applications_path(organization_id: @org_id), method: :post do %>
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
-    <%= text_field_tag :app_name, params[:app_name], value:session[:app_name]%>
+    <%= text_field_tag :app_name, params[:app_name] %>
     
     <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], value:session[:contact_name] %>
+    <%= text_field_tag :contact_name, params[:contact_name] %>
     <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], value:session[:contact_email] %>
+    <%= text_field_tag :contact_email, params[:contact_email] %>
     <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], value:session[:officer_position] %>
+    <%= text_field_tag :officer_position, params[:officer_position] %>
     </br>
     </br>
     <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
-    <%= text_field_tag :github_link, params[:github_link], value:session[:github_link] %>
+    <%= text_field_tag :github_link, params[:github_link] %>
     <%= label_tag :date_built, "Enter Date Built:" ,class: "create-new-item" %>
-    <%= date_field_tag :date_built, params[:date_built], value:session[:date_built] %>
+    <%= date_field_tag :date_built, params[:date_built] %>
     <%= label_tag :notes, "Enter Notes:" ,class: "create-new-item" %>
-    <%= text_field_tag :notes, params[:notes], value:session[:notes] %>
+    <%= text_field_tag :notes, params[:notes] %>
     <%= label_tag :category, "Enter Category:" ,class: "create-new-item" %>
-    <%= text_field_tag :category, params[:category], value:session[:category] %>
+    <%= text_field_tag :category, params[:category] %>
     
     <%= submit_tag "Add New App", class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
 

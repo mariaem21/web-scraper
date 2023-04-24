@@ -49,16 +49,14 @@
 <% end %>
 </div>
 
-
-<p class="notice"><%= notice %></p>
 <%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
-    <table>
-        <thead class="bg-gray-800 text-white">
-            <tr>
-                <h1> Filter and Search </h1>
-                <th>
-                    Exclude
-                </th>
+<table>
+    <thead class="bg-gray-800 text-white">
+        <tr>
+            <h1> Filter and Search </h1>
+            <th>
+                Exclude
+            </th>
                 <% if @org_displayed_columns.include?("Organization Name") then %>
                     <th>
                         Organization Name
