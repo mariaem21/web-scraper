@@ -30,9 +30,9 @@ module OrganizationsHelper
         end
     end
 
-    def check_org_session_exists(value)
+    def check_org_session_exists(value, string)
         if value != nil
-            return value
+            return value[string]
         else
             return ""
         end
