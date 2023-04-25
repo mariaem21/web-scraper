@@ -57,19 +57,45 @@ You can run all the test cases by running. This will run both the unit and integ
 
 Run the following code in Powershell if using windows or the terminal using Linux/Mac
 
-`docker run --rm -it --volume "${PWD}:/csce431" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest`
+download the code from Github and place in the preferred directory
 
-Open second docker container to start workers for scraping function
+You can do it using
 
-`bundle exec rake jobs:work`
+git clone 
 
-Install the app
+------------------- If you have already cloned and would like to update the changes run the following
 
-`bundle install && rails webpacker:install && rails db:create && rails db:migrate`
+git stash (if you have any changes)
 
-Run the app
-`rails server --binding:0.0.0.0`
+git pull origin test
 
+------------------- Now create a docker container
+
+docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
+
+*Note: directory is where the app code is located
+
+bundle install
+
+rails db:create && rails db:migrate
+
+------------------- Run the following only if I need to do a fresh scrape, otherwise, just run above in the first powershell window
+
+Open other powershell window and type in the following:
+
+docker exec -it docker_container bash
+
+*Note: docker_container is name of the container created above
+
+Open second docker container to start workers for scraping function, only when I need to scrape
+
+bundle exec rake jobs:work
+
+It should output the message "Starting job worker"
+
+------------------- This is to run the program
+
+Run the app rails server --binding:0.0.0.0
 
 The application can be seen using a browser and navigating to http://localhost:3000/
 
