@@ -16,13 +16,8 @@
             <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
             <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
-            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
-            <button class="dropbtn">Switch Views</button>
-            <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
-              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
-              <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-            </div>
-            </div>
+            <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
+
             <h1 class="navlabelorg">Organizations</h1>
             <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
               <div class="logo-image">
