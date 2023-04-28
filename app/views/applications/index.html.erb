@@ -320,7 +320,7 @@
                             </th>
                         <% end %>
                         <% if @app_displayed_columns.include?("Github Link") then %>
-                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
+                            <th id="application-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-e2pointer">
                                 <%= sort_indicator if params[:column] == "contacts.github_link" %>
                                 <%= sort_link_app(column: "applications.github_link", label: "Github Link", org_id: @org_id) %>
                             </th>
@@ -328,8 +328,8 @@
                         
                         <% if @app_displayed_columns.include?("Year Developed") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                                <%= sort_indicator if params[:column] == "contacts.year" %>
-                                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: @org_id) %>
+                                <%= sort_indicator if params[:column] == "applications.date_built" %>
+                                <%= sort_link_app(column: "applications.date_built", label: "Year Developed", org_id: @org_id) %>
                             </th>
                         <% end %>
                         <% if @app_displayed_columns.include?("Notes") then %>
@@ -374,7 +374,7 @@
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
-                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['date_built'] %></td>
                                         <% when "Notes" %>
                                             <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
                                         <% when "Category" %>
@@ -444,8 +444,8 @@
                         
                         <% if @app_displayed_columns.include?("Year Developed") then %>
                             <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
-                                <%= sort_indicator if params[:column] == "contacts.year" %>
-                                <%= sort_link_app(column: "contacts.year", label: "Year Developed", org_id: @org_id) %>
+                                <%= sort_indicator if params[:column] == "applications.date_built" %>
+                                <%= sort_link_app(column: "applications.date_built", label: "Year Developed", org_id: @org_id) %>
                             </th>
                         <% end %>
                         <% if @app_displayed_columns.include?("Notes") then %>
@@ -490,7 +490,7 @@
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
-                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['year'] %></td>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['date_built'] %></td>
                                         <% when "Notes" %>
                                             <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
                                         <% when "Category" %>

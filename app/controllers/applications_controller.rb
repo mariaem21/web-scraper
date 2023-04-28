@@ -19,6 +19,7 @@ class ApplicationsController < ApplicationController
         contacts.officer_position,
         applications.github_link,
         contacts.year,
+        applications.date_built,
         applications.description,
         categories.cat_name,
         categories.category_id,
@@ -214,6 +215,7 @@ class ApplicationsController < ApplicationController
         contacts.email,
         contacts.officer_position,
         applications.github_link,
+        applications.date_built,
         contacts.year,
         applications.description,
         categories.cat_name,
@@ -282,17 +284,17 @@ class ApplicationsController < ApplicationController
       "
     end
 
-    # if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
-    #   query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
-    #   "
-    # elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
-    #   query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
-    #   "
-    # elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
-    #   query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
-    #   "
-    # end
-
+    if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
+      query += "  AND DATE(applications.date_built) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
+      "
+    elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
+      query += "  AND DATE(applications.date_built) >= '#{session['filters']['date_start']}' 
+      "
+    elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
+      query += "  AND DATE(applications.date_built) <= '#{session['filters']['date_end']}' 
+      "
+    end
+ 
     puts " #{session['filters']['column']}"
 
     if session['filters']['column'] or session['filters']['direction'] and session['filters']['column'] != "contacts.year"
