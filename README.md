@@ -69,7 +69,7 @@ git stash (if you have any changes)
 
 git pull origin test
 
-------------------- Now create a docker container
+------------------- Now create a docker container (if you haven't alread)
 
 docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
 
@@ -79,7 +79,7 @@ bundle install
 
 rails db:create && rails db:migrate
 
-------------------- Run the following only if I need to do a fresh scrape, otherwise, just run above in the first powershell window
+------------------- Run the following only if I need to do a fresh scrape
 
 Open other powershell window and type in the following:
 
@@ -87,13 +87,15 @@ docker exec -it docker_container bash
 
 *Note: docker_container is name of the container created above
 
-Open second docker container to start workers for scraping function, only when I need to scrape
+Open second docker container to start workers for scraping function, only when you need to scrape
+
+run this command in the second docker container: 
 
 bundle exec rake jobs:work
 
 It should output the message "Starting job worker"
 
-------------------- This is to run the program
+------------------- This is to run the program, make sure to do this one a docker container that you made that is not running the jobs (if you are trying to scrape)
 
 Run the app rails server --binding:0.0.0.0
 

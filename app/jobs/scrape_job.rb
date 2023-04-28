@@ -69,12 +69,13 @@ class ScrapeJob < ApplicationJob
 
                         if ContactOrganization.where(organization_id: orgID_temp.organization_id, contact_id: possible_contact_ids).exists? then
                             found_con_org = ContactOrganization.find_by(organization_id: orgID_temp.organization_id, contact_id: possible_contact_ids)
+                            found_con = Contact.find_by(contact_id: found_con_org.contact_id)
                             contact[:contact_id] = found_con_org.contact_id
                             contact[:year] = Date.today
                             contact[:name] = link_name
                             contact[:email] = link_email
-                            contact[:officer_position] = "Not provided on the STUACT website"
-                            contact[:description] = "Updating the existing contact information"
+                            contact[:officer_position] = found_con.officer_position
+                            contact[:description] = found_con.description
                             Contact.where(contact_id: found_con_org.contact_id, name: link_name).update(contact)
                         end
                 
