@@ -104,26 +104,14 @@ class ApplicationsController < ApplicationController
     puts "updating applications"
 
 
-    query = "
-      UPDATE applications
-      SET name = '#{app_name}', github_link = '#{github_link}', description = '#{description}'
-      WHERE application_id = #{application_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    app = Application.find_by(application_id: application_id)
+    app.update(name: app_name, github_link: github_link, description: description)
 
-    query = "
-      UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    contact = Contact.find_by(contact_id: contact_id)
+    contact.update(name: contact_name, email: contact_email, officer_position: officer_position, year: Date.today)
 
-    query = "
-      UPDATE categories
-      SET name = '#{category_name}'
-      WHERE category_id = #{category_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    category = Category.find_by(category_id: category_id)
+    category.update(name: category_name)
 
     # Return a success response
     respond_to do |format|
@@ -452,10 +440,10 @@ class ApplicationsController < ApplicationController
             app_cat_count = app_cat_count + 1
         end
 
-      contact = Contact.create(contact_id: contact_count, year: Date.today, name: contact_name, email: contact_email, officer_position: officer_position, description: "None", created_at:Date.today, updated_at: Date.today)
+      contact = Contact.create(contact_id: contact_count, year: date_built, name: contact_name, email: contact_email, officer_position: officer_position, description: notes, created_at:Date.today, updated_at: Date.today)
       contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
       app = Application.create(application_id: app_count, contact_organization_id: con_org_count, name: app_name, date_built: date_built, github_link: github_link, description: notes, created_at: Date.today, updated_at: Date.today)
-      cat = Category.create(category_id: cat_count, name: category, description: 'None', created_at: Date.today, updated_at: Date.today)
+      cat = Category.create(category_id: cat_count, name: category, description: notes, created_at: Date.today, updated_at: Date.today)
       app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)
 
         respond_to do |format|
