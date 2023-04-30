@@ -87,6 +87,7 @@ class ApplicationsController < ApplicationController
   def show; end
 
   def edit_row
+    organization_id = params[:org_id]
     application_id = params[:app_id] 
     contact_id = params[:contact_id] 
     category_id = params[:category_id] 

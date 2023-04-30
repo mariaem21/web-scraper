@@ -556,7 +556,7 @@
 
         
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/applications/edit_row?org_id="+org_id+"app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name);
+        xhr.open("GET", "/applications/edit_row?org_id="+org_id+"&app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onload = function() {
         if (xhr.status === 200) {
