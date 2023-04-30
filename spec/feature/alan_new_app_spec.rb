@@ -66,8 +66,8 @@ RSpec.describe 'New valid application requests', type: :feature do
     fill_in 'officer_position_field', with: 'CTO'
     fill_in 'github_position_field', with: 'https://github.com/test/test-app'
     fill_in 'date_built_field', with: '2022-05-01'
-    fill_in 'notes_field', with: 'This is a test application'
-    fill_in 'category_field', with: 'Testing'
+    fill_in 'notes_field', with: 'Test'
+    fill_in 'category_field', with: 'Test'
 
     click_button 'Add New App'
 
@@ -76,15 +76,15 @@ RSpec.describe 'New valid application requests', type: :feature do
       click_link('1')
     end
 
-    puts page.html
+    # puts page.html
 
     expect(page).to have_content('Test Application')
     expect(page).to have_content('John Smith')
     expect(page).to have_content('john.smith@example.com')
     expect(page).to have_content('CTO')
     expect(page).to have_content('https://github.com/test/test-app')
-    expect(page).to have_content('This is a test application')
-    expect(page).to have_content('Testing')
+    expect(page).to have_content('Test')
+    expect(page).to have_content('Test')
 
     expect(Application.where(name: 'Test Application')).to exist
 

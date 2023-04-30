@@ -322,7 +322,8 @@ class ApplicationsController < ApplicationController
       redirect_to action: :index
   end
 
-  def delete_row 
+  def delete_row
+    org_id = params[:organization_id]
     app_id = params[:application_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
@@ -355,8 +356,14 @@ class ApplicationsController < ApplicationController
 
     end
 
+    # respond_to do |format|
+    #   format.html { redirect_to(applications_url, notice: 'Application was successfully destroyed.') }
+    #   format.json { head(:no_content) }
+    # end
+
     respond_to do |format|
-      format.html { redirect_to(applications_url, notice: 'Application was successfully destroyed.') }
+      # puts org_id 
+      format.html { redirect_to applications_path(org_id:org_id, notice: 'Application was destroyed.') }
       format.json { head(:no_content) }
     end
 
