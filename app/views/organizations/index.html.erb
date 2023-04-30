@@ -48,7 +48,7 @@
     <table>
         <thead class="bg-gray-800 text-white">
             <tr>
-                <h1> Filter and Search <%= form.submit "Filter", class: "btn btn-primary" %> </h1>
+                <h1> Filter and Search <%= form.submit "Go", class: "btn btn-primary" %> </h1>
                 <th>
                     Exclude
                 </th>
@@ -240,7 +240,7 @@
 <div class="paddiv"></div>
 
 <% if flash[:error] %>
-  <div class="alert alert-danger"><%= flash[:error] %></div>
+  <div class="notice"><%= flash[:error] %></div>
 <% elsif @org_displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>

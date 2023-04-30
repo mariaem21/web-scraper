@@ -8,13 +8,7 @@
           <div class="sm:ml-6 sm:block">
             <div class="flex space-x-4">
               <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
-              <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
-              <button class="dropbtn">Tables</button>
-              <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
-                <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
-                <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>   
-              </div>
-              </div>
+              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
               <h1 class="navlabel3">Help Page</h1>
               <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
                 <div class="logo-image">
