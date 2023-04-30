@@ -240,7 +240,7 @@
 <div class="paddiv"></div>
 
 <% if flash[:error] %>
-  <div class="alert alert-danger"><%= flash[:error] %></div>
+  <div class="notice"><%= flash[:error] %></div>
 <% elsif @org_displayed_columns.empty? %>
   <p>No columns selected.</p>
 <% else %>
