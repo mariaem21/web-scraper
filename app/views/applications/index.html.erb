@@ -42,7 +42,7 @@
 <div>
 	<h1 style="font-weight: bold; font-size: xxx-large;"><%= @org_name %></h1>
 </div>
-<%= form_with url: list_applications_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+<%= form_with url: list_applications_path(org_id: @org_id), method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
     <table>
         <thead class="bg-gray-800 text-white">
             <tr>
@@ -281,7 +281,7 @@
     </br>
 
     <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Show/Hide Excluded</button>
-    <%= form_tag applications_path, method: :get, id: "application-form" do %>
+    <%= form_tag applications_path(org_id: @org_id), method: :get, id: "application-form" do %>
         <div class="showbutton">
             <%= submit_tag "Exclude Selected App(s)" %>
         </div>
@@ -395,7 +395,7 @@
                                         </div>
                                     </td>
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Save</button>
+                                        <button onclick="printSingleRow(<%=@org_id%>, <%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Save</button>
                                     </td>
                             </tr>
                         <% end %>
@@ -511,7 +511,7 @@
                                         </div>
                                     </td>                                    
                                     <td class="text-left py-3 px-6">
-                                        <button onclick="printSingleRow(<%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
+                                        <button onclick="printSingleRow(<%=@org_id%>, <%=app['application_id']%>, <%=app['category_id']%>, <%=app['contact_id']%>)">Edit</button>
                                     </td>
                             </tr>
                         <% end %>
@@ -540,7 +540,7 @@
         }
     }
 
-    function printSingleRow(application_id, category_id, contact_id) {
+    function printSingleRow(org_id, application_id, category_id, contact_id) {
 
 
         var app_name = document.getElementById("app_name"+application_id).innerHTML;
@@ -556,7 +556,7 @@
 
         
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/applications/edit_row?app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name);
+        xhr.open("GET", "/applications/edit_row?org_id="+org_id+"app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onload = function() {
         if (xhr.status === 200) {
