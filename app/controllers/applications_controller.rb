@@ -310,7 +310,8 @@ class ApplicationsController < ApplicationController
 
   end
 
-  def display_columns
+  def display_columns(organization_id: -1)
+      organization_id = params[:organization_id]
       # session[:app_displayed_columns] = params[:columns] || @columns
       # if (@app_displayed_columns.empty?) then
       #   redirect_to action: :index, notice: 'All columns have been excluded. Please re-include columns to see data.'
@@ -321,7 +322,8 @@ class ApplicationsController < ApplicationController
       else
         session[:app_displayed_columns] = selected_columns
       end
-      redirect_to action: :index
+      # redirect_to action: :index
+      redirect_to applications_path(org_id:organization_id)
   end
 
   def delete_row

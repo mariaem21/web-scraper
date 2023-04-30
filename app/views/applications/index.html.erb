@@ -226,7 +226,7 @@
 
 <h1>Check which columns to include. All columns are included by default.</h1>
 <div class="create-new2">
-<%= form_tag display_columns_applications_path, method: :post do %>
+<%= form_tag display_columns_applications_path(organization_id: @org_id), method: :post do %>
     <% @columns.each do |column| %>
       <div class="form-check form-switch">
         <%= check_box_tag "columns[]", column, @app_displayed_columns.include?(column), class: "form-check-input", id: "column-#{column}" %>
