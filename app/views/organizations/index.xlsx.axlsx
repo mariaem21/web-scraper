@@ -5,25 +5,22 @@ wb = xlsx_package.workbook
     sheet.add_row []
     row=sheet.rows[0]
     rownum=1
-    if params[:param_name1][:excludeOrgID]=="0" 
-     row.add_cell "ID"
-    end
-    if params[:param_name2][:exclude_orgname]=="0"
+    if @org_displayed_columns.include?("Organization Name") then
      row.add_cell "Organization Name"
     end
-    if params[:param_name3][:exclude_contactname]=="0"
+    if @org_displayed_columns.include?("Contact Name") then
      row.add_cell "Contact Name"
     end
-    if params[:param_name4][:exclude_contactemail]=="0" 
+    if @org_displayed_columns.include?("Contact Email") then 
      row.add_cell "Contact Email"
     end
-    if params[:param_name5][:exclude_officer]=="0"
+    if @org_displayed_columns.include?("Officer Position") then
      row.add_cell "Officer Position"
     end
-    if params[:param_name6][:exclude_date]=="0"
+    if @org_displayed_columns.include?("Last Modified") then
      row.add_cell "Last Modified Date"
     end
-    if params[:param_name7][:exclude_appnum]=="0"
+    if @org_displayed_columns.include?("Applications") then
      row.add_cell "# Apps Per Organization"
     end
 
@@ -44,39 +41,41 @@ wb = xlsx_package.workbook
         contact_org_ids = ContactOrganization.select{|x| x[:organization_id] == org.organization_id}.map{|y| y[:contact_organization_id]}
         contact_org_ids.each do |con_org|
           application_contact_org_ids = Application.select{|x| x[:contact_organization_id] == con_org}
-          numApps += 1
+          if (!application_contact_org_ids.empty?) then
+            numApps += 1
+          end
         end
 
         possible_contact_ids.each do |n|
-          found_contact = Contact.find_by(contact_id: n)
-          contactName = found_contact.name
-          contactEmail = found_contact.email
-          officerPosition = found_contact.officer_position
-          updateYear = found_contact.year
+          if ($not_filtered_out && $not_filtered_out.include?(org.organization_id)) then
+            found_contact = Contact.find_by(contact_id: n)
+            contactName = found_contact.name
+            contactEmail = found_contact.email
+            officerPosition = found_contact.officer_position
+            updateYear = found_contact.year
 
-          sheet.add_row []
-          row=sheet.rows[rownum]
-          rownum=rownum+1
-          if params[:param_name1][:excludeOrgID]=="0" 
-              row.add_cell org.organization_id
-          end
-          if params[:param_name2][:exclude_orgname]=="0"
-            row.add_cell org.name
-          end
-          if params[:param_name3][:exclude_contactname]=="0"
-            row.add_cell contactName
-          end
-          if params[:param_name4][:exclude_contactemail]=="0" 
-            row.add_cell contactEmail
-          end
-          if params[:param_name5][:exclude_officer]=="0"
-            row.add_cell officerPosition
-          end
-          if params[:param_name6][:exclude_date]=="0"
-            row.add_cell updateYear
-          end
-          if params[:param_name7][:exclude_appnum]=="0"
-            row.add_cell numApps
+            sheet.add_row []
+            row=sheet.rows[rownum]
+            rownum=rownum+1
+
+            if @org_displayed_columns.include?("Organization Name") then
+              row.add_cell org.name
+            end
+            if @org_displayed_columns.include?("Contact Name") then
+              row.add_cell contactName
+            end
+            if @org_displayed_columns.include?("Contact Email") then
+              row.add_cell contactEmail
+            end
+            if @org_displayed_columns.include?("Officer Position") then
+              row.add_cell officerPosition
+            end
+            if @org_displayed_columns.include?("Last Modified") then
+              row.add_cell updateYear
+            end
+            if @org_displayed_columns.include?("Applications") then
+              row.add_cell numApps
+            end
           end
         end
       end

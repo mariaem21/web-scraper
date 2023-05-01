@@ -1,0 +1,505 @@
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<nav class="bg-tamuMaroon nonstickynav">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between max-h-nav">
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            <%= button_to "Update Site", scrape_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
+                <button class="dropbtn">Delete All</button>
+                <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
+                <p>Are you sure, this will delete everything?</p>
+                <%= button_to "Confirm", delete_organizations_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+                </div>
+            </div>
+            <%= link_to "Download Page", organizations_path(format: :xlsx),  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Help", "/help",  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <%= link_to "Log Out", destroy_admin_session_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium ll" %>
+            <div class="dropdown bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium">
+            <button class="dropbtn">Additional Tables</button>
+            <div class="dropdown-content class: bg-tamuButton text-white rounded-md px-4 py-2 text-lg font-medium">
+              <%= link_to "Organizations", organizations_path,  class: "bg-tamuButton text-white rounded-md px-4 py-4 text-lg font-medium" %>
+              <%= link_to "Applications", applications_path,  class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+            </div>
+            </div>
+            <h1 class="navlabelorg">Organizations</h1>
+            <a class="navbar-brand" href="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png">
+              <div class="logo-image3">
+                    <img src="https://brandguide.tamu.edu/assets/img/logos/tam-logo-white.png" class="img-fluid">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="navpadding"></br></div>
+</br>
+</br>
+
+<p class="notice"><%= notice %></p>
+<%= form_with url: list_organizations_path, method: :get, data: { controller: "search-form", search_form_target: "form" } do |form| %>
+    <table>
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <h1> Filter and Search </h1>
+                <th>
+                    Exclude
+                </th>
+                <% if @org_displayed_columns.include?("Organization Name") then %>
+                    <th>
+                        Organization Name
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Name") then %>
+                    <th>
+                        Contact Name
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Email") then %>
+                    <th>
+                        Contact Email
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Officer Position") then %>
+                    <th>
+                        Officer Position
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Last Modified") then %>
+                    <th>
+                        <div>
+                            Start Date
+                        </div>
+                        <div>
+                            End Date
+                        </div>
+                    </th>
+                <% end %>
+                <% if @org_displayed_columns.include?("Applications") then %>
+                    <th>
+                        <div>
+                            App Count >=
+                        </div>
+                        <div>
+                            App Count <=
+                        </div>
+                    </th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-left py-3 px-6">
+                    <%= button_to "Include All", organizations_path, params: { :commit => "Include All" }, method: :get %>
+                </td>
+                <% if @org_displayed_columns.include?("Organization Name") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="name_search" class="flex justify-end mb-1">
+                            <%= form.text_field :name,
+                            placeholder: "Organization",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'name')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Name") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_name_search" class="flex justify-end mb-1">
+                            <%= form.text_field :contact_name,
+                            placeholder: "Contact Name",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'contact_name')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Contact Email") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_email_search" class="flex justify-end mb-1">
+                            <%= form.text_field :contact_email,
+                            placeholder: "Email",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'contact_email')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Officer Position") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_officer_position_search" class="flex justify-end mb-1">
+                            <%= form.text_field :officer_position,
+                            placeholder: "Officer Position",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'officer_position')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Last Modified") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="contact_date_start" class="flex justify-end mb-1">
+                            <%= form.text_field :date_start,
+                            placeholder: "Start Date",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'date_start')
+                            %>
+                        </div>
+                        <div id="contact_date_end" class="flex justify-end mb-1">
+                            <%= form.text_field :date_end,
+                            placeholder: "End Date",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'date_end')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+                <% if @org_displayed_columns.include?("Applications") then %>
+                    <td class="text-left py-3 px-6">
+                        <div id="app_count_start" class="flex justify-end mb-1">
+                            <%= form.text_field :count_start,
+                            placeholder: "App Count >=",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'count_start')
+                            %>
+                        </div>
+                        <div id="app_count_end" class="flex justify-end mb-1">
+                            <%= form.text_field :count_end,
+                            placeholder: "App Count <=",
+                            class: "border border-blue-500 rounded p-2",
+                            autocomplete: "off",
+                            data: { action: "input->search-form#search" },
+                            value: check_org_session_exists(session['filters'], 'count_end')
+                            %>
+                        </div>
+                    </td>
+                <% end %>
+            </tr>
+        </tbody>
+    </table>
+<% end %>
+
+
+
+<h1>Check which columns to include. All columns are included by default.</h1>
+<%= form_tag display_columns_organizations_path, method: :post do %>
+    <% @columns.each do |column| %>
+      <div class="form-check form-switch">
+        <%= check_box_tag "columns[]", column, @org_displayed_columns.include?(column), class: "form-check-input", id: "column-#{column}" %>
+        <%= label_tag "column-#{column}", column, class: "form-check-label" %>
+      </div>
+    <% end %>
+    <%= submit_tag "Save Excluded Columns", class: "btn btn-primary bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium" %>
+<% end %>
+<div class="paddiv"></div>
+<div class="create-new2">
+<h1> Add Organization </h1>
+<%= form_tag add_table_entry_organizations_path, method: :post do %>
+    <%= label_tag :org_name, "Enter Organization Name:" ,class: "create-new-item" %>
+    <%= text_field_tag :org_name, params[:org_name], id:"org_name_field", value:session[:org_name] %>
+    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field", value:session[:contact_name]%>
+    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
+    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field", value:session[:contact_email] %>
+    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
+    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field", value:session[:officer_position] %>
+    <%= submit_tag "Add New Org" ,class: "bg-tamuButton text-white rounded-md px-6 py-4 text-lg font-medium"%>
+    <% if flash[:notice] %>
+        <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+<% end %>
+</div>
+
+<div class="paddiv"></div>
+
+<% if flash[:error] %>
+  <div class="alert alert-danger"><%= flash[:error] %></div>
+<% elsif @org_displayed_columns.empty? %>
+  <p>No columns selected.</p>
+<% else %>
+    <button class="btn btn-dark btn-lg showbutton" onclick="swapTable()">Change exclude view</button>
+    <%= form_tag organizations_path, method: :get, id: "organization-form" do %>
+        <div class="showbutton">
+        <%= submit_tag "Exclude Selected Org(s)" %>
+          </div>
+          </br>
+        <%= turbo_frame_tag "organizations", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
+
+            <table class="min-w-full" id="non-exclude-items" style="display:block">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Exclude
+                        </th>
+
+                        <% if @org_displayed_columns.include?("Organization Name") then %>
+                            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "organizations.name" %>
+                                <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Contact Name") then %>
+                            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.name" %>
+                                <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Contact Email") then %>
+                            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.email" %>
+                                <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Officer Position") then %>
+                            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                                <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Last Modified") then %>
+                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.year" %>
+                                <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Applications") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications_count" %>
+                                <%= sort_link(column: "applications_count", label: "Applications") %>
+                            </th>
+                        <% end %>
+                        <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Delete
+                        </th>
+                        <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-gray-700">
+                    <% orgs.each do |org| %>
+                        <% if !check_param(org['organization_id']) %>
+                            <% if $not_filtered_out and !$not_filtered_out.include?(org['organization_id'])  %>
+                                <% $not_filtered_out.push(org['organization_id']) %>
+                            <% end %>
+                            <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
+                                <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
+                                <% @org_displayed_columns.each do |column| %>
+                                    <% case column %>
+                                    <% when "Organization Name" %>
+                                        <td id="org_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="org_name", contenteditable='true', class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                                    <% when "Contact Name" %>
+                                        <td id="contact_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_name", contenteditable='true', class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                                    <% when "Contact Email" %>
+                                        <td id="contact_email<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_email", contenteditable='true', class="text-left py-3 px-6"><%= org['email'] %></td>
+                                    <% when "Officer Position" %>
+                                        <td id="officer_position<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="officer_position", contenteditable='true', class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                                    <% when "Last Modified" %>
+                                        <td class="text-left py-3 px-6"><%= org['year'] %></td>
+                                    <% when "Applications" %>
+                                        <% if org['app_count'] %>
+                                            <td class="text-left py-3 px-6">
+                                                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                            </td>
+                                        <% else %>
+                                            <td class="text-left py-3 px-6">
+                                                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                            </td>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                <td class="text-left py-3 px-6">
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                        Delete
+                                    </a>
+                                    <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
+                                        <p> Are you sure? </p>
+                                    <br/> 
+                                        <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                            Cancel
+                                        </a>
+                                        <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                    </div>
+                                </td>
+                                <td class="text-left py-3 px-6">
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+            <table class="min-w-full" id="exclude-items" style="display:none">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th id="exclude" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Exclude
+                        </th>
+
+                        <% if @org_displayed_columns.include?("Organization Name") then %>
+                            <th id="organization-organization_name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "organizations.name" %>
+                                <%= sort_link(column: "organizations.name", label: "Student Organization") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Contact Name") then %>
+                            <th id="contact-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.name" %>
+                                <%= sort_link(column: "contacts.name", label: "Contact Name") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Contact Email") then %>
+                            <th id="contact-email" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.email" %>
+                                <%= sort_link(column: "contacts.email", label: "Contact Email") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Officer Position") then %>
+                            <th id="contact-officer_position" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.officer_position" %>
+                                <%= sort_link(column: "contacts.officer_position", label: "Officer Position") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Last Modified") then %>
+                            <th id="contact-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "contacts.year" %>
+                                <%= sort_link(column: "contacts.year", label: "Last Modified") %>
+                            </th>
+                        <% end %>
+                        <% if @org_displayed_columns.include?("Applications") then %>
+                            <th id="appplications" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                                <%= sort_indicator if params[:column] == "applications_count" %>
+                                <%= sort_link(column: "applications_count", label: "Applications") %>
+                            </th>
+                        <% end %>
+                        <th id="delete" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Delete
+                        </th>
+                        <th id="edit" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer">
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-gray-700">
+                    <% orgs.each do |org| %>
+                        <% if check_param(org['organization_id']) %>
+                            <% if $not_filtered_out and $not_filtered_out.include?(org['organization_id'])  %>
+                                <% $not_filtered_out.delete(org['organization_id']) %>
+                            <% end %>
+                            <tr org-id='<%= org['organization_id'] %>', con-id='<%= org['contact_id'] %>', con-org-id='<%= org['contact_organization_id'] %>'>
+                                <td class="text-left py-3 px-6"><%= check_box_tag "organizations_ids[]", org['organization_id'], check_param(org['organization_id']), class: "exclude-checkbox" %></td>
+                                <% @org_displayed_columns.each do |column| %>
+                                    <% case column %>
+                                    <% when "Organization Name" %>
+                                        <td id="org_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="org_name", contenteditable='true', class="text-left py-3 px-6"><%= org['org_name'] %></td>
+                                    <% when "Contact Name" %>
+                                        <td id="contact_name<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_name", contenteditable='true', class="text-left py-3 px-6"><%= org['contact_name'] %></td>
+                                    <% when "Contact Email" %>
+                                        <td id="contact_email<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="contact_email", contenteditable='true', class="text-left py-3 px-6"><%= org['email'] %></td>
+                                    <% when "Officer Position" %>
+                                        <td id="officer_position<%=org['organization_id']%><%=org['contact_organization_id']%>", data-column="officer_position", contenteditable='true', class="text-left py-3 px-6"><%= org['officer_position'] %></td>
+                                    <% when "Last Modified" %>
+                                        <td class="text-left py-3 px-6"><%= org['year'] %></td>
+                                    <% when "Applications" %>
+                                        <% if org['app_count'] %>
+                                            <td class="text-left py-3 px-6">
+                                                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                            </td>
+                                        <% else %>
+                                            <td class="text-left py-3 px-6">
+                                                <u><%= link_to org['app_count'], applications_path(org_id: org['organization_id']) %></u>
+                                            </td>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                <td class="text-left py-3 px-6">
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                        Delete
+                                    </a>
+                                    <div id="confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>" style="display:none;">
+                                        <p> Are you sure? </p>
+                                    <br/> 
+                                    <%= link_to "Confirm", delete_row_organizations_path(organization_id: org['organization_id'], contact_id: org['contact_id'], contact_organization_id: org['contact_organization_id']) %>
+                                    <a href="javascript:showhide('confirmation<%=org['organization_id']%><%=org['contact_organization_id']%>')">
+                                        Cancel
+                                    </a>
+                                    </div>
+                                </td>
+                                <td class="text-left py-3 px-6">
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>
+    <% end %>
+<% end %>
+
+<script>
+
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+    
+    function swapTable() {
+        var tableNonExclude = document.getElementById("non-exclude-items")
+        var tableExclude = document.getElementById("exclude-items")
+        if (tableNonExclude.style.display === "block") {
+            tableNonExclude.style.display = "none";
+            tableExclude.style.display = "block";
+        } else {
+            tableNonExclude.style.display = "block";
+            tableExclude.style.display = "none";
+        }
+    }
+
+    function printSingleRow(organization_id, contact_organization_id, contact_id) {
+
+        var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
+        var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
+        var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/organizations/edit_row?organization_id="+organization_id+"&organization_name="+org_name+"&contact_id="+contact_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle successful response here
+        } else {
+            // Handle error response here
+        }
+        };
+        xhr.send();
+
+    }
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+
+
+</script>

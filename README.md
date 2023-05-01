@@ -8,14 +8,21 @@ This is an application for scraping email addresses of student organizations fro
 
 This code has been run and tested on:
 
-- Ruby - 3.0.2p107
-- Rails - 6.1.4.1
-- Ruby Gems - Listed in `Gemfile`
-- PostgreSQL - 13.3
+Environment
+- Docker (Latest Container)
+•	Heroku v?
 - Nodejs - v16.9.1
 - Yarn - 1.22.11
-- Docker (Latest Container)
 
+Program
+- Ruby - 3.0.2p107
+- Rails - 6.1.4.1
+- PostgreSQL - 13.3
+- Ruby Gems - Listed in `Gemfile`
+
+Tools
+- Git Hub - `https://github.com/mariaem21/web-scraper`
+- Jira
 
 ## External Deps
 
@@ -23,6 +30,12 @@ This code has been run and tested on:
 - Heroku CLI - Download latest version at https://devcenter.heroku.com/articles/heroku-cli
 - Git - Downloat latest version at https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 - GitHub Desktop (Not needed, but HELPFUL) at https://desktop.github.com/
+
+## Documentation
+
+Our product and sprint backlog can be found in Jira, with project name Wade
+
+`https://teamstams.atlassian.net/jira/software/projects/STAMS/boards/2`
 
 ## Installation
 
@@ -44,23 +57,51 @@ You can run all the test cases by running. This will run both the unit and integ
 
 Run the following code in Powershell if using windows or the terminal using Linux/Mac
 
-`docker run --rm -it --volume "${PWD}:/csce431" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest`
+download the code from Github and place in the preferred directory
 
-Open second docker container to start workers for scraping function
+You can do it using
 
-`bundle exec rake jobs:work`
+git clone 
 
-Install the app
+------------------- If you have already cloned and would like to update the changes run the following
 
-`bundle install && rails webpacker:install && rails db:create && db:migrate`
+git stash (if you have any changes)
 
+git pull origin test
 
-Run the app
-`rails server --binding:0.0.0.0`
+------------------- Now create a docker container (if you haven't already)
 
+docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
+
+*Note: directory is where the app code is located
+
+bundle install
+
+rails db:create && rails db:migrate
+
+------------------- Run the following only if I need to do a fresh scrape
+
+Open other powershell window and type in the following:
+
+docker exec -it docker_container bash
+
+*Note: docker_container is name of the container created above
+
+Open second docker container to start workers for scraping function, only when you need to scrape
+
+run this command in the second docker container: 
+
+bundle exec rake jobs:work
+
+It should output the message "Starting job worker"
+
+------------------- This is to run the program, make sure to do this one in the other docker container that you made that is not running the jobs (if you are trying to scrape)
+
+Run the app rails server --binding=0.0.0.0
 
 The application can be seen using a browser and navigating to http://localhost:3000/
 
+NOTE: when downloading, please do not do anything or the download might not work.
 
 ## Environmental Variables/Files
 
