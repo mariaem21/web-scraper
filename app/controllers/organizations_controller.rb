@@ -110,19 +110,25 @@ end
     contact_email = params[:contact_email]
     officer_position = params[:officer_position]
 
-    query = "
-      UPDATE organizations
-      SET name = '#{org_name}'
-      WHERE organization_id = #{org_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+  
+    org = Organization.find_by(organization_id: org_id)
+    if org_name != ""
+        org.update(name: org_name)
+    end
 
-    query = "
-      UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    contact = Contact.find_by(contact_id: contact_id)
+    if contact_name != ""
+        contact.update(name: contact_name)
+    end
+    if contact_email != ""
+        contact.update(email: contact_email)
+        contact.update(year: Date.today)
+    end
+    if officer_position != ""
+        contact.update(officer_position: officer_position)
+        contact.update(year: Date.today)
+    end
+
 
     # Return a success response
     respond_to do |format|

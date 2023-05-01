@@ -50,15 +50,22 @@ class ApplicationsController < ApplicationController
     @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
     @app_displayed_columns = session[:app_displayed_columns] || @columns
     @records = Organization.all
-        
+    
     if params.has_key?(:org_id) and params[:org_id] != nil
-      query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
+      $org_id = params[:org_id]
+      @org_id = params[:org_id]
+    else
+      @org_id = $org_id
     end
+
+
+
+    query += "        WHERE contact_organizations.organization_id = #{@org_id}"
+
     @apps = ActiveRecord::Base.connection.execute(query)
 
 
-    $org_id = params[:org_id]
-    @org_id = params[:org_id]
+    
 
     if @org_id
       @org_name = Organization.find(@org_id).name
@@ -88,6 +95,7 @@ class ApplicationsController < ApplicationController
 
   def edit_row
     organization_id = params[:org_id]
+    $org_id = organization_id
     application_id = params[:app_id] 
     contact_id = params[:contact_id] 
     category_id = params[:category_id] 
@@ -129,11 +137,7 @@ class ApplicationsController < ApplicationController
         contact.update(officer_position: officer_position)
         contact.update(year: Date.today)
     end
-    if officer_position != ""
-        contact.update(officer_position: officer_position)
-        contact.update(year: Date.today)
-    end
-
+   
 
     category = Category.find_by(category_id: category_id)
     if category_name != ""

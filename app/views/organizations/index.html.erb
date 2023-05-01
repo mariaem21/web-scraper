@@ -487,11 +487,25 @@
 
     function printSingleRow(organization_id, contact_organization_id, contact_id) {
 
-        var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
-        var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
-        var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
-        var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        var org_name = "";
+        var contact_name = "";
+        var contact_email = "";
+        var officer_position = "";
         
+
+
+        <% if @org_displayed_columns.include?("Organization Name") then %>
+            var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Contact Name") then %>
+            var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Contact Email") then %>
+            var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Officer Position") then %>
+                var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
         
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/organizations/edit_row?organization_id="+organization_id+"&organization_name="+org_name+"&contact_id="+contact_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position);
