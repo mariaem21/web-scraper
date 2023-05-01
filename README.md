@@ -69,7 +69,7 @@ git stash (if you have any changes)
 
 git pull origin test
 
-------------------- Now create a docker container (if you haven't alread)
+------------------- Now create a docker container (if you haven't already)
 
 docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
 
@@ -95,12 +95,13 @@ bundle exec rake jobs:work
 
 It should output the message "Starting job worker"
 
-------------------- This is to run the program, make sure to do this one a docker container that you made that is not running the jobs (if you are trying to scrape)
+------------------- This is to run the program, make sure to do this one in the other docker container that you made that is not running the jobs (if you are trying to scrape)
 
-Run the app rails server --binding:0.0.0.0
+Run the app rails server --binding=0.0.0.0
 
 The application can be seen using a browser and navigating to http://localhost:3000/
 
+NOTE: when downloading, please do not do anything or the download might not work.
 
 ## Environmental Variables/Files
 
