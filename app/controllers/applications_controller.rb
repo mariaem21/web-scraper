@@ -105,15 +105,43 @@ class ApplicationsController < ApplicationController
 
     puts "updating applications"
 
-
     app = Application.find_by(application_id: application_id)
-    app.update(name: app_name, github_link: github_link, description: description)
+    if app_name != ""
+        app.update(name: app_name)
+    end
+    if github_link != ""
+        app.update(github_link: github_link)
+    end
+    if description != ""
+        app.update(description: description)
+    end
+
 
     contact = Contact.find_by(contact_id: contact_id)
-    contact.update(name: contact_name, email: contact_email, officer_position: officer_position, year: Date.today)
+    if contact_name != ""
+        contact.update(name: contact_name)
+    end
+    if contact_email != ""
+        contact.update(email: contact_email)
+        contact.update(year: Date.today)
+    end
+    if officer_position != ""
+        contact.update(officer_position: officer_position)
+        contact.update(year: Date.today)
+    end
+    if officer_position != ""
+        contact.update(officer_position: officer_position)
+        contact.update(year: Date.today)
+    end
+
 
     category = Category.find_by(category_id: category_id)
-    category.update(name: category_name)
+    if category_name != ""
+        category.update(name: category_name)
+    end
+
+
+
 
     # Return a success response
     respond_to do |format|

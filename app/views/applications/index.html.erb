@@ -541,16 +541,38 @@
     }
 
     function printSingleRow(org_id, application_id, category_id, contact_id) {
+        var app_name = "";
+        var github_link = "";
+        var description = "";
+        var category_name = "";
 
+        var contact_name = "";
+        var contact_email = "";
+        var officer_position = "";
 
-        var app_name = document.getElementById("app_name"+application_id).innerHTML;
-        var github_link = document.getElementById("github_link"+application_id).innerHTML;
-        var description = document.getElementById("notes"+application_id).innerHTML;
-        var category_name = document.getElementById("category"+application_id).innerHTML;
+        <% if @app_displayed_columns.include?("Application Developed") then %>
+            app_name = document.getElementById("app_name"+application_id).innerHTML;
+        <% end %>
+        <% if @app_displayed_columns.include?("Contact Name") then %>
+            contact_name = document.getElementById("con_name"+application_id).innerHTML;
+            
+        <% end %>
+        <% if @app_displayed_columns.include?("Contact Email") then %>
+            contact_email = document.getElementById("con_email"+application_id).innerHTML;
+        <% end %>
+        <% if @app_displayed_columns.include?("Officer Position") then %>
+            officer_position = document.getElementById("officer_position"+application_id).innerHTML;
+        <% end %>
+        <% if @app_displayed_columns.include?("Github Link") then %>
+            github_link = document.getElementById("github_link"+application_id).innerHTML;
+        <% end %>
+        <% if @app_displayed_columns.include?("Notes") then %>
+            description = document.getElementById("notes"+application_id).innerHTML;
+        <% end %>
+        <% if @app_displayed_columns.include?("Category") then %>
+            category_name = document.getElementById("category"+application_id).innerHTML; 
+        <% end %>
 
-        var contact_name = document.getElementById("con_name"+application_id).innerHTML;
-        var contact_email = document.getElementById("con_email"+application_id).innerHTML;
-        var officer_position = document.getElementById("officer_position"+application_id).innerHTML;
 
         console.log('' + application_id + ' ' + category_id + " " + contact_id)
 
