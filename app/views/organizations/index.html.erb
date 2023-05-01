@@ -105,12 +105,12 @@
                 <% if @org_displayed_columns.include?("Organization Name") then %>
                     <td class="text-left py-3 px-6">
                         <div id="name_search" class="flex justify-end mb-1">
-                            <%= form.text_field :name,
+                            <%= form.text_field :org_name,
                             placeholder: "Organization",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'name')
+                            value: check_org_session_exists(session['filters'], 'org_name')
                             %>
                         </div>
                     </td>
@@ -118,12 +118,12 @@
                 <% if @org_displayed_columns.include?("Contact Name") then %>
                     <td class="text-left py-3 px-6">
                         <div id="contact_name_search" class="flex justify-end mb-1">
-                            <%= form.text_field :contact_name,
+                            <%= form.text_field :org_contact_name,
                             placeholder: "Contact Name",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'contact_name')
+                            value: check_org_session_exists(session['filters'], 'org_contact_name')
                             %>
                         </div>
                     </td>
@@ -131,12 +131,12 @@
                 <% if @org_displayed_columns.include?("Contact Email") then %>
                     <td class="text-left py-3 px-6">
                         <div id="contact_email_search" class="flex justify-end mb-1">
-                            <%= form.text_field :contact_email,
+                            <%= form.text_field :org_contact_email,
                             placeholder: "Email",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'contact_email')
+                            value: check_org_session_exists(session['filters'], 'org_contact_email')
                             %>
                         </div>
                     </td>
@@ -144,12 +144,12 @@
                 <% if @org_displayed_columns.include?("Officer Position") then %>
                     <td class="text-left py-3 px-6">
                         <div id="contact_officer_position_search" class="flex justify-end mb-1">
-                            <%= form.text_field :officer_position,
+                            <%= form.text_field :org_officer_position,
                             placeholder: "Officer Position",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'officer_position')
+                            value: check_org_session_exists(session['filters'], 'org_officer_position')
                             %>
                         </div>
                     </td>
@@ -157,21 +157,21 @@
                 <% if @org_displayed_columns.include?("Last Modified") then %>
                     <td class="text-left py-3 px-6">
                         <div id="contact_date_start" class="flex justify-end mb-1">
-                            <%= form.text_field :date_start,
+                            <%= form.text_field :org_date_start,
                             placeholder: "Start Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'date_start')
+                            value: check_org_session_exists(session['filters'], 'org_date_start')
                             %>
                         </div>
                         <div id="contact_date_end" class="flex justify-end mb-1">
-                            <%= form.text_field :date_end,
+                            <%= form.text_field :org_date_end,
                             placeholder: "End Date",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'date_end')
+                            value: check_org_session_exists(session['filters'], 'org_date_end')
                             %>
                         </div>
                     </td>
@@ -179,21 +179,21 @@
                 <% if @org_displayed_columns.include?("Applications") then %>
                     <td class="text-left py-3 px-6">
                         <div id="app_count_start" class="flex justify-end mb-1">
-                            <%= form.text_field :count_start,
+                            <%= form.text_field :org_count_start,
                             placeholder: "App Count >=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'count_start')
+                            value: check_org_session_exists(session['filters'], 'org_count_start')
                             %>
                         </div>
                         <div id="app_count_end" class="flex justify-end mb-1">
-                            <%= form.text_field :count_end,
+                            <%= form.text_field :org_count_end,
                             placeholder: "App Count <=",
                             class: "border border-blue-500 rounded p-2",
                             autocomplete: "off",
                             data: { action: "input->search-form#search" },
-                            value: check_org_session_exists(session['filters'], 'count_end')
+                            value: check_org_session_exists(session['filters'], 'org_count_end')
                             %>
                         </div>
                     </td>
@@ -487,11 +487,25 @@
 
     function printSingleRow(organization_id, contact_organization_id, contact_id) {
 
-        var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
-        var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
-        var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
-        var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        var org_name = "";
+        var contact_name = "";
+        var contact_email = "";
+        var officer_position = "";
         
+
+
+        <% if @org_displayed_columns.include?("Organization Name") then %>
+            var org_name = document.getElementById("org_name"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Contact Name") then %>
+            var contact_name = document.getElementById("contact_name"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Contact Email") then %>
+            var contact_email = document.getElementById("contact_email"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
+        <% if @org_displayed_columns.include?("Officer Position") then %>
+                var officer_position = document.getElementById("officer_position"+organization_id+contact_organization_id).innerHTML;
+        <% end %>
         
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/organizations/edit_row?organization_id="+organization_id+"&organization_name="+org_name+"&contact_id="+contact_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position);

@@ -50,15 +50,22 @@ class ApplicationsController < ApplicationController
     @columns = ["Application Developed", "Contact Name", "Contact Email", "Officer Position", "Github Link", "Year Developed", "Notes", "Category"]
     @app_displayed_columns = session[:app_displayed_columns] || @columns
     @records = Organization.all
-        
+    
     if params.has_key?(:org_id) and params[:org_id] != nil
-      query += "        WHERE contact_organizations.organization_id = #{params[:org_id]}"
+      $org_id = params[:org_id]
+      @org_id = params[:org_id]
+    else
+      @org_id = $org_id
     end
+
+
+
+    query += "        WHERE contact_organizations.organization_id = #{@org_id}"
+
     @apps = ActiveRecord::Base.connection.execute(query)
 
 
-    $org_id = params[:org_id]
-    @org_id = params[:org_id]
+    
 
     if @org_id
       @org_name = Organization.find(@org_id).name
@@ -87,6 +94,8 @@ class ApplicationsController < ApplicationController
   def show; end
 
   def edit_row
+    organization_id = params[:org_id]
+    $org_id = organization_id
     application_id = params[:app_id] 
     contact_id = params[:contact_id] 
     category_id = params[:category_id] 
@@ -104,15 +113,39 @@ class ApplicationsController < ApplicationController
 
     puts "updating applications"
 
-
     app = Application.find_by(application_id: application_id)
-    app.update(name: app_name, github_link: github_link, description: description)
+    if app_name != ""
+        app.update(name: app_name)
+    end
+    if github_link != ""
+        app.update(github_link: github_link)
+    end
+    if description != ""
+        app.update(description: description)
+    end
+
 
     contact = Contact.find_by(contact_id: contact_id)
-    contact.update(name: contact_name, email: contact_email, officer_position: officer_position, year: Date.today)
+    if contact_name != ""
+        contact.update(name: contact_name)
+    end
+    if contact_email != ""
+        contact.update(email: contact_email)
+        contact.update(year: Date.today)
+    end
+    if officer_position != ""
+        contact.update(officer_position: officer_position)
+        contact.update(year: Date.today)
+    end
+   
 
     category = Category.find_by(category_id: category_id)
-    category.update(name: category_name)
+    if category_name != ""
+        category.update(name: category_name)
+    end
+
+
+
 
     # Return a success response
     respond_to do |format|

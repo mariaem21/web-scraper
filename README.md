@@ -24,7 +24,7 @@ Tools
 - Git Hub - `https://github.com/mariaem21/web-scraper`
 - Jira
 
-## External Deps
+## External Dependencies
 
 - Docker - Download latest version at https://www.docker.com/products/docker-desktop
 - Heroku CLI - Download latest version at https://devcenter.heroku.com/articles/heroku-cli
@@ -69,7 +69,7 @@ git stash (if you have any changes)
 
 git pull origin test
 
-------------------- Now create a docker container (if you haven't alread)
+------------------- Now create a docker container (if you haven't already)
 
 docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
 
@@ -95,12 +95,13 @@ bundle exec rake jobs:work
 
 It should output the message "Starting job worker"
 
-------------------- This is to run the program, make sure to do this one a docker container that you made that is not running the jobs (if you are trying to scrape)
+------------------- This is to run the program, make sure to do this one in the other docker container that you made that is not running the jobs (if you are trying to scrape)
 
-Run the app rails server --binding:0.0.0.0
+Run the app rails server --binding=0.0.0.0
 
 The application can be seen using a browser and navigating to http://localhost:3000/
 
+NOTE: when downloading, please do not do anything or the download might not work.
 
 ## Environmental Variables/Files
 
@@ -147,6 +148,14 @@ Continuous Development is setup through Heroku which has been linked to our gith
 
 The support of this app has been officially closed as the support team has been reassigned to other projects. No major features remain for development and any bugs are no longer responsibility of the dev team.
 
-## Extra Helps
+## References
+
+Most of our logic is in the app/controllers/applications_controller.rb and app/controllers/organizations_controller.rb files. Next big ones are: app/views/organizations/_custom_view.html.erb, app/views/applications/index.html.erb, config/routes.rb, and the Gemfile, which holds all gems needed for the application.
+
+Test files are in spec/ folder.
+Web-scraping code is in the app/jobs/ folder. The file is titled scrape_job.rb
+The download a csv code is in the app/views/organizations/ folder. The file is titled index.xlsx.axlsx
+
+## Extra Help
 
 Please contact Tripper Wright tswright@tamu.edu with any questions about this application.

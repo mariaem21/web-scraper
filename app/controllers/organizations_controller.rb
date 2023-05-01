@@ -110,19 +110,25 @@ end
     contact_email = params[:contact_email]
     officer_position = params[:officer_position]
 
-    query = "
-      UPDATE organizations
-      SET name = '#{org_name}'
-      WHERE organization_id = #{org_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+  
+    org = Organization.find_by(organization_id: org_id)
+    if org_name != ""
+        org.update(name: org_name)
+    end
 
-    query = "
-      UPDATE contacts
-      SET name = '#{contact_name}', email = '#{contact_email}', officer_position = '#{officer_position}', year = '#{Date.today}'
-      WHERE contact_id = #{contact_id};
-    "
-    ActiveRecord::Base.connection.execute(query)
+    contact = Contact.find_by(contact_id: contact_id)
+    if contact_name != ""
+        contact.update(name: contact_name)
+    end
+    if contact_email != ""
+        contact.update(email: contact_email)
+        contact.update(year: Date.today)
+    end
+    if officer_position != ""
+        contact.update(officer_position: officer_position)
+        contact.update(year: Date.today)
+    end
+
 
     # Return a success response
     respond_to do |format|
@@ -192,34 +198,34 @@ end
     session['filters'] = {} if session['filters'].blank? # not sure how in the if-statement it knows what the session variable is since it was never made.
     # session['filters'].merge!(params)
 
-    if params[:name] != session['filters']['name'] and params[:name] != nil
-      session['filters']['name'] = params[:name] 
+    if params[:org_name] != session['filters']['org_name'] and params[:org_name] != nil
+      session['filters']['org_name'] = params[:org_name] 
     end
-    if params[:contact_name] != session['filters']['contact_name'] and params[:contact_name] != nil
-      session['filters']['contact_name'] = params[:contact_name] 
+    if params[:org_contact_name] != session['filters']['org_contact_name'] and params[:org_contact_name] != nil
+      session['filters']['org_contact_name'] = params[:org_contact_name] 
     end
-    if params[:contact_email] != session['filters']['contact_email'] and params[:contact_email] != nil
-      session['filters']['contact_email'] = params[:contact_email] 
+    if params[:org_contact_email] != session['filters']['org_contact_email'] and params[:org_contact_email] != nil
+      session['filters']['org_contact_email'] = params[:org_contact_email] 
     end
-    if params[:officer_position] != session['filters']['officer_position'] and params[:officer_position] != nil
-      session['filters']['officer_position'] = params[:officer_position] 
+    if params[:org_officer_position] != session['filters']['org_officer_position'] and params[:org_officer_position] != nil
+      session['filters']['org_officer_position'] = params[:org_officer_position] 
     end
-    if params[:date_start] != session['filters']['date_start'] and params[:date_start] != nil
-      session['filters']['date_start'] = params[:date_start] 
+    if params[:org_date_start] != session['filters']['org_date_start'] and params[:org_date_start] != nil
+      session['filters']['org_date_start'] = params[:org_date_start] 
     end
-    if params[:date_end] != session['filters']['date_end'] and params[:date_end] != nil
-      session['filters']['date_end'] = params[:date_end] 
+    if params[:org_date_end] != session['filters']['org_date_end'] and params[:org_date_end] != nil
+      session['filters']['org_date_end'] = params[:org_date_end] 
     end
-    if params[:count_start] != session['filters'][''] and params[:count_start] != nil
-      session['filters']['count_start'] = params[:count_start] 
+    if params[:org_count_start] != session['filters']['org_count_start'] and params[:org_count_start] != nil
+      session['filters']['org_count_start'] = params[:org_count_start] 
     end
-    if params[:count_end] != session['filters']['count_end'] and params[:count_end] != nil
-      session['filters']['count_end'] = params[:count_end] 
+    if params[:org_count_end] != session['filters']['org_count_end'] and params[:org_count_end] != nil
+      session['filters']['org_count_end'] = params[:org_count_end] 
     end
     
     
-    session['filters']['column'] = params[:column] if params[:column] != session['filters']['column'] and params[:column] != nil
-    session['filters']['direction'] = params[:direction] if params[:direction] != session['filters']['direction'] and params[:direction] != nil
+    session['filters']['org_column'] = params[:column] if params[:column] != session['filters']['org_column'] and params[:column] != nil
+    session['filters']['org_direction'] = params[:direction] if params[:direction] != session['filters']['org_direction'] and params[:direction] != nil
     
     query = " SELECT 
                 contact_organizations.contact_organization_id,
@@ -260,53 +266,53 @@ end
               ON organizations.name = app_counter.name
             "
 
-    if session['filters']['name']
-        query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['name']}%')
+    if session['filters']['org_name']
+        query += "  WHERE LOWER(organizations.name) LIKE LOWER('#{session['filters']['org_name']}%')
         "
     end
-    if session['filters']['contact_name'] and session['filters']['contact_name']
-      query += "  AND LOWER(contacts.name) LIKE LOWER('#{session['filters']['contact_name']}%')
+    if session['filters']['org_contact_name'] and session['filters']['org_contact_name']
+      query += "  AND LOWER(contacts.name) LIKE LOWER('#{session['filters']['org_contact_name']}%')
       "
     end
-    if session['filters']['contact_email']
-      query += "  AND LOWER(contacts.email) LIKE LOWER('#{session['filters']['contact_email']}%')
+    if session['filters']['org_contact_email']
+      query += "  AND LOWER(contacts.email) LIKE LOWER('#{session['filters']['org_contact_email']}%')
       "
     end
-    if session['filters']['officer_position']
-      query += "  AND LOWER(contacts.officer_position) LIKE LOWER('#{session['filters']['officer_position']}%')
+    if session['filters']['org_officer_position']
+      query += "  AND LOWER(contacts.officer_position) LIKE LOWER('#{session['filters']['org_officer_position']}%')
       "
     end
 
-    if session['filters']['date_start'] and session['filters']['date_end'] and session['filters']['date_start'] != "" and session['filters']['date_end'] != ""
-      query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['date_start']}' AND '#{session['filters']['date_end']}'
+    if session['filters']['org_date_start'] and session['filters']['org_date_end'] and session['filters']['org_date_start'] != "" and session['filters']['org_date_end'] != ""
+      query += "  AND DATE(contacts.year) BETWEEN '#{session['filters']['org_date_start']}' AND '#{session['filters']['org_date_end']}'
       "
-    elsif session['filters']['date_start'] and session['filters']['date_start'] != "" 
-      query += "  AND DATE(contacts.year) >= '#{session['filters']['date_start']}' 
+    elsif session['filters']['org_date_start'] and session['filters']['org_date_start'] != "" 
+      query += "  AND DATE(contacts.year) >= '#{session['filters']['org_date_start']}' 
       "
-    elsif session['filters']['date_end'] and session['filters']['date_end'] != ""
-      query += "  AND DATE(contacts.year) <= '#{session['filters']['date_end']}' 
+    elsif session['filters']['org_date_end'] and session['filters']['org_date_end'] != ""
+      query += "  AND DATE(contacts.year) <= '#{session['filters']['org_date_end']}' 
       "
     end
 
-    if session['filters']['count_start'] and session['filters']['count_end'] and session['filters']['count_start'] != "" and session['filters']['count_end'] != ""
-      query += "  AND app_counter.app_count BETWEEN '#{session['filters']['count_start']}' AND '#{session['filters']['count_end']}'
+    if session['filters']['org_count_start'] and session['filters']['org_count_end'] and session['filters']['org_count_start'] != "" and session['filters']['org_count_end'] != ""
+      query += "  AND app_counter.app_count BETWEEN '#{session['filters']['org_count_start']}' AND '#{session['filters']['org_count_end']}'
       "
-    elsif session['filters']['count_start'] and session['filters']['count_start'] != "" 
-      query += "  AND app_counter.app_count >= '#{session['filters']['count_start']}' 
+    elsif session['filters']['org_count_start'] and session['filters']['org_count_start'] != "" 
+      query += "  AND app_counter.app_count >= '#{session['filters']['org_count_start']}' 
       "
-    elsif session['filters']['count_end'] and session['filters']['count_end'] != ""
-      query += "  AND app_counter.app_count <= '#{session['filters']['count_end']}' 
+    elsif session['filters']['org_count_end'] and session['filters']['org_count_end'] != ""
+      query += "  AND app_counter.app_count <= '#{session['filters']['org_count_end']}' 
       "
     end
-    if session['filters']['column'] or session['filters']['direction'] and session['filters']['column'] != "contacts.year" and session['filters']['column'] != "applications_count"
-        query += "  ORDER BY LOWER(#{session['filters']['column']}) #{session['filters']['direction']}
+    if session['filters']['org_column'] or session['filters']['org_direction'] and session['filters']['org_column'] != "contacts.year" and session['filters']['org_column'] != "applications_count"
+        query += "  ORDER BY LOWER(#{session['filters']['org_column']}) #{session['filters']['org_direction']}
         "
-    elsif (session['filters']['column'] or session['filters']['direction']) and session['filters']['column'] == "contacts.year"
+    elsif (session['filters']['org_column'] or session['filters']['org_direction']) and session['filters']['org_column'] == "contacts.year"
         puts "inside"
-        query += "  ORDER BY DATE(#{session['filters']['column']}) #{session['filters']['direction']}
+        query += "  ORDER BY DATE(#{session['filters']['org_column']}) #{session['filters']['org_direction']}
           "
-    elsif (session['filters']['column'] or session['filters']['direction']) and session['filters']['column'] == "applications_count"
-      query += "  ORDER BY app_counter.app_count #{session['filters']['direction']}
+    elsif (session['filters']['org_column'] or session['filters']['org_direction']) and session['filters']['org_column'] == "applications_count"
+      query += "  ORDER BY app_counter.app_count #{session['filters']['org_direction']}
       "
     end
 
