@@ -150,11 +150,9 @@ The support of this app has been officially closed as the support team has been 
 
 ## References
 
-Most of our logic is in the app/controllers/applications_controller.rb and app/controllers/organizations_controller.rb files. Next big ones are: app/views/organizations/_custom_view.html.erb, app/views/applications/index.html.erb, config/routes.rb, and the Gemfile, which holds all gems needed for the application.
-
-Test files are in spec/ folder.
-Web-scraping code is in the app/jobs/ folder. The file is titled scrape_job.rb
-The download a csv code is in the app/views/organizations/ folder. The file is titled index.xlsx.axlsx
+https://stackoverlfow.com
+https://chat.openai.com
+https://guides.rubyonrails.org/index.html
 
 ## Extra Help
 
