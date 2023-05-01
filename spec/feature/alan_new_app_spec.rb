@@ -37,26 +37,6 @@ RSpec.describe 'New valid application requests', type: :feature do
       click_link('0')
     end
 
-    # org_id = 1 # Replace with the organization ID for your test case
-    # app_name = 'Test Application'
-    # contact_name = 'John Smith'
-    # contact_email = 'john.smith@example.com'
-    # officer_position = 'CTO'
-    # github_link = 'https://github.com/test/test-app'
-    # date_built = '2022-05-01'
-    # notes = 'This is a test application'
-    # category = 'Testing'
-
-    # within('form.create-new-item') do
-    # page.execute_script("$('input#app_name_field').removeAttr('disabled')")
-    # page.execute_script("$('input#contact_name_field').removeAttr('disabled')")
-    # page.execute_script("$('input#contact_email_field').removeAttr('disabled')")
-    # page.execute_script("$('input#officer_position_field').removeAttr('disabled')")
-    # page.execute_script("$('input#github_link_field').removeAttr('disabled')")
-    # page.execute_script("$('input#date_built_field').removeAttr('disabled')")
-    # page.execute_script("$('input#notes_field').removeAttr('disabled')")
-    # page.execute_script("$('input#category_field').removeAttr('disabled')")
-
     expect(page).to have_content('Add Application')
     # puts page.html
 
@@ -76,13 +56,12 @@ RSpec.describe 'New valid application requests', type: :feature do
       click_link('1')
     end
 
-    # puts page.html
-
     expect(page).to have_content('Test Application')
     expect(page).to have_content('John Smith')
     expect(page).to have_content('john.smith@example.com')
     expect(page).to have_content('CTO')
     expect(page).to have_content('https://github.com/test/test-app')
+    expect(page).to have_content('2022-05-01')
     expect(page).to have_content('Test')
     expect(page).to have_content('Test')
 
@@ -90,121 +69,74 @@ RSpec.describe 'New valid application requests', type: :feature do
 
     # visit add_table_entry_applications_path(organization_id: org_id)
   end
-
-  # scenario 'Adding valid application | Should add new application to database and view section' do
-  #   OmniAuth.config.test_mode = true
-  #   OmniAuth.config.add_mock(:google_oauth2, {
-  #       :info =>{
-  #       :email => 'test@tamu.edu'
-  #       }
-  #   })
-  #   visit admin_google_oauth2_omniauth_authorize_path
-
-  #   visit new_organization_path
-  #   org = Organization.create(organization_id: 1, name: 'A Battery', description: 'Unique description')
-  #   contact = Contact.create(contact_id: 1, year: '02-24-2023', name: 'Person A',
-  #                            email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
-  #   contact_organization = ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
-  #   visit applications_path
-  #   click_on 'New application'
-  #   fill_in 'application[application_id]', with: '1'
-  #   fill_in 'application[contact_organization_id]', with: '1'
-  #   fill_in 'application[name]', with: 'Valid application'
-  #   fill_in 'application[date_built]', with: 20_210_621
-  #   fill_in 'application[github_link]', with: 'github.com'
-  #   fill_in 'application[description]', with: 'First application test'
-  #   click_on 'Create Application'
-  #   expect(page).to have_content('Valid application')
-  # end
 end
 
-# RSpec.describe 'Invalid application information request', type: :feature do
-#   scenario 'Invalid github link and description | Should have a popup with information warning about each invalid field' do
-#     visit new_organization_path
-#     org = Organization.create(organization_id: 2, name: 'Test org 2', description: 'description')
-#     contact = Contact.create(contact_id: 1, year: '02-24-2023', name: 'Person A',
-#                              email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
-#     contact_organization = ContactOrganization.create(contact_organization_id: 2, contact_id: 1, organization_id: 2)
-#     visit applications_path
-#     click_on 'New application'
-#     fill_in 'application[application_id]', with: '2'
-#     fill_in 'application[contact_organization_id]', with: '2'
-#     fill_in 'application[name]', with: 'Invalid application'
-#     fill_in 'application[date_built]', with: 20_210_621
-#     # fill_in 'application[github_link]', with: ''
-#     # fill_in 'application[description]', with: ''
-#     click_on 'Create Application'
-#     expect(page).to have_content('errors prohibited this application from being saved:')
-#     expect(page).to have_content('Github link can\'t be blank')
-#     expect(page).to have_content('Description can\'t be blank')
-#   end
+RSpec.describe 'Invalid application information request', type: :feature do
+  scenario 'Invalid github link and notes field | Should have a popup with information warning' do
+    Application.delete_all
 
-#   scenario 'Invalid name and date built', type: :feature do
-#     visit applications_path
-#     click_on 'New application'
-#     fill_in 'application[application_id]', with: '2'
-#     fill_in 'application[contact_organization_id]', with: '2'
-#     fill_in 'application[name]', with: ''
-#     fill_in 'application[date_built]', with: ''
-#     fill_in 'application[github_link]', with: 'github.com'
-#     fill_in 'application[description]', with: 'invalid test app'
-#     click_on 'Create Application'
-#     expect(page).to have_content('errors prohibited this application from being saved:')
-#     expect(page).to have_content('Name can\'t be blank')
-#     expect(page).to have_content('Date built can\'t be blank')
-#   end
-# end
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+        :email => 'test@tamu.edu'
+        }
+    })
+    visit admin_google_oauth2_omniauth_authorize_path
 
-# RSpec.describe 'Negative applicationID', type: :feature do
-#   scenario 'Negative applicationID | Should have a popup with information warning' do
-#     visit new_organization_path
-#     org = Organization.create(organization_id: 3, name: 'Test org 3', description: 'description')
-#     contact = Contact.create(contact_id: 1, year: '02-24-2023', name: 'Person A',
-#                              email: 'john@tamu.edu', officer_position: 'President', description: 'Unique description')
-#     contact_organization = ContactOrganization.create(contact_organization_id: 3, contact_id: 1, organization_id: 3)
-#     visit applications_path
-#     click_on 'New application'
-#     fill_in 'application[application_id]', with: '-1'
-#     fill_in 'application[contact_organization_id]', with: '3'
-#     fill_in 'application[name]', with: 'Invalid applicationID'
-#     fill_in 'application[date_built]', with: 20_210_621
-#     fill_in 'application[github_link]', with: 'github.com'
-#     fill_in 'application[description]', with: 'Invalid applicationID desc'
-#     click_on 'Create Application'
-#     # expect(page).to have_content('error prohibited this application from being saved:')
-#     # expect(page).to have_content('Application must be greater than 0')
-#   end
-# end
+    visit organizations_path
+    within('table#non-exclude-items tbody tr:first-child td:nth-child(7)') do
+      click_link('0')
+    end
 
-# RSpec.describe 'Non existing contact organization ID', type: :feature do
-#   scenario 'Non existing contact orgID | Should have a popup with information warning' do
-#     visit applications_path
-#     click_on 'New application'
-#     fill_in 'application[application_id]', with: '4'
-#     fill_in 'application[contact_organization_id]', with: '10'
-#     fill_in 'application[name]', with: 'Non existing orgID'
-#     fill_in 'application[date_built]', with: 20_210_621
-#     fill_in 'application[github_link]', with: 'github.com'
-#     fill_in 'application[description]', with: 'Non existing contact_orgID desc'
-#     click_on 'Create Application'
-#     # expect(page).to have_content('error prohibited this application from being saved:')
-#     # expect(page).to have_content('ContactOrganization Must have a valid contact organization ID')
-#   end
-# end
+    expect(page).to have_content('Add Application')
+    # puts page.html
 
-# RSpec.describe 'Negative contact orgID', type: :feature do
-#   scenario 'Negative contact orgID | Should have a popup with information warning' do
-#     visit applications_path
-#     click_on 'New application'
-#     fill_in 'application[application_id]', with: '5'
-#     fill_in 'application[contact_organization_id]', with: '-1'
-#     fill_in 'application[name]', with: 'Invalid orgID'
-#     fill_in 'application[date_built]', with: 20_210_621
-#     fill_in 'application[github_link]', with: 'github.com'
-#     fill_in 'application[description]', with: 'Invalid orgID desc'
-#     click_on 'Create Application'
-#     # expect(page).to have_content('errors prohibited this application from being saved:')
-#     # expect(page).to have_content('Organization must be greater than 0')
-#     # expect(page).to have_content('Organization Must have a valid organization ID')
-#   end
-# end
+    fill_in 'app_name_field', with: 'Test Application'
+    fill_in 'contact_name_field', with: 'John Smith'
+    fill_in 'contact_email_field', with: 'john.smith@example.com'
+    fill_in 'officer_position_field', with: 'CTO'
+    fill_in 'github_position_field', with: ''
+    fill_in 'date_built_field', with: '2022-05-01'
+    fill_in 'notes_field', with: ''
+    fill_in 'category_field', with: 'Test'
+
+    click_button 'Add New App'
+
+    expect(page).to have_content('Not all params were inputted')
+    expect(Application.where(name: 'Test Application')).not_to exist
+  end
+
+  scenario 'Invalid name and date built', type: :feature do
+    Application.delete_all
+
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.add_mock(:google_oauth2, {
+        :info =>{
+        :email => 'test@tamu.edu'
+        }
+    })
+    visit admin_google_oauth2_omniauth_authorize_path
+
+    visit organizations_path
+    within('table#non-exclude-items tbody tr:first-child td:nth-child(7)') do
+      click_link('0')
+    end
+
+    expect(page).to have_content('Add Application')
+    # puts page.html
+
+    fill_in 'app_name_field', with: ''
+    fill_in 'contact_name_field', with: 'John Smith'
+    fill_in 'contact_email_field', with: 'john.smith@example.com'
+    fill_in 'officer_position_field', with: 'CTO'
+    fill_in 'github_position_field', with: 'https://github.com/test/test-app'
+    fill_in 'date_built_field', with: ''
+    fill_in 'notes_field', with: 'Test'
+    fill_in 'category_field', with: 'Test'
+
+    click_button 'Add New App'
+
+    expect(page).to have_content('Not all params were inputted')
+    expect(Application.where(name: 'Test Application')).not_to exist
+  end
+end

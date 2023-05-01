@@ -1,4 +1,4 @@
-# By: Alan
+# By: Maria
 
 # frozen_string_literal: true
 # location: spec/feature/feature_spec.rb
@@ -44,18 +44,3 @@ RSpec.describe 'Exclude organizations', type: :feature do
         expect(page).not_to have_content(@organization_name_text)
     end
 end
-
-# RSpec.describe 'Exclude applications', type: :feature do
-#     scenario 'Download page with excluded items' do
-#         OmniAuth.config.test_mode = true
-#         OmniAuth.config.add_mock(:google_oauth2, {
-#             :info =>{
-#             :email => 'test@tamu.edu'
-#             }
-#         })
-#         visit admin_google_oauth2_omniauth_authorize_path
-#         visit organizations_path
-#         click_button "Download Page"
-#         # TODO - open downloaded file, check if excluded items are in it
-#     end
-# end
