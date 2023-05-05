@@ -141,6 +141,41 @@ end
     org_id = params[:organization_id] 
     contact_id = params[:contact_id]
     contact_org_id = params[:contact_organization_id]
+
+    # apps_to_delete = Application.select{|x| x[:contact_organization_id] == contact_org_id}.map{|y| y[:application_id]}
+    # puts apps_to_delete
+    # cat_to_delete = ApplicationCategory.select{|x| x[:application_id] == apps_to_delete}.map{|y| y[:category_id]}
+    # puts cat_to_delete
+
+    # apps_to_delete = Application.where(contact_organization_id: contact_org_id)
+    # cat_to_delete = Category.where(category_id:)
+
+    # if Category.where(category: cat_to_delete).exists? then
+
+    #   query = "
+    #     DELETE FROM categories 
+    #     WHERE category_id = #{cat_to_delete}
+    #   "
+    #   ActiveRecord::Base.connection.execute(query, cat_to_delete)
+    # end
+
+    # if ApplicationCategory.where(category: cat_to_delete).exists? then
+
+    #   query = "
+    #     DELETE FROM application_categories 
+    #     WHERE category_id = #{cat_to_delete}
+    #   "
+    #   ActiveRecord::Base.connection.execute(query, cat_to_delete)
+    # end
+
+    # if Application.where(application_id: apps_to_delete).exists? then
+
+    #   query = "
+    #     DELETE FROM applications 
+    #     WHERE application_id = #{apps_to_delete}
+    #   "
+    #   ActiveRecord::Base.connection.execute(query, apps_to_delete)
+    # end
     
     query = "
       DELETE FROM organizations 
@@ -149,16 +184,19 @@ end
     ActiveRecord::Base.connection.execute(query, org_id)
 
     query = "
-      DELETE FROM contact_organizations 
-      WHERE contact_organization_id = #{contact_org_id}
-    "
-    ActiveRecord::Base.connection.execute(query, contact_org_id)
-
-    query = "
       DELETE FROM contacts 
       WHERE contact_id = #{contact_id}
     "
     ActiveRecord::Base.connection.execute(query, contact_id)
+
+    con_org = ContactOrganization.find(contact_org_id)
+    con_org.destroy
+
+    # query = "
+    #   DELETE FROM contact_organizations 
+    #   WHERE contact_organization_id = #{contact_org_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query, contact_org_id)
 
     respond_to do |format|
       format.html { redirect_to organizations_path, notice: 'Row deleted successfully.' }

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationCategory < ApplicationRecord
+    belongs_to :application
+    belongs_to :category
+
     validates :application_category_id, presence: true, uniqueness: true,  comparison: { greater_than: 0 }
     validates :application_id, presence: true, comparison: { greater_than: 0 }
     validates :category_id, presence: true, comparison: { greater_than: 0 }

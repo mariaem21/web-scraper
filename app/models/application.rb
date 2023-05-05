@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Application < ApplicationRecord
+    belongs_to :contact_organization
+    has_many :application_categories, dependent: :destroy
+    has_many :categories, through: :application_categories
+
+
     validates :application_id, presence: true, uniqueness: true, comparison: { greater_than: -1 }
     validates :contact_organization_id, presence: true, comparison: { greater_than: -1 }
     validates :name, presence: true
