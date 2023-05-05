@@ -7,7 +7,23 @@ require 'rails_helper'
 # Exclude organizations from list of potential customers integration tests
 
 RSpec.describe 'Exclude organizations', type: :feature do
+    before(:all) {
+        Organization.delete_all
+        ContactOrganization.delete_all
+        Contact.delete_all
+        Application.delete_all
+        ApplicationCategory.delete_all
+        Category.delete_all
+
+        # Create 1st organization
+        Organization.create(organization_id: 1, name: "Test Organization", description: 'Unique description')
+        ContactOrganization.create(contact_organization_id: 1, contact_id: 1, organization_id: 1)
+        Contact.create(contact_id: 1, year: 20_210_621, name: 'Test Name',
+            email: 'test_email@tamu.edu', officer_position: 'Test Officer Position', description: 'I am creating a new application for this organization.')
+    }
+
     scenario 'Exclude the first organization' do
+
         OmniAuth.config.test_mode = true
         OmniAuth.config.add_mock(:google_oauth2, {
             :info =>{

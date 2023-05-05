@@ -8,7 +8,7 @@
 
 # RSpec.describe 'Downloading CSV', type: :feature do
 #   scenario 'Downloads a CSV' do
-    
+
 #     data = CSV.read("new_file.csv", return_headers: true)
 #     row = data.shift()
 #     expect(row).to have_content('Student Organization')

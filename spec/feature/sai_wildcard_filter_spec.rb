@@ -49,6 +49,9 @@ RSpec.describe 'Wildcard filtering with search bar', type: :feature do
 
         puts page.html
 
+        # fill_in 'org_name', with: 'A'
+        # click_button 'Go'
+
         # fill_in 'org_name_search', :with => 'Aggies'
         # # org_count = page.all(:css, 'table tr').size
         # # page.all('table#myTable tr').count.should == org_count
