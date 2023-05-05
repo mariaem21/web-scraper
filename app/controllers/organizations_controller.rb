@@ -94,6 +94,9 @@ end
     Organization.delete_all
     Contact.delete_all
     ContactOrganization.delete_all
+    Application.delete_all
+    ApplicationCategory.delete_all
+    Category.delete_all
 
     save_exclude_cookie([])
 
