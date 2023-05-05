@@ -25,6 +25,7 @@ class OrganizationsController < ApplicationController
           LEFT JOIN (
                 SELECT
                     organizations.name AS name,
+                    organizations.organization_id,
                     COUNT(applications.application_id) AS app_count
                 FROM
                     contact_organizations
@@ -36,9 +37,9 @@ class OrganizationsController < ApplicationController
                     applications
                 ON
                     contact_organizations.contact_organization_id = applications.contact_organization_id
-                GROUP BY organizations.name
+                GROUP BY organizations.organization_id
           ) AS app_counter
-          ON organizations.name = app_counter.name
+          ON organizations.organization_id = app_counter.organization_id
       ")
 
 
@@ -288,6 +289,7 @@ end
               LEFT JOIN (
                   SELECT
                       organizations.name AS name,
+                      organizations.organization_id,
                       COUNT(applications.application_id) AS app_count
                   FROM
                       contact_organizations
@@ -299,9 +301,9 @@ end
                       applications
                   ON
                       contact_organizations.contact_organization_id = applications.contact_organization_id
-                  GROUP BY organizations.name
+                  GROUP BY organizations.organization_id
             ) AS app_counter
-              ON organizations.name = app_counter.name
+              ON organizations.organization_id = app_counter.organization_id
             "
 
     if session['filters']['org_name']

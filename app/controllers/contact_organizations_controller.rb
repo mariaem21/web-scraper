@@ -57,12 +57,6 @@ class ContactOrganizationsController < ApplicationController
     end
   end
 
-  # def destroy_with_associations
-  #   contact_organization = ContactOrganization.find(params[:id])
-  #   contact_organization.destroy
-  #   redirect_to contact_organizations_path, notice: "All associated applications, categories, and application categories have been deleted."
-  # end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_contact_organization
