@@ -24,7 +24,7 @@ Tools
 - Git Hub - `https://github.com/mariaem21/web-scraper`
 - Jira
 
-## External Deps
+## External Dependencies
 
 - Docker - Download latest version at https://www.docker.com/products/docker-desktop
 - Heroku CLI - Download latest version at https://devcenter.heroku.com/articles/heroku-cli
@@ -148,6 +148,12 @@ Continuous Development is setup through Heroku which has been linked to our gith
 
 The support of this app has been officially closed as the support team has been reassigned to other projects. No major features remain for development and any bugs are no longer responsibility of the dev team.
 
-## Extra Helps
+## References
+
+https://stackoverlfow.com
+https://chat.openai.com
+https://guides.rubyonrails.org/index.html
+
+## Extra Help
 
 Please contact Tripper Wright tswright@tamu.edu with any questions about this application.

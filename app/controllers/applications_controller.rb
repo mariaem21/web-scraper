@@ -372,17 +372,17 @@ class ApplicationsController < ApplicationController
     "
     ActiveRecord::Base.connection.execute(query)
 
-    query = "
-      DELETE FROM contact_organizations 
-      WHERE contact_organizations.contact_organization_id = #{contact_org_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    # query = "
+    #   DELETE FROM contact_organizations 
+    #   WHERE contact_organizations.contact_organization_id = #{contact_org_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
-    query = "
-      DELETE FROM contacts 
-      WHERE contacts.contact_id = #{contact_id}
-    "
-    ActiveRecord::Base.connection.execute(query)
+    # query = "
+    #   DELETE FROM contacts 
+    #   WHERE contacts.contact_id = #{contact_id}
+    # "
+    # ActiveRecord::Base.connection.execute(query)
 
     if application_category_id and application_category_id != ""
       query = "
@@ -457,23 +457,24 @@ class ApplicationsController < ApplicationController
       notes = params[:notes]
       category = params[:category]
 
-      if organization_id != -1 and app_name != "" and contact_name != "" and contact_email != "" and officer_position != "" and github_link != "" and date_built != "" and notes != "" and category != ""
+      if organization_id != -1 and app_name != "" and github_link != "" and date_built != "" and notes != "" and category != ""
         
         app_count = Application.count
-        contact_count = Contact.count
-        con_org_count = ContactOrganization.count
+        # contact_count = Contact.count
+        # con_org_count = ContactOrganization.count
         cat_count = Category.count
         app_cat_count = ApplicationCategory.count
+        con_org_count = ContactOrganization.find_by(organization_id: organization_id).contact_organization_id
         app = {}
         contact = {}
         con_org = {}
 
-        while Contact.where(contact_id: contact_count).exists? do
-            contact_count = contact_count + 1
-        end
-        while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
-            con_org_count = con_org_count + 1
-        end
+        # while Contact.where(contact_id: contact_count).exists? do
+        #     contact_count = contact_count + 1
+        # end
+        # while ContactOrganization.where(contact_organization_id: con_org_count).exists? do
+        #     con_org_count = con_org_count + 1
+        # end
         while Application.where(application_id: app_count).exists? do
             app_count = app_count + 1
         end
@@ -484,8 +485,8 @@ class ApplicationsController < ApplicationController
             app_cat_count = app_cat_count + 1
         end
 
-      contact = Contact.create(contact_id: contact_count, year: date_built, name: contact_name, email: contact_email, officer_position: officer_position, description: notes, created_at:Date.today, updated_at: Date.today)
-      contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
+      # contact = Contact.create(contact_id: contact_count, year: date_built, name: contact_name, email: contact_email, officer_position: officer_position, description: notes, created_at:Date.today, updated_at: Date.today)
+      # contact_organization = ContactOrganization.create(contact_organization_id: con_org_count, contact_id: contact_count, organization_id: organization_id, created_at: Date.today, updated_at: Date.today)
       app = Application.create(application_id: app_count, contact_organization_id: con_org_count, name: app_name, date_built: date_built, github_link: github_link, description: notes, created_at: Date.today, updated_at: Date.today)
       cat = Category.create(category_id: cat_count, name: category, description: notes, created_at: Date.today, updated_at: Date.today)
       app_cat = ApplicationCategory.create(application_category_id: app_cat_count, application_id: app_count, category_id: cat_count, created_at: Date.today, updated_at: Date.today)

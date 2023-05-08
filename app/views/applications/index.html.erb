@@ -243,13 +243,6 @@
     <%= label_tag :app_name, "Enter Application Name:" ,class: "create-new-item" %>
     <%= text_field_tag :app_name, params[:app_name], id:"app_name_field", value:session[:app_name] %>
     
-    <%= label_tag :contact_name, "Enter Contact Name:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_name, params[:contact_name], id:"contact_name_field", value:session[:contact_name] %>
-    <%= label_tag :contact_email, "Enter Contact Email:",class: "create-new-item"  %>
-    <%= text_field_tag :contact_email, params[:contact_email], id:"contact_email_field", value:session[:contact_email] %>
-    <%= label_tag :officer_position, "Enter Officer Position:" ,class: "create-new-item" %>
-    <%= text_field_tag :officer_position, params[:officer_position], id:"officer_position_field", value:session[:officer_position] %>
-    </br>
     </br>
     <%= label_tag :github_link, "Enter Github Link:" ,class: "create-new-item" %>
     <%= text_field_tag :github_link, params[:github_link], id:"github_position_field", value:session[:github_link] %>
@@ -366,11 +359,11 @@
                                         <% when "Application Developed" %>
                                             <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
                                         <% when "Contact Name" %>
-                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
+                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['contact_name'] %></td>
                                         <% when "Contact Email" %>
-                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
+                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['email'] %></td>
                                         <% when "Officer Position" %>
-                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
+                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['officer_position'] %></td>
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
@@ -482,11 +475,11 @@
                                         <% when "Application Developed" %>
                                             <td id="app_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['app_name'] %></td>
                                         <% when "Contact Name" %>
-                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['contact_name'] %></td>
+                                            <td id="con_name<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['contact_name'] %></td>
                                         <% when "Contact Email" %>
-                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['email'] %></td>
+                                            <td id="con_email<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['email'] %></td>
                                         <% when "Officer Position" %>
-                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['officer_position'] %></td>
+                                            <td id="officer_position<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['officer_position'] %></td>
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
