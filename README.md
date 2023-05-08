@@ -10,7 +10,7 @@ This code has been run and tested on:
 
 Environment
 - Docker (Latest Container)
-•	Heroku v?
+- Heroku v?
 - Nodejs - v16.9.1
 - Yarn - 1.22.11
 
@@ -55,53 +55,74 @@ You can run all the test cases by running. This will run both the unit and integ
 
 ## Execute Code
 
-Run the following code in Powershell if using windows or the terminal using Linux/Mac
+1.) Open Powershell if using windows or the terminal using Linux/Mac
 
-download the code from Github and place in the preferred directory
+2.) create a directory where the code will reside. Go to that directory
 
-You can do it using
+3.) Download the code from Github and place in the preferred directory
+by doing the following:
 
-git clone 
+git clone <repo name>
+Example: git clone https://github.com/mariaem21/web-scraper.git
 
-------------------- If you have already cloned and would like to update the changes run the following
+---- If you have already cloned and would like to update the changes run the following
 
 git stash (if you have any changes)
 
 git pull origin test
 
-------------------- Now create a docker container (if you haven't already)
+4.) Create a docker container (if you haven't already)
 
-docker run --rm -it --volume "${PWD}:/directory" -e DATABASE_USER=test_app -e DATABASE_PASSWORD=test_password -p 3000:3000 paulinewade/csce431:latest
+make sure you are in the directory where the code is
+
+docker run -it --volume "${PWD}:/directory" -e DATABASE_USER=scraper_user -e DATABASE_PASSWORD=scraper_password -p 3000:3000 paulinewade/csce431:latest
 
 *Note: directory is where the app code is located
 
-bundle install
+-------If you want to re-enter an existing container, run the following:
+docker start -ai determined_dubinsky
+**determined_dubinsky is the name of the docker container
 
+5.) bundle install
+
+6.) If no database yet, run the following.
 rails db:create && rails db:migrate
 
-------------------- Run the following only if I need to do a fresh scrape
+If have existing database, do not run.
 
-Open other powershell window and type in the following:
+7.) Scrape student org from stuact (only if you need a fresh scrape)
 
-docker exec -it docker_container bash
+Open a second powershell window
 
-*Note: docker_container is name of the container created above
+go to the directory where the code is
 
-Open second docker container to start workers for scraping function, only when you need to scrape
+8.) and type in the following:
 
-run this command in the second docker container: 
+docker exec -it determined_dubinsky bash
+
+*Note: determined_dubinsky is name of the container created above
+
+This second powershell with the same docker container opened starts the scraping function
+
+8.) Make sure you are still in the directory where the code is
+
+9.) run this command in the second docker container: 
 
 bundle exec rake jobs:work
 
 It should output the message "Starting job worker"
 
-------------------- This is to run the program, make sure to do this one in the other docker container that you made that is not running the jobs (if you are trying to scrape)
+10.) Run the application in the first docker container that you made that is not running the scraping job 
 
-Run the app rails server --binding=0.0.0.0
+rails server --binding=0.0.0.0
 
-The application can be seen using a browser and navigating to http://localhost:3000/
+11.) Open the application using a browser and navigate to http://localhost:3000/
 
-NOTE: when downloading, please do not do anything or the download might not work.
+12.) Click on "Update Site"
+
+NOTE: This will start downloading from the stuact website. Please do not do anything or the download might not work.
+
+
 
 ## Environmental Variables/Files
 
