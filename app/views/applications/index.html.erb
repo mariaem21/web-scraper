@@ -367,7 +367,7 @@
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
-                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['date_built'] %></td>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['date_built'] %></td>
                                         <% when "Notes" %>
                                             <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
                                         <% when "Category" %>
@@ -483,7 +483,7 @@
                                         <% when "Github Link" %>
                                             <td id="github_link<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['github_link'] %></td>
                                         <% when "Year Developed" %>
-                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6"><%= app['date_built'] %></td>
+                                            <td id="year<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['date_built'] %></td>
                                         <% when "Notes" %>
                                             <td id="notes<%=app['application_id']%>", class="text-left py-3 px-6", contenteditable='true'><%= app['description'] %></td>
                                         <% when "Category" %>
@@ -538,6 +538,7 @@
         var github_link = "";
         var description = "";
         var category_name = "";
+        var year = "";
 
         var contact_name = "";
         var contact_email = "";
@@ -548,7 +549,7 @@
         <% end %>
         <% if @app_displayed_columns.include?("Contact Name") then %>
             contact_name = document.getElementById("con_name"+application_id).innerHTML;
-            
+
         <% end %>
         <% if @app_displayed_columns.include?("Contact Email") then %>
             contact_email = document.getElementById("con_email"+application_id).innerHTML;
@@ -565,13 +566,16 @@
         <% if @app_displayed_columns.include?("Category") then %>
             category_name = document.getElementById("category"+application_id).innerHTML; 
         <% end %>
+        <% if @app_displayed_columns.include?("Year Developed") then %>
+            year = document.getElementById("year"+application_id).innerHTML; 
+        <% end %>
 
 
         console.log('' + application_id + ' ' + category_id + " " + contact_id)
 
         
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/applications/edit_row?org_id="+org_id+"&app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name);
+        xhr.open("GET", "/applications/edit_row?org_id="+org_id+"&app_id="+application_id+"&contact_id="+contact_id+"&category_id="+category_id+"&contact_name="+contact_name+"&contact_email="+contact_email+"&officer_position="+officer_position+"&app_name="+app_name+"&github_link="+github_link+"&description="+description+"&category_name="+category_name+"&year="+year);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onload = function() {
         if (xhr.status === 200) {

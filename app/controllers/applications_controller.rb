@@ -99,6 +99,7 @@ class ApplicationsController < ApplicationController
     application_id = params[:app_id] 
     contact_id = params[:contact_id] 
     category_id = params[:category_id] 
+    year = params[:year]
 
     app_name = params[:app_name]
     github_link = params[:github_link]
@@ -123,6 +124,9 @@ class ApplicationsController < ApplicationController
     if description != ""
         app.update(description: description)
     end
+    if year != ""
+      app.update(date_built: year)
+  end
 
 
     contact = Contact.find_by(contact_id: contact_id)
