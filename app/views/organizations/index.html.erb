@@ -350,7 +350,7 @@
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)", title="Empty values and incorrect date formats will not be saved. Check Help Page">Save</button>
                                 </td>
                             </tr>
                         <% end %>
@@ -455,7 +455,7 @@
                                     </div>
                                 </td>
                                 <td class="text-left py-3 px-6">
-                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)">Save</button>
+                                    <button onclick="printSingleRow(<%=org['organization_id']%>, <%=org['contact_organization_id']%>,<%=org['contact_id']%>)", title="Empty values and incorrect date formats will not be saved. Check Help Page">Save</button>
                                 </td>
                             </tr>
                         <% end %>
